@@ -1,0 +1,274 @@
+{
+	"name": "IncrementalCopyPipeline_UserUser",
+	"properties": {
+		"activities": [
+			{
+				"name": "LookupLastChangeTrackingVersionActivity",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='User.User'"
+					},
+					"dataset": {
+						"referenceName": "ChangeTrackingUserDataset",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "LookupCurrentChangeTrackingVersionActivity",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion"
+					},
+					"dataset": {
+						"referenceName": "SourceUserUserDataset",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "IncrementalCopyActivity",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "LookupLastChangeTrackingVersionActivity",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "LookupCurrentChangeTrackingVersionActivity",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "select CT.ID, u.FirebaseUID, u.PostalCode, u.EmailSharingConsent, u.MobileSharingConsent, u.OtherPhoneSharingConsent, u.HMSContactConsent, u.IsVolunteer, u.IsVerified, u.DateCreated, u.StreetChampionRoleUnderstood, u.SupportVolunteersByPhone, u.SupportRadiusMiles, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [User].[User] u RIGHT OUTER JOIN CHANGETABLE(CHANGES [User].[User], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on u.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+							"type": "Expression"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "ID"
+								},
+								"sink": {
+									"name": "ID"
+								}
+							},
+							{
+								"source": {
+									"name": "FirebaseUID"
+								},
+								"sink": {
+									"name": "FirebaseUID"
+								}
+							},
+							{
+								"source": {
+									"name": "PostalCode"
+								},
+								"sink": {
+									"name": "PostalCode"
+								}
+							},
+							{
+								"source": {
+									"name": "EmailSharingConsent"
+								},
+								"sink": {
+									"name": "EmailSharingConsent"
+								}
+							},
+							{
+								"source": {
+									"name": "MobileSharingConsent"
+								},
+								"sink": {
+									"name": "MobileSharingConsent"
+								}
+							},
+							{
+								"source": {
+									"name": "OtherPhoneSharingConsent"
+								},
+								"sink": {
+									"name": "OtherPhoneSharingConsent"
+								}
+							},
+							{
+								"source": {
+									"name": "HMSContactConsent"
+								},
+								"sink": {
+									"name": "HMSContactConsent"
+								}
+							},
+							{
+								"source": {
+									"name": "IsVolunteer"
+								},
+								"sink": {
+									"name": "IsVolunteer"
+								}
+							},
+							{
+								"source": {
+									"name": "IsVerified"
+								},
+								"sink": {
+									"name": "IsVerified"
+								}
+							},
+							{
+								"source": {
+									"name": "DateCreated"
+								},
+								"sink": {
+									"name": "DateCreated"
+								}
+							},
+							{
+								"source": {
+									"name": "StreetChampionRoleUnderstood"
+								},
+								"sink": {
+									"name": "StreetChampionRoleUnderstood"
+								}
+							},
+							{
+								"source": {
+									"name": "SupportVolunteersByPhone"
+								},
+								"sink": {
+									"name": "SupportVolunteersByPhone"
+								}
+							},
+							{
+								"source": {
+									"name": "SupportRadiusMiles"
+								},
+								"sink": {
+									"name": "SupportRadiusMiles"
+								}
+							},
+							{
+								"source": {
+									"name": "SYS_CHANGE_VERSION"
+								},
+								"sink": {
+									"name": "SYS_CHANGE_VERSION"
+								}
+							},
+							{
+								"source": {
+									"name": "SYS_CHANGE_OPERATION"
+								},
+								"sink": {
+									"name": "SYS_CHANGE_OPERATION"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceUserUserDataset",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SinkUserUserDataset",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "StoredProceduretoUpdateChangeTrackingActivity",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "IncrementalCopyActivity",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "Update_ChangeTracking_Version",
+					"storedProcedureParameters": {
+						"CurrentTrackingVersion": {
+							"value": {
+								"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+								"type": "Expression"
+							},
+							"type": "INT64"
+						},
+						"TableName": {
+							"value": {
+								"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "SourceUserServiceLinkedService",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

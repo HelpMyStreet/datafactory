@@ -1,0 +1,120 @@
+{
+	"name": "FullCopyPipeline_RequestJobStatus",
+	"properties": {
+		"activities": [
+			{
+				"name": "FullCopyActivity",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select r.JobID, r.JobStatusID, r.DateCreated, r.VolunteerUserID, r.CreatedByUserID, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Request].[RequestJobStatus] r",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "AzureSqlSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "JobID",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "JobID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "JobStatusID",
+									"type": "Byte"
+								},
+								"sink": {
+									"name": "JobStatusID",
+									"type": "Byte"
+								}
+							},
+							{
+								"source": {
+									"name": "DateCreated",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DateCreated",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "VolunteerUserID",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "VolunteerUserID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "CreatedByUserID",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "CreatedByUserID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "SYS_CHANGE_VERSION",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "SYS_CHANGE_VERSION",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "SYS_CHANGE_OPERATION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "SYS_CHANGE_OPERATION",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceRequestJobStatusDataset",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SinkRequestJobStatusDataset",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
