@@ -1,0 +1,17 @@
+{
+	"name": "SinkAddressPreComputedNearestPostcodesDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DestinationLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "Address",
+			"table": "PreComputedNearestPostcodes"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,200 @@
+{
+	"name": "FullCopyPipeline_RequestRequest",
+	"properties": {
+		"activities": [
+			{
+				"name": "FullCopyActivity",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select r.ID, r.PostCode, r.DateRequested, r.IsFulfillable,r.CommunicationSent,r.ForRequestor,r.OtherDetails,r.PersonID_Recipient,r.PersonID_Requester,r.ReadPrivacyNotice,r.AcceptedTerms,r.SpecialCommunicationNeeds,r.CreatedByUserID, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Request].[Request] r",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "AzureSqlSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "ID",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "ID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "PostCode",
+									"type": "String"
+								},
+								"sink": {
+									"name": "PostCode",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DateRequested",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DateRequested",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "IsFulfillable",
+									"type": "Boolean"
+								},
+								"sink": {
+									"name": "IsFulfillable",
+									"type": "Boolean"
+								}
+							},
+							{
+								"source": {
+									"name": "CommunicationSent",
+									"type": "Boolean"
+								},
+								"sink": {
+									"name": "CommunicationSent",
+									"type": "Boolean"
+								}
+							},
+							{
+								"source": {
+									"name": "ForRequestor",
+									"type": "Boolean"
+								},
+								"sink": {
+									"name": "ForRequestor",
+									"type": "Boolean"
+								}
+							},
+							{
+								"source": {
+									"name": "OtherDetails",
+									"type": "String"
+								},
+								"sink": {
+									"name": "OtherDetails",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "PersonID_Recipient",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "PersonID_Recipient",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "PersonID_Requester",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "PersonID_Requester",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "ReadPrivacyNotice",
+									"type": "Boolean"
+								},
+								"sink": {
+									"name": "ReadPrivacyNotice",
+									"type": "Boolean"
+								}
+							},
+							{
+								"source": {
+									"name": "AcceptedTerms",
+									"type": "Boolean"
+								},
+								"sink": {
+									"name": "AcceptedTerms",
+									"type": "Boolean"
+								}
+							},
+							{
+								"source": {
+									"name": "SpecialCommunicationNeeds",
+									"type": "String"
+								},
+								"sink": {
+									"name": "SpecialCommunicationNeeds",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "CreatedByUserID",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "CreatedByUserID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "SYS_CHANGE_VERSION",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "SYS_CHANGE_VERSION",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "SYS_CHANGE_OPERATION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "SYS_CHANGE_OPERATION",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceRequestRequestDataset",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SinkRequestRequestDataset",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

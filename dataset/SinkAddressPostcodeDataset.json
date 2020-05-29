@@ -1,0 +1,17 @@
+{
+	"name": "SinkAddressPostcodeDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DestinationLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "Address",
+			"table": "Postcode"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
