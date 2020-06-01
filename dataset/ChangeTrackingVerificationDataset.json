@@ -1,0 +1,46 @@
+{
+	"name": "ChangeTrackingVerificationDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SourceCosmosDbVerificationService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "CosmosDbSqlApiCollection",
+		"schema": {
+			"type": "object",
+			"properties": {
+				"timestamp": {
+					"type": "string"
+				},
+				"userId": {
+					"type": "integer"
+				},
+				"rememberMeId": {
+					"type": "string"
+				},
+				"verified": {
+					"type": "boolean"
+				},
+				"verification": {
+					"type": "object",
+					"properties": {
+						"dob": {
+							"type": "boolean"
+						},
+						"age": {
+							"type": "boolean"
+						},
+						"previousVerification": {
+							"type": "boolean"
+						}
+					}
+				}
+			}
+		},
+		"typeProperties": {
+			"collectionName": "change-tracking"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
