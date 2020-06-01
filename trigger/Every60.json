@@ -63,6 +63,12 @@
 					"referenceName": "IncrementalCopyPipeline_UserUser",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_VerificationAttempts",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
@@ -70,7 +76,7 @@
 			"recurrence": {
 				"frequency": "Minute",
 				"interval": 60,
-				"startTime": "2020-05-28T18:49:00Z",
+				"startTime": "2020-05-28T18:49:00.000Z",
 				"timeZone": "UTC"
 			}
 		}
