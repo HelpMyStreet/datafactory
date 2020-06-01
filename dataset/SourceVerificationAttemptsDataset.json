@@ -1,10 +1,6 @@
 {
 	"name": "SourceVerificationAttemptsDataset",
 	"properties": {
-		"linkedServiceName": {
-			"referenceName": "SourceCosmosDbVerificationService",
-			"type": "LinkedServiceReference"
-		},
 		"annotations": [],
 		"type": "CosmosDbSqlApiCollection",
 		"schema": {
