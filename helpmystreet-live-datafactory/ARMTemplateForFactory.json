@@ -5297,7 +5297,7 @@
 					}
 				},
 				"typeProperties": {
-					"collectionName": "change-tracking"
+					"collectionName": "verification-attempts"
 				}
 			},
 			"dependsOn": [
