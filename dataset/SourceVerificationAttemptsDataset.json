@@ -1,6 +1,10 @@
 {
 	"name": "SourceVerificationAttemptsDataset",
 	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SourceCosmosDbVerificationService",
+			"type": "LinkedServiceReference"
+		},
 		"annotations": [],
 		"type": "CosmosDbSqlApiCollection",
 		"schema": {
@@ -33,9 +37,6 @@
 					}
 				}
 			}
-		},
-		"typeProperties": {
-			"collectionName": "verification-attempts"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"
