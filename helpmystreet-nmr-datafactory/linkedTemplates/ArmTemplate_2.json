@@ -2886,6 +2886,13 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_VerificationAttempts",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -2908,7 +2915,8 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_UserChampionPostCode')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_UserSupportActivity')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_UserRegistrationHistory')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_UserUser')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_UserUser')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_VerificationAttempts')]"
 			]
 		}
 	]
