@@ -11,13 +11,13 @@
 		"SourceAddressServiceLinkedService_connectionString": {
 			"value": ""
 		},
+		"SourceCosmosDbVerificationService_connectionString": {
+			"value": ""
+		},
 		"SourceRequestServiceLinkedService_connectionString": {
 			"value": ""
 		},
 		"SourceUserServiceLinkedService_connectionString": {
-			"value": ""
-		},
-		"SourceCosmosDbVerificationService_connectionString": {
 			"value": ""
 		},
 		"containerUri": {

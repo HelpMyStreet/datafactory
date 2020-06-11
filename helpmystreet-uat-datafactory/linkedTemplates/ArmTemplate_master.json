@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SourceAddressServiceLinkedService'"
 		},
+		"SourceCosmosDbVerificationService_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SourceCosmosDbVerificationService'"
+		},
 		"SourceRequestServiceLinkedService_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SourceRequestServiceLinkedService'"
@@ -22,10 +26,6 @@
 		"SourceUserServiceLinkedService_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SourceUserServiceLinkedService'"
-		},
-		"SourceCosmosDbVerificationService_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SourceCosmosDbVerificationService'"
 		},
 		"containerUri": {
 			"type": "string",
@@ -60,14 +60,14 @@
 					"SourceAddressServiceLinkedService_connectionString": {
 						"value": "[parameters('SourceAddressServiceLinkedService_connectionString')]"
 					},
+					"SourceCosmosDbVerificationService_connectionString": {
+						"value": "[parameters('SourceCosmosDbVerificationService_connectionString')]"
+					},
 					"SourceRequestServiceLinkedService_connectionString": {
 						"value": "[parameters('SourceRequestServiceLinkedService_connectionString')]"
 					},
 					"SourceUserServiceLinkedService_connectionString": {
 						"value": "[parameters('SourceUserServiceLinkedService_connectionString')]"
-					},
-					"SourceCosmosDbVerificationService_connectionString": {
-						"value": "[parameters('SourceCosmosDbVerificationService_connectionString')]"
 					}
 				}
 			},
@@ -111,6 +111,26 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'ArmTemplate_1')]"
+			]
+		},
+		{
+			"name": "ArmTemplate_3",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_3.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'ArmTemplate_2')]"
 			]
 		}
 	]
