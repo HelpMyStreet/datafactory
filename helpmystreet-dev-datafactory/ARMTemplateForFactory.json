@@ -6024,82 +6024,32 @@
 								"mappings": [
 									{
 										"source": {
-											"name": "ID",
+											"name": "JobID",
 											"type": "Int32"
 										},
 										"sink": {
-											"name": "ID",
+											"name": "JobID",
 											"type": "Int32"
 										}
 									},
 									{
 										"source": {
-											"name": "RequestId",
+											"name": "QuestionID",
 											"type": "Int32"
 										},
 										"sink": {
-											"name": "RequestId",
+											"name": "QuestionID",
 											"type": "Int32"
 										}
 									},
 									{
 										"source": {
-											"name": "SupportActivityID",
-											"type": "Byte"
-										},
-										"sink": {
-											"name": "SupportActivityID",
-											"type": "Byte"
-										}
-									},
-									{
-										"source": {
-											"name": "Details",
+											"name": "Answer",
 											"type": "String"
 										},
 										"sink": {
-											"name": "Details",
+											"name": "Answer",
 											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "DueDate",
-											"type": "DateTime"
-										},
-										"sink": {
-											"name": "DueDate",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "IsHealthCritical",
-											"type": "Boolean"
-										},
-										"sink": {
-											"name": "IsHealthCritical",
-											"type": "Boolean"
-										}
-									},
-									{
-										"source": {
-											"name": "JobStatusID",
-											"type": "Byte"
-										},
-										"sink": {
-											"name": "JobStatusID",
-											"type": "Byte"
-										}
-									},
-									{
-										"source": {
-											"name": "VolunteerUserID",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "VolunteerUserID",
-											"type": "Int32"
 										}
 									},
 									{
@@ -6134,7 +6084,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "SinkRequestJobDataset",
+								"referenceName": "SinkRequestJobQuestionsDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -6145,7 +6095,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SourceRequestJobQuestionsDataset')]",
-				"[concat(variables('factoryId'), '/datasets/SinkRequestJobDataset')]"
+				"[concat(variables('factoryId'), '/datasets/SinkRequestJobQuestionsDataset')]"
 			]
 		},
 		{
@@ -6181,81 +6131,31 @@
 								"mappings": [
 									{
 										"source": {
-											"name": "ID",
+											"name": "ActivityID",
 											"type": "Int32"
 										},
 										"sink": {
-											"name": "ID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "RequestId",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "RequestId",
+											"name": "ActivityID",
 											"type": "Int32"
 										}
 									},
 									{
 										"source": {
-											"name": "SupportActivityID",
-											"type": "Byte"
-										},
-										"sink": {
-											"name": "SupportActivityID",
-											"type": "Byte"
-										}
-									},
-									{
-										"source": {
-											"name": "Details",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Details",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "DueDate",
-											"type": "DateTime"
-										},
-										"sink": {
-											"name": "DueDate",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "IsHealthCritical",
-											"type": "Boolean"
-										},
-										"sink": {
-											"name": "IsHealthCritical",
-											"type": "Boolean"
-										}
-									},
-									{
-										"source": {
-											"name": "JobStatusID",
-											"type": "Byte"
-										},
-										"sink": {
-											"name": "JobStatusID",
-											"type": "Byte"
-										}
-									},
-									{
-										"source": {
-											"name": "VolunteerUserID",
+											"name": "QuestionID",
 											"type": "Int32"
 										},
 										"sink": {
-											"name": "VolunteerUserID",
+											"name": "QuestionID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Order",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "Order",
 											"type": "Int32"
 										}
 									},
@@ -6291,7 +6191,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "SinkRequestJobDataset",
+								"referenceName": "SinkRequestQuestionSetActivityQuestionsDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -6302,7 +6202,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SourceRequestQuestionSetActivityQuestionsDataset')]",
-				"[concat(variables('factoryId'), '/datasets/SinkRequestJobDataset')]"
+				"[concat(variables('factoryId'), '/datasets/SinkRequestQuestionSetActivityQuestionsDataset')]"
 			]
 		},
 		{
@@ -6348,72 +6248,42 @@
 									},
 									{
 										"source": {
-											"name": "RequestId",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "RequestId",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SupportActivityID",
-											"type": "Byte"
-										},
-										"sink": {
-											"name": "SupportActivityID",
-											"type": "Byte"
-										}
-									},
-									{
-										"source": {
-											"name": "Details",
+											"name": "Name",
 											"type": "String"
 										},
 										"sink": {
-											"name": "Details",
+											"name": "Name",
 											"type": "String"
 										}
 									},
 									{
 										"source": {
-											"name": "DueDate",
-											"type": "DateTime"
-										},
-										"sink": {
-											"name": "DueDate",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "IsHealthCritical",
-											"type": "Boolean"
-										},
-										"sink": {
-											"name": "IsHealthCritical",
-											"type": "Boolean"
-										}
-									},
-									{
-										"source": {
-											"name": "JobStatusID",
+											"name": "QuestionType",
 											"type": "Byte"
 										},
 										"sink": {
-											"name": "JobStatusID",
+											"name": "QuestionType",
 											"type": "Byte"
 										}
 									},
 									{
 										"source": {
-											"name": "VolunteerUserID",
-											"type": "Int32"
+											"name": "Required",
+											"type": "Boolean"
 										},
 										"sink": {
-											"name": "VolunteerUserID",
-											"type": "Int32"
+											"name": "Required",
+											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"name": "AdditionalData",
+											"type": "String"
+										},
+										"sink": {
+											"name": "AdditionalData",
+											"type": "String"
 										}
 									},
 									{
@@ -6448,7 +6318,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "SinkRequestJobDataset",
+								"referenceName": "SinkRequestQuestionSetQuestionDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -6459,7 +6329,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SourceRequestQuestionSetQuestionsDataset')]",
-				"[concat(variables('factoryId'), '/datasets/SinkRequestJobDataset')]"
+				"[concat(variables('factoryId'), '/datasets/SinkRequestQuestionSetQuestionDataset')]"
 			]
 		},
 		{
