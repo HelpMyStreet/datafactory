@@ -13,235 +13,7 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_RequestQuestionSetActivityQuestions')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "FullCopyActivity",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select r.ActivityID, r.QuestionID, r.[Order], CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [QuestionSet].[ActivityQuestions] r",
-								"queryTimeout": "02:00:00"
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "ActivityID",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "ActivityID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "QuestionID",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "QuestionID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "Order",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "Order",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int64"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceRequestQuestionSetActivityQuestionsDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SinkRequestQuestionSetActivityQuestionsDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_RequestQuestionSetQuestion')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "FullCopyActivity",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select r.ID, r.[Name], r.QuestionType, r.[Required],r.AdditionalData, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [QuestionSet].[Question] r",
-								"queryTimeout": "02:00:00"
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "ID",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "ID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "Name",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "QuestionType",
-											"type": "Byte"
-										},
-										"sink": {
-											"name": "QuestionType",
-											"type": "Byte"
-										}
-									},
-									{
-										"source": {
-											"name": "Required",
-											"type": "Boolean"
-										},
-										"sink": {
-											"name": "Required",
-											"type": "Boolean"
-										}
-									},
-									{
-										"source": {
-											"name": "AdditionalData",
-											"type": "String"
-										},
-										"sink": {
-											"name": "AdditionalData",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int64"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceRequestQuestionSetQuestionsDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SinkRequestQuestionSetQuestionDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_RequestQuestionSetActivityQuestions')]",
+			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_UserRegistrationHistory')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -261,10 +33,10 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='QuestionSet.ActivityQuestions'"
+								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='User.RegistrationHistory'"
 							},
 							"dataset": {
-								"referenceName": "ChangeTrackingRequestDataset",
+								"referenceName": "ChangeTrackingUserDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -288,7 +60,7 @@
 								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion"
 							},
 							"dataset": {
-								"referenceName": "ChangeTrackingRequestDataset",
+								"referenceName": "SourceUserUserDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -323,7 +95,7 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "select CT.JobID, CT.QuestionID, r.Answer, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Request].[JobQuestions] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Request].[JobQuestions], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.JobID = CT.JobID and r.QuestionID = CT.QuestionID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+									"value": "select CT.UserID, CT.RegistrationStep, u.DateCompleted, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [User].[RegistrationHistory] u RIGHT OUTER JOIN CHANGETABLE(CHANGES [User].[RegistrationHistory], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on u.UserID = CT.UserID and u.RegistrationStep =CT.RegistrationStep where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
 									"type": "Expression"
 								}
 							},
@@ -336,32 +108,32 @@
 								"mappings": [
 									{
 										"source": {
-											"name": "JobID",
+											"name": "UserID",
 											"type": "Int32"
 										},
 										"sink": {
-											"name": "JobID",
+											"name": "UserID",
 											"type": "Int32"
 										}
 									},
 									{
 										"source": {
-											"name": "QuestionID",
-											"type": "Int32"
+											"name": "RegistrationStep",
+											"type": "Byte"
 										},
 										"sink": {
-											"name": "QuestionID",
-											"type": "Int32"
+											"name": "RegistrationStep",
+											"type": "Byte"
 										}
 									},
 									{
 										"source": {
-											"name": "Answer",
-											"type": "String"
+											"name": "DateCompleted",
+											"type": "DateTime"
 										},
 										"sink": {
-											"name": "Answer",
-											"type": "String"
+											"name": "DateCompleted",
+											"type": "DateTime"
 										}
 									},
 									{
@@ -389,14 +161,14 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "SourceRequestJobQuestionsDataset",
+								"referenceName": "SourceUserRegistrationHistoryDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "SinkRequestJobQuestionsDataset",
+								"referenceName": "SinkUserRegistrationHistoryDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -441,7 +213,7 @@
 							}
 						},
 						"linkedServiceName": {
-							"referenceName": "SourceRequestServiceLinkedService",
+							"referenceName": "SourceUserServiceLinkedService",
 							"type": "LinkedServiceReference"
 						}
 					}
@@ -451,7 +223,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_RequestQuestionSetQuestion')]",
+			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_UserSupportActivity')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -471,10 +243,10 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='QuestionSet.Question'"
+								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='User.SupportActivity'"
 							},
 							"dataset": {
-								"referenceName": "ChangeTrackingRequestDataset",
+								"referenceName": "ChangeTrackingUserDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -498,7 +270,7 @@
 								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion"
 							},
 							"dataset": {
-								"referenceName": "ChangeTrackingRequestDataset",
+								"referenceName": "SourceUserUserDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -533,7 +305,7 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "select CT.ID, r.[Name],r.QuestionType,r.[Required],r.AdditionalData , CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [QuestionSet].[Question] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [QuestionSet].[Question], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.ID = CT.ID  where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+									"value": "select CT.UserID, CT.ActivityID, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [User].[SupportActivity] u RIGHT OUTER JOIN CHANGETABLE(CHANGES [User].[SupportActivity], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on u.UserID = CT.UserID and u.ActivityID=CT.ActivityID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
 									"type": "Expression"
 								}
 							},
@@ -546,51 +318,41 @@
 								"mappings": [
 									{
 										"source": {
-											"name": "ID",
+											"name": "UserID",
 											"type": "Int32"
 										},
 										"sink": {
-											"name": "ID",
+											"name": "UserID",
 											"type": "Int32"
 										}
 									},
 									{
 										"source": {
-											"name": "Name",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "QuestionType",
+											"name": "ActivityID",
 											"type": "Byte"
 										},
 										"sink": {
-											"name": "QuestionType",
+											"name": "ActivityID",
 											"type": "Byte"
 										}
 									},
 									{
 										"source": {
-											"name": "Required",
-											"type": "Boolean"
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int64"
 										},
 										"sink": {
-											"name": "Required",
-											"type": "Boolean"
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int32"
 										}
 									},
 									{
 										"source": {
-											"name": "AdditionalData",
+											"name": "SYS_CHANGE_OPERATION",
 											"type": "String"
 										},
 										"sink": {
-											"name": "AdditionalData",
+											"name": "SYS_CHANGE_OPERATION",
 											"type": "String"
 										}
 									}
@@ -599,14 +361,14 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "SourceRequestQuestionSetQuestionsDataset",
+								"referenceName": "SourceUserSupportActivityDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "SourceRequestQuestionSetQuestionsDataset",
+								"referenceName": "SinkUserSupportActivityDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -651,9 +413,512 @@
 							}
 						},
 						"linkedServiceName": {
-							"referenceName": "SourceRequestServiceLinkedService",
+							"referenceName": "SourceUserServiceLinkedService",
 							"type": "LinkedServiceReference"
 						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_UserUser')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LookupLastChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='User.User'"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingUserDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "LookupCurrentChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion"
+							},
+							"dataset": {
+								"referenceName": "SourceUserUserDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "IncrementalCopyActivity",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LookupLastChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "LookupCurrentChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "select CT.ID, u.FirebaseUID, u.PostalCode, u.EmailSharingConsent, u.MobileSharingConsent, u.OtherPhoneSharingConsent, u.HMSContactConsent, u.IsVolunteer, u.IsVerified, u.DateCreated, u.StreetChampionRoleUnderstood, u.SupportVolunteersByPhone, u.SupportRadiusMiles, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [User].[User] u RIGHT OUTER JOIN CHANGETABLE(CHANGES [User].[User], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on u.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+									"type": "Expression"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ID"
+										},
+										"sink": {
+											"name": "ID"
+										}
+									},
+									{
+										"source": {
+											"name": "FirebaseUID"
+										},
+										"sink": {
+											"name": "FirebaseUID"
+										}
+									},
+									{
+										"source": {
+											"name": "PostalCode"
+										},
+										"sink": {
+											"name": "PostalCode"
+										}
+									},
+									{
+										"source": {
+											"name": "EmailSharingConsent"
+										},
+										"sink": {
+											"name": "EmailSharingConsent"
+										}
+									},
+									{
+										"source": {
+											"name": "MobileSharingConsent"
+										},
+										"sink": {
+											"name": "MobileSharingConsent"
+										}
+									},
+									{
+										"source": {
+											"name": "OtherPhoneSharingConsent"
+										},
+										"sink": {
+											"name": "OtherPhoneSharingConsent"
+										}
+									},
+									{
+										"source": {
+											"name": "HMSContactConsent"
+										},
+										"sink": {
+											"name": "HMSContactConsent"
+										}
+									},
+									{
+										"source": {
+											"name": "IsVolunteer"
+										},
+										"sink": {
+											"name": "IsVolunteer"
+										}
+									},
+									{
+										"source": {
+											"name": "IsVerified"
+										},
+										"sink": {
+											"name": "IsVerified"
+										}
+									},
+									{
+										"source": {
+											"name": "DateCreated"
+										},
+										"sink": {
+											"name": "DateCreated"
+										}
+									},
+									{
+										"source": {
+											"name": "StreetChampionRoleUnderstood"
+										},
+										"sink": {
+											"name": "StreetChampionRoleUnderstood"
+										}
+									},
+									{
+										"source": {
+											"name": "SupportVolunteersByPhone"
+										},
+										"sink": {
+											"name": "SupportVolunteersByPhone"
+										}
+									},
+									{
+										"source": {
+											"name": "SupportRadiusMiles"
+										},
+										"sink": {
+											"name": "SupportRadiusMiles"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_VERSION"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_VERSION"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_OPERATION"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_OPERATION"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceUserUserDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkUserUserDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "StoredProceduretoUpdateChangeTrackingActivity",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "IncrementalCopyActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "Update_ChangeTracking_Version",
+							"storedProcedureParameters": {
+								"CurrentTrackingVersion": {
+									"value": {
+										"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+										"type": "Expression"
+									},
+									"type": "INT64"
+								},
+								"TableName": {
+									"value": {
+										"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SourceUserServiceLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_VerificationAttempts')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LookupLastChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "CosmosDbSqlApiSource",
+								"query": "SELECT top 1 c.MaxTS FROM c order by c._ts desc",
+								"preferredRegions": []
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingVerificationDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "IncrementalCopyActivity",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LookupLastChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "CosmosDbSqlApiSource",
+								"query": {
+									"value": "SELECT c.datestamp, c.userId, c.rememberMeId, c.verified, c.verification.dob, c.verification.age, c.verification.previousVerification,c.userUpdated from c where c._ts>@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.MaxTS}",
+									"type": "Expression"
+								},
+								"preferredRegions": []
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['datestamp']"
+										},
+										"sink": {
+											"name": "DateOfAttempt",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['userId']"
+										},
+										"sink": {
+											"name": "UserId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"path": "$['rememberMeId']"
+										},
+										"sink": {
+											"name": "YotiRememberMeId",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['verified']"
+										},
+										"sink": {
+											"name": "Verified",
+											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"path": "$['dob']"
+										},
+										"sink": {
+											"name": "DobMatch",
+											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"path": "$['age']"
+										},
+										"sink": {
+											"name": "AgeMatch",
+											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"path": "$['previousVerification']"
+										},
+										"sink": {
+											"name": "NotPreviouslyVerified",
+											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"path": "$['userUpdated']"
+										},
+										"sink": {
+											"name": "UserServiceUpdated",
+											"type": "Boolean"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceVerificationAttemptsDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkVerificationDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "UpdateMax",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "IncrementalCopyActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "CosmosDbSqlApiSource",
+								"query": {
+									"value": "SELECT top 1 c._ts FROM c where c._ts>@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.MaxTS} order by c._ts desc",
+									"type": "Expression"
+								},
+								"preferredRegions": []
+							},
+							"sink": {
+								"type": "CosmosDbSqlApiSink",
+								"writeBehavior": "insert"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['_ts']"
+										},
+										"sink": {
+											"path": "$['MaxTS']"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceVerificationAttemptsDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ChangeTrackingVerificationDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"annotations": []
@@ -744,6 +1009,27 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestJobQuestions",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestQuestionSetActivityQuestions",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestQuestionSetQuestion",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -756,7 +1042,12 @@
 					}
 				}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_UserSupportActivity')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_UserRegistrationHistory')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_UserUser')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_VerificationAttempts')]"
+			]
 		}
 	]
 }
