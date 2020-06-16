@@ -5459,7 +5459,7 @@
 				"typeProperties": {
 					"recurrence": {
 						"frequency": "Minute",
-						"interval": 5,
+						"interval": 60,
 						"startTime": "2020-05-28T18:49:00.000Z",
 						"timeZone": "UTC"
 					}
