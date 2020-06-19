@@ -3554,7 +3554,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "SourceRequestQuestionSetQuestionsDataset",
+								"referenceName": "SinkRequestQuestionSetQuestionDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -3609,6 +3609,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ChangeTrackingRequestDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SourceRequestQuestionSetQuestionsDataset')]",
+				"[concat(variables('factoryId'), '/datasets/SinkRequestQuestionSetQuestionDataset')]",
 				"[concat(variables('factoryId'), '/linkedServices/SourceRequestServiceLinkedService')]"
 			]
 		},

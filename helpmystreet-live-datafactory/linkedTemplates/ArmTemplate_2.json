@@ -3068,7 +3068,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "SourceRequestQuestionSetQuestionsDataset",
+								"referenceName": "SinkRequestQuestionSetQuestionDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
