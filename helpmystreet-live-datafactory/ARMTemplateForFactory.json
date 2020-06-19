@@ -1791,7 +1791,7 @@
 								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion"
 							},
 							"dataset": {
-								"referenceName": "ChangeTrackingRequestDataset",
+								"referenceName": "ChangeTrackingAddressDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -1993,7 +1993,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ChangeTrackingAddressDataset')]",
-				"[concat(variables('factoryId'), '/datasets/ChangeTrackingRequestDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SourceAddressAddressDetailDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SinkAddressAddressDetailDataset')]",
 				"[concat(variables('factoryId'), '/linkedServices/SourceAddressServiceLinkedService')]"
@@ -2047,7 +2046,7 @@
 								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion"
 							},
 							"dataset": {
-								"referenceName": "ChangeTrackingRequestDataset",
+								"referenceName": "ChangeTrackingAddressDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -2249,7 +2248,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ChangeTrackingAddressDataset')]",
-				"[concat(variables('factoryId'), '/datasets/ChangeTrackingRequestDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SourceAddressPostcodeDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SinkAddressPostcodeDataset')]",
 				"[concat(variables('factoryId'), '/linkedServices/SourceAddressServiceLinkedService')]"
@@ -2303,7 +2301,7 @@
 								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion"
 							},
 							"dataset": {
-								"referenceName": "ChangeTrackingRequestDataset",
+								"referenceName": "ChangeTrackingAddressDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -2465,7 +2463,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ChangeTrackingAddressDataset')]",
-				"[concat(variables('factoryId'), '/datasets/ChangeTrackingRequestDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SourceAddressPreComputedNearestPostcodesDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SinkAddressPreComputedNearestPostcodesDataset')]",
 				"[concat(variables('factoryId'), '/linkedServices/SourceAddressServiceLinkedService')]"

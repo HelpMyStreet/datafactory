@@ -1340,7 +1340,7 @@
 								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion"
 							},
 							"dataset": {
-								"referenceName": "ChangeTrackingRequestDataset",
+								"referenceName": "ChangeTrackingAddressDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -1590,7 +1590,7 @@
 								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion"
 							},
 							"dataset": {
-								"referenceName": "ChangeTrackingRequestDataset",
+								"referenceName": "ChangeTrackingAddressDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -1840,7 +1840,7 @@
 								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion"
 							},
 							"dataset": {
-								"referenceName": "ChangeTrackingRequestDataset",
+								"referenceName": "ChangeTrackingAddressDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
