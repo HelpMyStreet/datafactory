@@ -1,0 +1,940 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "helpmystreet-uat-datafactory"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_AddressAddressDetail')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LookupLastChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Address.AddressDetail'"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingAddressDataset",
+								"type": "DatasetReference"
+							}
+						}
+					},
+					{
+						"name": "LookupCurrentChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingAddressDataset",
+								"type": "DatasetReference"
+							}
+						}
+					},
+					{
+						"name": "IncrementalCopyActivity",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LookupLastChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "LookupCurrentChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "select CT.ID, a.[PostcodeId], a.[AddressLine1],a.[AddressLine2], a.[AddressLine3],a.[Locality],a.[LastUpdated] , CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Address].[AddressDetail] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Address].[AddressDetail], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
+									"type": "Expression"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ID",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "Id",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "PostcodeId",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "PostcodeId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "AddressLine1",
+											"type": "String"
+										},
+										"sink": {
+											"name": "AddressLine1",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "AddressLine2",
+											"type": "String"
+										},
+										"sink": {
+											"name": "AddressLine2",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "AddressLine3",
+											"type": "String"
+										},
+										"sink": {
+											"name": "AddressLine3",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Locality",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Locality",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdated",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "LastUpdated",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int64"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceAddressAddressDetailDataset",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkAddressAddressDetailDataset",
+								"type": "DatasetReference"
+							}
+						]
+					},
+					{
+						"name": "StoredProceduretoUpdateChangeTrackingActivity",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "IncrementalCopyActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "Update_ChangeTracking_Version",
+							"storedProcedureParameters": {
+								"CurrentTrackingVersion": {
+									"value": {
+										"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+										"type": "Expression"
+									},
+									"type": "INT64"
+								},
+								"TableName": {
+									"value": {
+										"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SourceAddressServiceLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_AddressPostCode')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LookupLastChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Address.Postcode'"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingAddressDataset",
+								"type": "DatasetReference"
+							}
+						}
+					},
+					{
+						"name": "LookupCurrentChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingAddressDataset",
+								"type": "DatasetReference"
+							}
+						}
+					},
+					{
+						"name": "IncrementalCopyActivity",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LookupLastChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "LookupCurrentChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "select CT.ID, a.[Postcode],a.[LastUpdated],a.[Latitude],a.[Longitude],a.[FriendlyName],a.[IsActive], CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Address].[Postcode] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Address].[PostCode], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
+									"type": "Expression"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ID",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "Id",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Postcode",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Postcode",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LastUpdated",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "LastUpdated",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "Latitude",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "Latitude",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Longitude",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "Longitude",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "FriendlyName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "FriendlyName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "IsActive",
+											"type": "Boolean"
+										},
+										"sink": {
+											"name": "IsActive",
+											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int64"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceAddressPostcodeDataset",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkAddressPostcodeDataset",
+								"type": "DatasetReference"
+							}
+						]
+					},
+					{
+						"name": "StoredProceduretoUpdateChangeTrackingActivity",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "IncrementalCopyActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "Update_ChangeTracking_Version",
+							"storedProcedureParameters": {
+								"CurrentTrackingVersion": {
+									"value": {
+										"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+										"type": "Expression"
+									},
+									"type": "INT64"
+								},
+								"TableName": {
+									"value": {
+										"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SourceAddressServiceLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_AddressPreComputedNearestPostcodes')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LookupLastChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Address.PreComputedNearestPostcodes'"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingAddressDataset",
+								"type": "DatasetReference"
+							}
+						}
+					},
+					{
+						"name": "LookupCurrentChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingAddressDataset",
+								"type": "DatasetReference"
+							}
+						}
+					},
+					{
+						"name": "IncrementalCopyActivity",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LookupLastChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "LookupCurrentChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "select CT.ID, a.[Postcode],a.CompressedNearestPostcodes, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Address].[PreComputedNearestPostcodes] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Address].[PreComputedNearestPostcodes], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
+									"type": "Expression"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ID",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "Id",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Postcode",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Postcode",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CompressedNearestPostcodes",
+											"type": "Byte[]"
+										},
+										"sink": {
+											"name": "CompressedNearestPostcodes",
+											"type": "Byte[]"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int64"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceAddressPreComputedNearestPostcodesDataset",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkAddressPreComputedNearestPostcodesDataset",
+								"type": "DatasetReference"
+							}
+						]
+					},
+					{
+						"name": "StoredProceduretoUpdateChangeTrackingActivity",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "IncrementalCopyActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "Update_ChangeTracking_Version",
+							"storedProcedureParameters": {
+								"CurrentTrackingVersion": {
+									"value": {
+										"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+										"type": "Expression"
+									},
+									"type": "INT64"
+								},
+								"TableName": {
+									"value": {
+										"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SourceAddressServiceLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_RequestQuestionSetQuestion')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LookupLastChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='QuestionSet.Question'"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingRequestDataset",
+								"type": "DatasetReference"
+							}
+						}
+					},
+					{
+						"name": "LookupCurrentChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingRequestDataset",
+								"type": "DatasetReference"
+							}
+						}
+					},
+					{
+						"name": "IncrementalCopyActivity",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LookupLastChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "LookupCurrentChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "select CT.ID, r.[Name],r.QuestionType,r.[Required],r.AdditionalData , CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [QuestionSet].[Question] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [QuestionSet].[Question], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.ID = CT.ID  where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+									"type": "Expression"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ID",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "ID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Name",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "QuestionType",
+											"type": "Byte"
+										},
+										"sink": {
+											"name": "QuestionType",
+											"type": "Byte"
+										}
+									},
+									{
+										"source": {
+											"name": "Required",
+											"type": "Boolean"
+										},
+										"sink": {
+											"name": "Required",
+											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"name": "AdditionalData",
+											"type": "String"
+										},
+										"sink": {
+											"name": "AdditionalData",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int64"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceRequestQuestionSetQuestionsDataset",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkRequestQuestionSetQuestionDataset",
+								"type": "DatasetReference"
+							}
+						]
+					},
+					{
+						"name": "StoredProceduretoUpdateChangeTrackingActivity",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "IncrementalCopyActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "Update_ChangeTracking_Version",
+							"storedProcedureParameters": {
+								"CurrentTrackingVersion": {
+									"value": {
+										"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+										"type": "Expression"
+									},
+									"type": "INT64"
+								},
+								"TableName": {
+									"value": {
+										"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SourceRequestServiceLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		}
+	]
+}
