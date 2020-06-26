@@ -1450,7 +1450,7 @@
 								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion"
 							},
 							"dataset": {
-								"referenceName": "ChangeTrackingRequestDataset",
+								"referenceName": "ChangeTrackingAddressDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -1652,7 +1652,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ChangeTrackingAddressDataset')]",
-				"[concat(variables('factoryId'), '/datasets/ChangeTrackingRequestDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SourceAddressAddressDetailDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SinkAddressAddressDetailDataset')]",
 				"[concat(variables('factoryId'), '/linkedServices/SourceAddressServiceLinkedService')]"
@@ -1706,7 +1705,7 @@
 								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion"
 							},
 							"dataset": {
-								"referenceName": "ChangeTrackingRequestDataset",
+								"referenceName": "ChangeTrackingAddressDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -1908,7 +1907,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ChangeTrackingAddressDataset')]",
-				"[concat(variables('factoryId'), '/datasets/ChangeTrackingRequestDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SourceAddressPostcodeDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SinkAddressPostcodeDataset')]",
 				"[concat(variables('factoryId'), '/linkedServices/SourceAddressServiceLinkedService')]"
@@ -1962,7 +1960,7 @@
 								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion"
 							},
 							"dataset": {
-								"referenceName": "ChangeTrackingRequestDataset",
+								"referenceName": "ChangeTrackingAddressDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -2124,7 +2122,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ChangeTrackingAddressDataset')]",
-				"[concat(variables('factoryId'), '/datasets/ChangeTrackingRequestDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SourceAddressPreComputedNearestPostcodesDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SinkAddressPreComputedNearestPostcodesDataset')]",
 				"[concat(variables('factoryId'), '/linkedServices/SourceAddressServiceLinkedService')]"
@@ -2713,7 +2710,7 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "\nselect CT.ID, r.PostCode, r.DateRequested, r.IsFulfillable,r.CommunicationSent,r.ForRequestor,r.OtherDetails,r.PersonID_Recipient,r.PersonID_Requester,r.ReadPrivacyNotice,r.AcceptedTerms,r.SpecialCommunicationNeeds,r.CreatedByUserID, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Request].[Request] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Request].[Request], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+									"value": "\nselect CT.ID, r.PostCode, r.DateRequested, r.IsFulfillable,r.CommunicationSent,r.ForRequestor,r.OtherDetails,r.PersonID_Recipient,r.PersonID_Requester,r.ReadPrivacyNotice,r.AcceptedTerms,r.SpecialCommunicationNeeds,r.CreatedByUserID, r.RequestorType, r.OrganisationName, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Request].[Request] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Request].[Request], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
 									"type": "Expression"
 								}
 							},
@@ -2871,6 +2868,26 @@
 										},
 										"sink": {
 											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "RequestorType",
+											"type": "Byte"
+										},
+										"sink": {
+											"name": "RequestorType",
+											"type": "Byte"
+										}
+									},
+									{
+										"source": {
+											"name": "OrganisationName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "OrganisationName",
 											"type": "String"
 										}
 									}
