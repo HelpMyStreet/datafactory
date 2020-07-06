@@ -1,0 +1,17 @@
+{
+	"name": "SinkRequestQuestionSetQuestionDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DestinationLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "QuestionSet",
+			"table": "Question"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
