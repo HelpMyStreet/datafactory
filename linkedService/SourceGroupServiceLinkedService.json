@@ -1,5 +1,5 @@
 {
-	"name": "SourceUserServiceLinkedService",
+	"name": "SourceGroupServiceLinkedService",
 	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"annotations": [],
