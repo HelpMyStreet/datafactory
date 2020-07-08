@@ -58,12 +58,6 @@
 								}
 							},
 							{
-								"sink": {
-									"name": "DateFrom",
-									"type": "DateTime"
-								}
-							},
-							{
 								"source": {
 									"name": "SYS_CHANGE_VERSION",
 									"type": "Int64"
