@@ -3373,7 +3373,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_RequestJobQuestions')]",
+			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_RequestJobAvailableToGroup')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -3393,7 +3393,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Request.JobQuestions'"
+								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Request.JobAvailableToGroup'"
 							},
 							"dataset": {
 								"referenceName": "ChangeTrackingRequestDataset",
@@ -3522,7 +3522,7 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "SourceRequestJobQuestionDataset",
+								"referenceName": "SourceRequestJobAvailableToGroupDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
