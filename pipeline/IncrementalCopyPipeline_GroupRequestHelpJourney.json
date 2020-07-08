@@ -110,11 +110,11 @@
 							},
 							{
 								"source": {
-									"name": "RegistrationFormVariant",
+									"name": "RequestHelpFormVariant",
 									"type": "Byte"
 								},
 								"sink": {
-									"name": "RegistrationFormVariant",
+									"name": "RequestHelpFormVariant",
 									"type": "Byte"
 								}
 							},
@@ -149,7 +149,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "SinkGroupWebsiteRegistrationJourneyDataset",
+						"referenceName": "SinkGroupWebsiteRequestHelpJourneyDataset",
 						"type": "DatasetReference"
 					}
 				]
