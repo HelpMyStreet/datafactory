@@ -1,0 +1,17 @@
+{
+	"name": "SinkGroupUserRoleAuditDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DestinationLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "Group",
+			"table": "UserRoleAudit"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

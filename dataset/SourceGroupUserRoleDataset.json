@@ -1,0 +1,33 @@
+{
+	"name": "SourceGroupUserRoleDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SourceGroupServiceLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "UserID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupID"
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "RoleID",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "Group",
+			"table": "UserRole"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

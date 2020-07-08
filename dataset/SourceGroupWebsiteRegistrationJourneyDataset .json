@@ -1,0 +1,32 @@
+{
+	"name": "SourceGroupWebsiteRegistrationJourneyDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SourceGroupServiceLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "GroupID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Source",
+				"type": "varchar"
+			},
+			{
+				"name": "RegistrationFormVariant",
+				"type": "tinyint",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "Website",
+			"table": "RegistrationJourney"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
