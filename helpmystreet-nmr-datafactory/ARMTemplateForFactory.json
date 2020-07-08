@@ -8793,11 +8793,11 @@
 									},
 									{
 										"source": {
-											"name": "RegistrationFormVariant",
+											"name": "RequestHelpFormVariant",
 											"type": "Byte"
 										},
 										"sink": {
-											"name": "RegistrationFormVariant",
+											"name": "RequestHelpFormVariant",
 											"type": "Byte"
 										}
 									},
@@ -8833,7 +8833,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "SinkGroupWebsiteRegistrationJourneyDataset",
+								"referenceName": "SinkGroupWebsiteRequestHelpJourneyDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -8888,7 +8888,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ChangeTrackingGroupDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SourceGroupWebsiteRequestHelpJourneyDataset')]",
-				"[concat(variables('factoryId'), '/datasets/SinkGroupWebsiteRegistrationJourneyDataset')]",
+				"[concat(variables('factoryId'), '/datasets/SinkGroupWebsiteRequestHelpJourneyDataset')]",
 				"[concat(variables('factoryId'), '/linkedServices/SourceRequestServiceLinkedService')]"
 			]
 		}
