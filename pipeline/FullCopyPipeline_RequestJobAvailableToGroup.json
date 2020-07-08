@@ -1,0 +1,150 @@
+{
+	"name": "FullCopyPipeline_RequestJobAvailableToGroup",
+	"properties": {
+		"activities": [
+			{
+				"name": "FullCopyActivity",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select r.JobID, r.GroupID, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Request].[JobAvailableToGroup] r",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "AzureSqlSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "ID",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "ID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "RequestId",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "RequestId",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "SupportActivityID",
+									"type": "Byte"
+								},
+								"sink": {
+									"name": "SupportActivityID",
+									"type": "Byte"
+								}
+							},
+							{
+								"source": {
+									"name": "Details",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Details",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DueDate",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DueDate",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "IsHealthCritical",
+									"type": "Boolean"
+								},
+								"sink": {
+									"name": "IsHealthCritical",
+									"type": "Boolean"
+								}
+							},
+							{
+								"source": {
+									"name": "JobStatusID",
+									"type": "Byte"
+								},
+								"sink": {
+									"name": "JobStatusID",
+									"type": "Byte"
+								}
+							},
+							{
+								"source": {
+									"name": "VolunteerUserID",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "VolunteerUserID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "SYS_CHANGE_VERSION",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "SYS_CHANGE_VERSION",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "SYS_CHANGE_OPERATION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "SYS_CHANGE_OPERATION",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceRequestJobAvailableToGroupDataset",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SinkRequestJobDataset",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
