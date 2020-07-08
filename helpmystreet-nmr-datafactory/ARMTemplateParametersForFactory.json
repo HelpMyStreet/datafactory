@@ -19,6 +19,9 @@
 		},
 		"SourceUserServiceLinkedService_connectionString": {
 			"value": ""
+		},
+		"SourceGroupServiceLinkedService_connectionString": {
+			"value": ""
 		}
 	}
 }
