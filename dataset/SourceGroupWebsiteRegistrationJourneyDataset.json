@@ -1,5 +1,5 @@
 {
-	"name": "SourceGroupGroupDataset",
+	"name": "SourceGroupWebsiteRegistrationJourneyDataset",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SourceGroupServiceLinkedService",
@@ -9,27 +9,23 @@
 		"type": "AzureSqlTable",
 		"schema": [
 			{
-				"name": "ID",
+				"name": "GroupID",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "GroupName",
+				"name": "Source",
 				"type": "varchar"
 			},
 			{
-				"name": "ParentGroupID",
-				"type": "int",
+				"name": "RequestHelpFormVariant",
+				"type": "tinyint",
 				"precision": 10
-			},
-			{
-				"name": "GroupKey",
-				"type": "varchar"
 			}
 		],
 		"typeProperties": {
-			"schema": "Group",
-			"table": "Group"
+			"schema": "Website",
+			"table": "RegistrationJourney"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"

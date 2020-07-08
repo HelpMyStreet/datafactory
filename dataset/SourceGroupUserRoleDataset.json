@@ -14,7 +14,7 @@
 				"precision": 10
 			},
 			{
-				"name": "GroupID"
+				"name": "GroupID",
 				"type": "int",
 				"precision": 10
 			},
