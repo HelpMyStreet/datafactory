@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Group.UserRole'"
+						"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Group.UserRoleAudit'"
 					},
 					"dataset": {
 						"referenceName": "ChangeTrackingGroupDataset",
@@ -77,7 +77,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "select CT.UserID, CT.RoleID, CT.GroupID, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Group].[UserRole] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Group].[UserRole], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.UserID = CT.UserID and r.RoleID = CT.RoleID and r.GroupID = CT.GroupID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+							"value": "select CT.ID, r.AuthorisedByUserID, r.UserID,r.GroupID, r.RoleID, r.DateRequested,r.ActionID,r.Success , CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Group].[UserRoleAudit] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Group].[UserRoleAudit], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
 							"type": "Expression"
 						}
 					},
@@ -90,11 +90,41 @@
 						"mappings": [
 							{
 								"source": {
+									"name": "ID",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "Id",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "AuthorisedByUserID",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "AuthorisedByUserID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
 									"name": "UserID",
 									"type": "Int32"
 								},
 								"sink": {
 									"name": "UserID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "GroupID",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "GroupID",
 									"type": "Int32"
 								}
 							},
@@ -110,12 +140,32 @@
 							},
 							{
 								"source": {
-									"name": "GroupID",
-									"type": "Int32"
+									"name": "DateRequested",
+									"type": "DateTime"
 								},
 								"sink": {
-									"name": "GroupID",
-									"type": "Int32"
+									"name": "DateRequested",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "ActionID",
+									"type": "Byte"
+								},
+								"sink": {
+									"name": "ActionID",
+									"type": "Byte"
+								}
+							},
+							{
+								"source": {
+									"name": "Success",
+									"type": "Boolean"
+								},
+								"sink": {
+									"name": "Success",
+									"type": "Boolean"
 								}
 							},
 							{
@@ -143,13 +193,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SourceGroupUserRoleDataset",
+						"referenceName": "SourceGroupUserRoleAuditDataset",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "SinkGroupUserRoleDataset",
+						"referenceName": "SinkGroupUserRoleAuditDataset",
 						"type": "DatasetReference"
 					}
 				]
