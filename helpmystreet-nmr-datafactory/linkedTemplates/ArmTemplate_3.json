@@ -2305,7 +2305,7 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "\nselect CT.JobID, CT.GroupID, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Request].[JobAvailableToGroup] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Request].[JobAvailableToGroup], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.JobID = CT.JobID and r.[GroupID] = CT.[GroupID] where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+									"value": "\nselect CT.GroupID, CT.Source, r.RequestHelpFormVariant, r.TargetGroups, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Website].[RequestHelpJourney] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Website].[RequestHelpJourney], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.Source = CT.Source and r.[GroupID] = CT.[GroupID] where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
 									"type": "Expression"
 								}
 							},
@@ -2344,6 +2344,16 @@
 										"sink": {
 											"name": "RequestHelpFormVariant",
 											"type": "Byte"
+										}
+									},
+									{
+										"source": {
+											"name": "TargetGroups",
+											"type": "Byte"
+										},
+										"sink": {
+											"name": "TargetGroups",
+											"type": "Int32"
 										}
 									},
 									{
