@@ -27,6 +27,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SourceUserServiceLinkedService'"
 		},
+		"SourceCosmosDbCommunicationService_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SourceCosmosDbCommunicationService'"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -68,6 +72,9 @@
 					},
 					"SourceUserServiceLinkedService_connectionString": {
 						"value": "[parameters('SourceUserServiceLinkedService_connectionString')]"
+					},
+					"SourceCosmosDbCommunicationService_connectionString": {
+						"value": "[parameters('SourceCosmosDbCommunicationService_connectionString')]"
 					}
 				}
 			},

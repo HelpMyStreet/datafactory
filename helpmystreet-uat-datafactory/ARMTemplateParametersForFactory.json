@@ -19,6 +19,9 @@
 		},
 		"SourceUserServiceLinkedService_connectionString": {
 			"value": ""
+		},
+		"SourceCosmosDbCommunicationService_connectionString": {
+			"value": ""
 		}
 	}
 }
