@@ -87,6 +87,12 @@
 					"referenceName": "IncrementalCopyPipeline_RequestQuestionSetQuestion",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_GroupGroup",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
