@@ -111,6 +111,12 @@
 					"referenceName": "IncrementalCopyPipeline_GroupUserRoleAudit",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_GroupWebsiteRegistrationJourney",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
