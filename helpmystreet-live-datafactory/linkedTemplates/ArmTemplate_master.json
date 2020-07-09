@@ -27,6 +27,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SourceUserServiceLinkedService'"
 		},
+		"SourceGroupServiceLinkedService_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SourceGroupServiceLinkedService'"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -68,6 +72,9 @@
 					},
 					"SourceUserServiceLinkedService_connectionString": {
 						"value": "[parameters('SourceUserServiceLinkedService_connectionString')]"
+					},
+					"SourceGroupServiceLinkedService_connectionString": {
+						"value": "[parameters('SourceGroupServiceLinkedService_connectionString')]"
 					}
 				}
 			},
@@ -131,6 +138,26 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'ArmTemplate_2')]"
+			]
+		},
+		{
+			"name": "ArmTemplate_4",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_4.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'ArmTemplate_3')]"
 			]
 		}
 	]
