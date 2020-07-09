@@ -7146,14 +7146,14 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "SourceVerificationAttemptsDataset",
+								"referenceName": "SourceSendGridDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "ChangeTrackingVerificationDataset",
+								"referenceName": "ChangeTrackingCommunicationDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -7165,9 +7165,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ChangeTrackingCommunicationDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SourceSendGridDataset')]",
-				"[concat(variables('factoryId'), '/datasets/SinkSendGridDataset')]",
-				"[concat(variables('factoryId'), '/datasets/SourceVerificationAttemptsDataset')]",
-				"[concat(variables('factoryId'), '/datasets/ChangeTrackingVerificationDataset')]"
+				"[concat(variables('factoryId'), '/datasets/SinkSendGridDataset')]"
 			]
 		}
 	]

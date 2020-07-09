@@ -2065,14 +2065,14 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "SourceVerificationAttemptsDataset",
+								"referenceName": "SourceSendGridDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "ChangeTrackingVerificationDataset",
+								"referenceName": "ChangeTrackingCommunicationDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
