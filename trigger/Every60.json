@@ -117,6 +117,12 @@
 					"referenceName": "IncrementalCopyPipeline_GroupWebsiteRegistrationJourney",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_RequestJobAvailableToGroup",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
