@@ -111,6 +111,12 @@
 					"referenceName": "IncrementalCopyPipeline_RequestJobAvailableToGroup",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_RequestRequest",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
