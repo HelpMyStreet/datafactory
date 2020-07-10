@@ -11,6 +11,9 @@
 		"SourceAddressServiceLinkedService_connectionString": {
 			"value": ""
 		},
+		"SourceCosmosDbCommunicationService_connectionString": {
+			"value": ""
+		},
 		"SourceCosmosDbVerificationService_connectionString": {
 			"value": ""
 		},
