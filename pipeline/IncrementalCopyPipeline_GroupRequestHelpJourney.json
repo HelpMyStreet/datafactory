@@ -203,7 +203,7 @@
 					}
 				},
 				"linkedServiceName": {
-					"referenceName": "SourceRequestServiceLinkedService",
+					"referenceName": "SourceGroupServiceLinkedService",
 					"type": "LinkedServiceReference"
 				}
 			}
