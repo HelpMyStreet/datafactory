@@ -199,81 +199,21 @@
 								"mappings": [
 									{
 										"source": {
-											"name": "ID",
+											"name": "JobID",
 											"type": "Int32"
 										},
 										"sink": {
-											"name": "ID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "RequestId",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "RequestId",
+											"name": "JobID",
 											"type": "Int32"
 										}
 									},
 									{
 										"source": {
-											"name": "SupportActivityID",
-											"type": "Byte"
-										},
-										"sink": {
-											"name": "SupportActivityID",
-											"type": "Byte"
-										}
-									},
-									{
-										"source": {
-											"name": "Details",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Details",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "DueDate",
-											"type": "DateTime"
-										},
-										"sink": {
-											"name": "DueDate",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "IsHealthCritical",
-											"type": "Boolean"
-										},
-										"sink": {
-											"name": "IsHealthCritical",
-											"type": "Boolean"
-										}
-									},
-									{
-										"source": {
-											"name": "JobStatusID",
-											"type": "Byte"
-										},
-										"sink": {
-											"name": "JobStatusID",
-											"type": "Byte"
-										}
-									},
-									{
-										"source": {
-											"name": "VolunteerUserID",
+											"name": "GroupID",
 											"type": "Int32"
 										},
 										"sink": {
-											"name": "VolunteerUserID",
+											"name": "GroupID",
 											"type": "Int32"
 										}
 									},
@@ -309,7 +249,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "SinkRequestJobDataset",
+								"referenceName": "SinkRequestJobAvailableToGroupDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
