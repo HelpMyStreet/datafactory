@@ -355,7 +355,7 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "select CT.JobID, CT.QuestionID, r.Answer, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Request].[JobQuestions] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Request].[JobQuestions], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.JobID = CT.JobID and r.QuestionID = CT.QuestionID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+									"value": "select CT.JobID, CT.GroupID, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Request].[JobAvailableToGroup] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Request].[JobAvailableToGroup], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.JobID = CT.JobID and r.GroupID = CT.GroupID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
 									"type": "Expression"
 								},
 								"queryTimeout": "02:00:00"
@@ -379,22 +379,12 @@
 									},
 									{
 										"source": {
-											"name": "QuestionID",
+											"name": "GroupID",
 											"type": "Int32"
 										},
 										"sink": {
-											"name": "QuestionID",
+											"name": "GroupID",
 											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "Answer",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Answer",
-											"type": "String"
 										}
 									},
 									{
@@ -429,7 +419,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "SinkRequestJobQuestionsDataset",
+								"referenceName": "SinkRequestJobAvailableToGroupDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
