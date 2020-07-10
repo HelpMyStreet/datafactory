@@ -1436,7 +1436,7 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "\nselect CT.ID, r.PostCode, r.DateRequested, r.IsFulfillable,r.CommunicationSent,r.ForRequestor,r.OtherDetails,r.PersonID_Recipient,r.PersonID_Requester,r.ReadPrivacyNotice,r.AcceptedTerms,r.SpecialCommunicationNeeds,r.CreatedByUserID, r.RequestorType,r.OrganisationName, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Request].[Request] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Request].[Request], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+									"value": "\nselect CT.ID, r.PostCode, r.DateRequested, r.IsFulfillable,r.CommunicationSent,r.ForRequestor,r.OtherDetails,r.PersonID_Recipient,r.PersonID_Requester,r.ReadPrivacyNotice,r.AcceptedTerms,r.SpecialCommunicationNeeds,r.CreatedByUserID, r.RequestorType,r.OrganisationName,r.ReferringGroupId,r.Source, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Request].[Request] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Request].[Request], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
 									"type": "Expression"
 								}
 							},
@@ -1614,6 +1614,26 @@
 										},
 										"sink": {
 											"name": "OrganisationName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ReferringGroupId",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "ReferringGroupId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Source",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Source",
 											"type": "String"
 										}
 									}
@@ -2376,7 +2396,7 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "select CT.ID, u.FirebaseUID, u.PostalCode, u.EmailSharingConsent, u.MobileSharingConsent, u.OtherPhoneSharingConsent, u.HMSContactConsent, u.IsVolunteer, u.IsVerified, u.DateCreated, u.StreetChampionRoleUnderstood, u.SupportVolunteersByPhone, u.SupportRadiusMiles, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [User].[User] u RIGHT OUTER JOIN CHANGETABLE(CHANGES [User].[User], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on u.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+									"value": "select CT.ID, u.FirebaseUID, u.PostalCode, u.EmailSharingConsent, u.MobileSharingConsent, u.OtherPhoneSharingConsent, u.HMSContactConsent, u.IsVolunteer, u.IsVerified, u.DateCreated, u.StreetChampionRoleUnderstood, u.SupportVolunteersByPhone, u.SupportRadiusMiles, u.ReferringGroupId,u.Source, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [User].[User] u RIGHT OUTER JOIN CHANGETABLE(CHANGES [User].[User], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on u.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
 									"type": "Expression"
 								}
 							},
@@ -2389,122 +2409,172 @@
 								"mappings": [
 									{
 										"source": {
-											"name": "ID"
+											"name": "ID",
+											"type": "Int32"
 										},
 										"sink": {
-											"name": "ID"
+											"name": "ID",
+											"type": "Int32"
 										}
 									},
 									{
 										"source": {
-											"name": "FirebaseUID"
+											"name": "FirebaseUID",
+											"type": "String"
 										},
 										"sink": {
-											"name": "FirebaseUID"
+											"name": "FirebaseUID",
+											"type": "String"
 										}
 									},
 									{
 										"source": {
-											"name": "PostalCode"
+											"name": "PostalCode",
+											"type": "String"
 										},
 										"sink": {
-											"name": "PostalCode"
+											"name": "PostalCode",
+											"type": "String"
 										}
 									},
 									{
 										"source": {
-											"name": "EmailSharingConsent"
+											"name": "EmailSharingConsent",
+											"type": "Boolean"
 										},
 										"sink": {
-											"name": "EmailSharingConsent"
+											"name": "EmailSharingConsent",
+											"type": "Boolean"
 										}
 									},
 									{
 										"source": {
-											"name": "MobileSharingConsent"
+											"name": "MobileSharingConsent",
+											"type": "Boolean"
 										},
 										"sink": {
-											"name": "MobileSharingConsent"
+											"name": "MobileSharingConsent",
+											"type": "Boolean"
 										}
 									},
 									{
 										"source": {
-											"name": "OtherPhoneSharingConsent"
+											"name": "OtherPhoneSharingConsent",
+											"type": "Boolean"
 										},
 										"sink": {
-											"name": "OtherPhoneSharingConsent"
+											"name": "OtherPhoneSharingConsent",
+											"type": "Boolean"
 										}
 									},
 									{
 										"source": {
-											"name": "HMSContactConsent"
+											"name": "HMSContactConsent",
+											"type": "Boolean"
 										},
 										"sink": {
-											"name": "HMSContactConsent"
+											"name": "HMSContactConsent",
+											"type": "Boolean"
 										}
 									},
 									{
 										"source": {
-											"name": "IsVolunteer"
+											"name": "IsVolunteer",
+											"type": "Boolean"
 										},
 										"sink": {
-											"name": "IsVolunteer"
+											"name": "IsVolunteer",
+											"type": "Boolean"
 										}
 									},
 									{
 										"source": {
-											"name": "IsVerified"
+											"name": "IsVerified",
+											"type": "Boolean"
 										},
 										"sink": {
-											"name": "IsVerified"
+											"name": "IsVerified",
+											"type": "Boolean"
 										}
 									},
 									{
 										"source": {
-											"name": "DateCreated"
+											"name": "DateCreated",
+											"type": "DateTime"
 										},
 										"sink": {
-											"name": "DateCreated"
+											"name": "DateCreated",
+											"type": "DateTime"
 										}
 									},
 									{
 										"source": {
-											"name": "StreetChampionRoleUnderstood"
+											"name": "StreetChampionRoleUnderstood",
+											"type": "Boolean"
 										},
 										"sink": {
-											"name": "StreetChampionRoleUnderstood"
+											"name": "StreetChampionRoleUnderstood",
+											"type": "Boolean"
 										}
 									},
 									{
 										"source": {
-											"name": "SupportVolunteersByPhone"
+											"name": "SupportVolunteersByPhone",
+											"type": "Boolean"
 										},
 										"sink": {
-											"name": "SupportVolunteersByPhone"
+											"name": "SupportVolunteersByPhone",
+											"type": "Boolean"
 										}
 									},
 									{
 										"source": {
-											"name": "SupportRadiusMiles"
+											"name": "SupportRadiusMiles",
+											"type": "Double"
 										},
 										"sink": {
-											"name": "SupportRadiusMiles"
+											"name": "SupportRadiusMiles",
+											"type": "Double"
 										}
 									},
 									{
 										"source": {
-											"name": "SYS_CHANGE_VERSION"
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int64"
 										},
 										"sink": {
-											"name": "SYS_CHANGE_VERSION"
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int32"
 										}
 									},
 									{
 										"source": {
-											"name": "SYS_CHANGE_OPERATION"
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
 										},
 										"sink": {
-											"name": "SYS_CHANGE_OPERATION"
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ReferringGroupId",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "ReferringGroupId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Source",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Source",
+											"type": "String"
 										}
 									}
 								]
@@ -2841,13 +2911,6 @@
 					},
 					{
 						"pipelineReference": {
-							"referenceName": "IncrementalCopyPipeline_RequestRequest",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					},
-					{
-						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_UserChampionPostCode",
 							"type": "PipelineReference"
 						},
@@ -2863,13 +2926,6 @@
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_UserRegistrationHistory",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					},
-					{
-						"pipelineReference": {
-							"referenceName": "IncrementalCopyPipeline_UserUser",
 							"type": "PipelineReference"
 						},
 						"parameters": {}
@@ -2936,6 +2992,20 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestJobAvailableToGroup",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestRequest",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -2951,15 +3021,15 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestJob')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestJobStatus')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestRequest')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_UserChampionPostCode')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_UserSupportActivity')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_UserRegistrationHistory')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_UserUser')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_VerificationAttempts')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestJobQuestions')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestQuestionSetActivityQuestions')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestQuestionSetQuestion')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestQuestionSetQuestion')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestJobAvailableToGroup')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestRequest')]"
 			]
 		}
 	]
