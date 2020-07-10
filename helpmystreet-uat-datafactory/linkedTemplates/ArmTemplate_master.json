@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SourceAddressServiceLinkedService'"
 		},
+		"SourceCosmosDbCommunicationService_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SourceCosmosDbCommunicationService'"
+		},
 		"SourceCosmosDbVerificationService_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SourceCosmosDbVerificationService'"
@@ -26,10 +30,6 @@
 		"SourceUserServiceLinkedService_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SourceUserServiceLinkedService'"
-		},
-		"SourceCosmosDbCommunicationService_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SourceCosmosDbCommunicationService'"
 		},
 		"containerUri": {
 			"type": "string",
@@ -64,6 +64,9 @@
 					"SourceAddressServiceLinkedService_connectionString": {
 						"value": "[parameters('SourceAddressServiceLinkedService_connectionString')]"
 					},
+					"SourceCosmosDbCommunicationService_connectionString": {
+						"value": "[parameters('SourceCosmosDbCommunicationService_connectionString')]"
+					},
 					"SourceCosmosDbVerificationService_connectionString": {
 						"value": "[parameters('SourceCosmosDbVerificationService_connectionString')]"
 					},
@@ -72,9 +75,6 @@
 					},
 					"SourceUserServiceLinkedService_connectionString": {
 						"value": "[parameters('SourceUserServiceLinkedService_connectionString')]"
-					},
-					"SourceCosmosDbCommunicationService_connectionString": {
-						"value": "[parameters('SourceCosmosDbCommunicationService_connectionString')]"
 					}
 				}
 			},

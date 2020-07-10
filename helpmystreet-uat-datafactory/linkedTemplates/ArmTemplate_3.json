@@ -1896,7 +1896,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_SendGrid')]",
+			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_CommunicationEvent')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -2003,14 +2003,14 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "SourceSendGridDataset",
+								"referenceName": "SourceCommunicationEventDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "SinkSendGridDataset",
+								"referenceName": "SinkCommunicationEventDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -2065,7 +2065,7 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "SourceSendGridDataset",
+								"referenceName": "SourceCommunicationEventDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -2188,13 +2188,6 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
-					},
-					{
-						"pipelineReference": {
-							"referenceName": "IncrementalCopyPipeline_SendGrid",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -2215,8 +2208,7 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_UserUser')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_VerificationAttempts')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestQuestionSetActivityQuestions')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestQuestionSetQuestion')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_SendGrid')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestQuestionSetQuestion')]"
 			]
 		}
 	]
