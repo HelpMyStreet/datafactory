@@ -36,12 +36,6 @@
 			},
 			{
 				"pipelineReference": {
-					"referenceName": "IncrementalCopyPipeline_RequestRequest",
-					"type": "PipelineReference"
-				}
-			},
-			{
-				"pipelineReference": {
 					"referenceName": "IncrementalCopyPipeline_UserChampionPostCode",
 					"type": "PipelineReference"
 				}
