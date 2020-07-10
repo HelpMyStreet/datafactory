@@ -54,12 +54,6 @@
 			},
 			{
 				"pipelineReference": {
-					"referenceName": "IncrementalCopyPipeline_UserUser",
-					"type": "PipelineReference"
-				}
-			},
-			{
-				"pipelineReference": {
 					"referenceName": "IncrementalCopyPipeline_VerificationAttempts",
 					"type": "PipelineReference"
 				}
