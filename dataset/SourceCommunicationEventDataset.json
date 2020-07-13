@@ -37,6 +37,9 @@
 					}
 				}
 			}
+		},
+		"typeProperties": {
+			"collectionName": "tracking"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"
