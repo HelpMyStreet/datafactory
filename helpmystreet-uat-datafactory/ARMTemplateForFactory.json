@@ -9781,6 +9781,20 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupWebsiteRegistrationJourney",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestJobAvailableToGroup",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -9812,7 +9826,9 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupGroup')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupRequestHelpJourney')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupUserRole')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupUserRoleAudit')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupUserRoleAudit')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupWebsiteRegistrationJourney')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestJobAvailableToGroup')]"
 			]
 		},
 		{
