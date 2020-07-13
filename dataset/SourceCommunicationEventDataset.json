@@ -1,10 +1,6 @@
 {
 	"name": "SourceCommunicationEventDataset",
 	"properties": {
-		"linkedServiceName": {
-			"referenceName": "SourceCosmosDbCommunicationService",
-			"type": "LinkedServiceReference"
-		},
 		"annotations": [],
 		"type": "CosmosDbSqlApiCollection",
 		"schema": {
