@@ -3814,7 +3814,7 @@
 								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion"
 							},
 							"dataset": {
-								"referenceName": "ChangeTrackingAddressDataset",
+								"referenceName": "ChangeTrackingGroupDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}

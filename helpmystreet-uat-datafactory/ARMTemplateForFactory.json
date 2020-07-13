@@ -9909,7 +9909,7 @@
 								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion"
 							},
 							"dataset": {
-								"referenceName": "ChangeTrackingAddressDataset",
+								"referenceName": "ChangeTrackingGroupDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -10081,7 +10081,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ChangeTrackingGroupDataset')]",
-				"[concat(variables('factoryId'), '/datasets/ChangeTrackingAddressDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SourceGroupGroupDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SinkGroupGroupDataset')]",
 				"[concat(variables('factoryId'), '/linkedServices/SourceGroupServiceLinkedService')]"
