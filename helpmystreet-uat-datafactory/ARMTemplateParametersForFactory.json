@@ -17,13 +17,13 @@
 		"SourceCosmosDbVerificationService_connectionString": {
 			"value": ""
 		},
+		"SourceGroupServiceLinkedService_connectionString": {
+			"value": ""
+		},
 		"SourceRequestServiceLinkedService_connectionString": {
 			"value": ""
 		},
 		"SourceUserServiceLinkedService_connectionString": {
-			"value": ""
-		},
-		"SourceGroupServiceLinkedService_connectionString": {
 			"value": ""
 		}
 	}
