@@ -1779,7 +1779,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select r.ID, r.PostCode, r.DateRequested, r.IsFulfillable,r.CommunicationSent,r.ForRequestor,r.OtherDetails,r.PersonID_Recipient,r.PersonID_Requester,r.ReadPrivacyNotice,r.AcceptedTerms,r.SpecialCommunicationNeeds,r.CreatedByUserID, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Request].[Request] r",
+								"sqlReaderQuery": "select r.ID, r.PostCode, r.DateRequested, r.IsFulfillable,r.CommunicationSent,r.FulfillableStatus, r.ForRequestor,r.OtherDetails,r.PersonID_Recipient,r.PersonID_Requester,r.ReadPrivacyNotice,r.AcceptedTerms,r.SpecialCommunicationNeeds,r.CreatedByUserID, r.RequestorType, r.OrganisationName, r.ReferringGroupId, r.Source, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Request].[Request] r",
 								"queryTimeout": "02:00:00"
 							},
 							"sink": {
@@ -1837,6 +1837,16 @@
 										"sink": {
 											"name": "CommunicationSent",
 											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"name": "FulfillableStatus",
+											"type": "Byte"
+										},
+										"sink": {
+											"name": "FulfillableStatus",
+											"type": "Byte"
 										}
 									},
 									{
@@ -1938,6 +1948,46 @@
 											"name": "SYS_CHANGE_OPERATION",
 											"type": "String"
 										}
+									},
+									{
+										"source": {
+											"name": "RequestorType",
+											"type": "Byte"
+										},
+										"sink": {
+											"name": "RequestorType",
+											"type": "Byte"
+										}
+									},
+									{
+										"source": {
+											"name": "OrganisationName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "OrganisationName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ReferringGroupId",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "ReferringGroupId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Source",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Source",
+											"type": "String"
+										}
 									}
 								]
 							}
@@ -1963,93 +2013,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SourceRequestRequestDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SinkRequestRequestDataset')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_RequestRequestTemp')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "FullCopyActivity",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select r.ID,  r.RequestorType,r.OrganisationName\nfrom [Request].[Request] r \nwhere RequestorType is not null or OrganisationName is not null",
-								"queryTimeout": "02:00:00"
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "ID",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "ID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "RequestorType",
-											"type": "Byte"
-										},
-										"sink": {
-											"name": "RequestorType",
-											"type": "Byte"
-										}
-									},
-									{
-										"source": {
-											"name": "OrganisationName",
-											"type": "String"
-										},
-										"sink": {
-											"name": "OrganisationName",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceRequestRequestDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SinkRequestRequestTempDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SourceRequestRequestDataset')]",
-				"[concat(variables('factoryId'), '/datasets/SinkRequestRequestTempDataset')]"
 			]
 		},
 		{
