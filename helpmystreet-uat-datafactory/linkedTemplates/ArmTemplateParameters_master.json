@@ -23,6 +23,9 @@
 		"SourceUserServiceLinkedService_connectionString": {
 			"value": ""
 		},
+		"SourceGroupServiceLinkedService_connectionString": {
+			"value": ""
+		},
 		"containerUri": {
 			"value": ""
 		},
