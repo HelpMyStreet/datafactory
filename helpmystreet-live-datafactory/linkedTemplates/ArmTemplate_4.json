@@ -2116,7 +2116,7 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "select CT.ActivityID, CT.QuestionID, r.[Order], CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [QuestionSet].[ActivityQuestions] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [QuestionSet].[ActivityQuestions], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.ActivityID = CT.ActivityID and r.QuestionID = CT.QuestionID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+									"value": "select CT.ActivityID, CT.QuestionID, CT.RequestFormVariantID, r.[Order], r.[Required], CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [QuestionSet].[ActivityQuestions] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [QuestionSet].[ActivityQuestions], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.ActivityID = CT.ActivityID and r.QuestionID = CT.QuestionID  and r.RequestFormVariantID = CT.RequestFormVariantID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
 									"type": "Expression"
 								}
 							},
@@ -2175,6 +2175,26 @@
 										"sink": {
 											"name": "SYS_CHANGE_OPERATION",
 											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "RequestFormVariantID",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "RequestFormVariantID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Required",
+											"type": "Boolean"
+										},
+										"sink": {
+											"name": "Required",
+											"type": "Int32"
 										}
 									}
 								]
