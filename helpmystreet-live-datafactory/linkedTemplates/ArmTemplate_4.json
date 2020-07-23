@@ -4116,6 +4116,13 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestQuestionSetQuestion",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -4143,7 +4150,8 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupWebsiteRegistrationJourney')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestJobAvailableToGroup')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestRequest')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_UserUser')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_UserUser')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestQuestionSetQuestion')]"
 			]
 		}
 	]
