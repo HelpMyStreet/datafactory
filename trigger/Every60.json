@@ -114,12 +114,6 @@
 			},
 			{
 				"pipelineReference": {
-					"referenceName": "IncrementalCopyPipeline_CommunicationEvent",
-					"type": "PipelineReference"
-				}
-			},
-			{
-				"pipelineReference": {
 					"referenceName": "IncrementalCopyPipeline_RequestQuestionSetQuestion",
 					"type": "PipelineReference"
 				}
