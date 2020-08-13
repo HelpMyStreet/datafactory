@@ -3362,6 +3362,33 @@
 									},
 									{
 										"source": {
+											"path": "$['MessageId']"
+										},
+										"sink": {
+											"name": "MessageId",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['GroupId']"
+										},
+										"sink": {
+											"name": "GroupId",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['JobId']"
+										},
+										"sink": {
+											"name": "JobId",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
 											"path": "$['TemplateName']"
 										},
 										"sink": {
@@ -9951,6 +9978,13 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_CommunicationEvent",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -9983,7 +10017,8 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestRequest')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_UserUser')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestQuestionSetQuestion')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestQuestionSetActivityQuestions')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestQuestionSetActivityQuestions')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_CommunicationEvent')]"
 			]
 		}
 	]

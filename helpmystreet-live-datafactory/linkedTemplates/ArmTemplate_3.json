@@ -2749,6 +2749,33 @@
 									},
 									{
 										"source": {
+											"path": "$['MessageId']"
+										},
+										"sink": {
+											"name": "MessageId",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['GroupId']"
+										},
+										"sink": {
+											"name": "GroupId",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['JobId']"
+										},
+										"sink": {
+											"name": "JobId",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
 											"path": "$['TemplateName']"
 										},
 										"sink": {
