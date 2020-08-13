@@ -34,7 +34,8 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": "select r.UserID, r.RoleID, r.GroupId, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Group].[UserRole] r",
-								"queryTimeout": "02:00:00"
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
 							},
 							"sink": {
 								"type": "AzureSqlSink"
@@ -138,7 +139,8 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": "select r.Id, r.AuthorisedByUserID, r.UserID, r.GroupId, r.RoleId, r.DateRequested,r.ActionID,r.Success, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Group].[UserRoleAudit] r",
-								"queryTimeout": "02:00:00"
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
 							},
 							"sink": {
 								"type": "AzureSqlSink"
@@ -292,7 +294,8 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": "select r.GroupID, r.Source, r.RegistrationFormVariant, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Website].[RegistrationJourney] r",
-								"queryTimeout": "02:00:00"
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
 							},
 							"sink": {
 								"type": "AzureSqlSink"
@@ -396,7 +399,8 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": "select r.GroupID, r.Source, r.RequestHelpFormVariant, r.TargetGroups,CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Website].[RequestHelpJourney] r",
-								"queryTimeout": "02:00:00"
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
 							},
 							"sink": {
 								"type": "AzureSqlSink"
@@ -500,7 +504,8 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": "select r.ID, r.RequestId, r.SupportActivityID, r.Details, r.DueDate, r.IsHealthCritical, r.JobStatusID, r.VolunteerUserID, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Request].[Job] r",
-								"queryTimeout": "02:00:00"
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
 							},
 							"sink": {
 								"type": "AzureSqlSink"
@@ -654,7 +659,8 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": "select r.JobID, r.GroupID, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Request].[JobAvailableToGroup] r",
-								"queryTimeout": "02:00:00"
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
 							},
 							"sink": {
 								"type": "AzureSqlSink"
@@ -748,7 +754,8 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": "select r.JobID, r.QuestionID, r.Answer, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Request].[JobQuestions] r",
-								"queryTimeout": "02:00:00"
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
 							},
 							"sink": {
 								"type": "AzureSqlSink"
@@ -852,7 +859,8 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": "select r.JobID, r.JobStatusID, r.DateCreated, r.VolunteerUserID, r.CreatedByUserID, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Request].[RequestJobStatus] r",
-								"queryTimeout": "02:00:00"
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
 							},
 							"sink": {
 								"type": "AzureSqlSink"
@@ -976,7 +984,8 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": "select r.ActivityID, r.QuestionID, r.[Order], CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [QuestionSet].[ActivityQuestions] r",
-								"queryTimeout": "02:00:00"
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
 							},
 							"sink": {
 								"type": "AzureSqlSink"
@@ -1080,7 +1089,8 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": "select r.ID, r.[Name], r.QuestionType, r.[Required],r.AdditionalData, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [QuestionSet].[Question] r",
-								"queryTimeout": "02:00:00"
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
 							},
 							"sink": {
 								"type": "AzureSqlSink"
@@ -1204,7 +1214,8 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": "select r.ID, r.PostCode, r.DateRequested, r.IsFulfillable,r.CommunicationSent,r.ForRequestor,r.OtherDetails,r.PersonID_Recipient,r.PersonID_Requester,r.ReadPrivacyNotice,r.AcceptedTerms,r.SpecialCommunicationNeeds,r.CreatedByUserID, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Request].[Request] r",
-								"queryTimeout": "02:00:00"
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
 							},
 							"sink": {
 								"type": "AzureSqlSink"
@@ -1408,7 +1419,8 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": "select r.ID,  r.RequestorType,r.OrganisationName\nfrom [Request].[Request] r \nwhere RequestorType is not null or OrganisationName is not null",
-								"queryTimeout": "02:00:00"
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
 							},
 							"sink": {
 								"type": "AzureSqlSink"
@@ -1492,7 +1504,8 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": "select u.UserID,u.PostalCode, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [User].[ChampionPostcode] u ",
-								"queryTimeout": "02:00:00"
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
 							},
 							"sink": {
 								"type": "AzureSqlSink"
@@ -1586,7 +1599,8 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": "select u.UserID,u.RegistrationStep,u.DateCompleted, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [User].[RegistrationHistory] u",
-								"queryTimeout": "02:00:00"
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
 							},
 							"sink": {
 								"type": "AzureSqlSink"
@@ -1690,7 +1704,8 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": "select u.UserID,u.ActivityID, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [User].[SupportActivity] u",
-								"queryTimeout": "02:00:00"
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
 							},
 							"sink": {
 								"type": "AzureSqlSink"
@@ -1784,7 +1799,8 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": "select u.ID, u.FirebaseUID, u.PostalCode, u.EmailSharingConsent, u.MobileSharingConsent, u.OtherPhoneSharingConsent, u.HMSContactConsent, u.IsVolunteer, u.IsVerified, u.DateCreated, u.StreetChampionRoleUnderstood, u.SupportVolunteersByPhone, u.SupportRadiusMiles, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [User].[User] u ",
-								"queryTimeout": "02:00:00"
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
 							},
 							"sink": {
 								"type": "AzureSqlSink"
@@ -1957,7 +1973,8 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Address.AddressDetail'"
+								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Address.AddressDetail'",
+								"partitionOption": "None"
 							},
 							"dataset": {
 								"referenceName": "ChangeTrackingAddressDataset",
@@ -1981,7 +1998,8 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
-								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion"
+								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
+								"partitionOption": "None"
 							},
 							"dataset": {
 								"referenceName": "ChangeTrackingAddressDataset",
@@ -2021,7 +2039,8 @@
 								"sqlReaderQuery": {
 									"value": "select CT.ID, a.[PostcodeId], a.[AddressLine1],a.[AddressLine2], a.[AddressLine3],a.[Locality],a.[LastUpdated] , CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Address].[AddressDetail] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Address].[AddressDetail], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
 									"type": "Expression"
-								}
+								},
+								"partitionOption": "None"
 							},
 							"sink": {
 								"type": "AzureSqlSink"
@@ -2207,7 +2226,8 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Address.Postcode'"
+								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Address.Postcode'",
+								"partitionOption": "None"
 							},
 							"dataset": {
 								"referenceName": "ChangeTrackingAddressDataset",
@@ -2231,7 +2251,8 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
-								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion"
+								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
+								"partitionOption": "None"
 							},
 							"dataset": {
 								"referenceName": "ChangeTrackingAddressDataset",
@@ -2271,7 +2292,8 @@
 								"sqlReaderQuery": {
 									"value": "select CT.ID, a.[Postcode],a.[LastUpdated],a.[Latitude],a.[Longitude],a.[FriendlyName],a.[IsActive], CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Address].[Postcode] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Address].[PostCode], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
 									"type": "Expression"
-								}
+								},
+								"partitionOption": "None"
 							},
 							"sink": {
 								"type": "AzureSqlSink"
@@ -2457,7 +2479,8 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Address.PreComputedNearestPostcodes'"
+								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Address.PreComputedNearestPostcodes'",
+								"partitionOption": "None"
 							},
 							"dataset": {
 								"referenceName": "ChangeTrackingAddressDataset",
@@ -2481,7 +2504,8 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
-								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion"
+								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
+								"partitionOption": "None"
 							},
 							"dataset": {
 								"referenceName": "ChangeTrackingAddressDataset",
@@ -2521,7 +2545,8 @@
 								"sqlReaderQuery": {
 									"value": "select CT.ID, a.[Postcode],a.CompressedNearestPostcodes, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Address].[PreComputedNearestPostcodes] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Address].[PreComputedNearestPostcodes], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
 									"type": "Expression"
-								}
+								},
+								"partitionOption": "None"
 							},
 							"sink": {
 								"type": "AzureSqlSink"
@@ -2700,10 +2725,11 @@
 							"source": {
 								"type": "CosmosDbSqlApiSource",
 								"query": {
-									"value": "SELECT c.RecipientUserID,c.TemplateName,c.event,udf.convertTime(c._ts) as EventTime FROM c where c.TemplateName<>null and c._ts>@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.MaxTS}",
+									"value": "SELECT c.RecipientUserID,c.MessageId, c.GroupId, c.JobId, c.TemplateName,c.event,udf.convertTime(c._ts) as EventTime FROM c where c.TemplateName<>null and c._ts>@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.MaxTS}",
 									"type": "Expression"
 								},
-								"preferredRegions": []
+								"preferredRegions": [],
+								"detectDatetime": true
 							},
 							"sink": {
 								"type": "AzureSqlSink"
