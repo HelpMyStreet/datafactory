@@ -73,6 +73,33 @@
 							},
 							{
 								"source": {
+									"path": "$['MessageId']"
+								},
+								"sink": {
+									"name": "MessageId",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['GroupId']"
+								},
+								"sink": {
+									"name": "GroupId",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['JobId']"
+								},
+								"sink": {
+									"name": "JobId",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
 									"path": "$['TemplateName']"
 								},
 								"sink": {
@@ -82,19 +109,19 @@
 							},
 							{
 								"source": {
-									"path": "$['EventTime']"
+									"path": "$['event']"
 								},
 								"sink": {
-									"name": "EventDate",
+									"name": "Event",
 									"type": "String"
 								}
 							},
 							{
 								"source": {
-									"path": "$['event']"
+									"path": "$['EventTime']"
 								},
 								"sink": {
-									"name": "Event",
+									"name": "EventDate",
 									"type": "String"
 								}
 							}
