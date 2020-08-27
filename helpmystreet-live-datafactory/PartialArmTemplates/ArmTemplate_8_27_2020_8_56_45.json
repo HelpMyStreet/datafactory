@@ -1,0 +1,180 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "helpmystreet-live-datafactory"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/SinkVerificationDataset2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DestinationLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "PersonID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Age",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "Verification",
+					"table": "VerificationAttempt2"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_VerificationAttempts2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "IncrementalCopyActivity",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "CosmosDbSqlApiSource",
+								"query": {
+									"value": "SELECT c.datestamp, c.userId, c.rememberMeId, c.verified, c.verificationDetails.dobMatch, c.verificationDetails.ageMatch, c.verificationDetails.notPreviouslyVerified,c.userUpdated \nfrom c \nwhere c._ts>1589372085",
+									"type": "Expression"
+								},
+								"preferredRegions": [],
+								"detectDatetime": true
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['datestamp']"
+										},
+										"sink": {
+											"name": "DateOfAttempt",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['userId']"
+										},
+										"sink": {
+											"name": "UserId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"path": "$['rememberMeId']"
+										},
+										"sink": {
+											"name": "YotiRememberMeId",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['verified']"
+										},
+										"sink": {
+											"name": "Verified",
+											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"path": "$['dobMatch']"
+										},
+										"sink": {
+											"name": "DobMatch",
+											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"path": "$['ageMatch']"
+										},
+										"sink": {
+											"name": "AgeMatch",
+											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"path": "$['notPreviouslyVerified']"
+										},
+										"sink": {
+											"name": "NotPreviouslyVerified",
+											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"path": "$['userUpdated']"
+										},
+										"sink": {
+											"name": "UserServiceUpdated",
+											"type": "Boolean"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceVerificationAttemptsDataset",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkVerificationDataset2",
+								"type": "DatasetReference"
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SinkVerificationDataset2')]"
+			]
+		}
+	]
+}

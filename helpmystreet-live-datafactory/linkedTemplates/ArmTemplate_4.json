@@ -13,6 +13,222 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_CommunicationEvent')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LookupLastChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "CosmosDbSqlApiSource",
+								"query": "SELECT top 1 c.MaxTS FROM c order by c._ts desc",
+								"preferredRegions": []
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingCommunicationDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "IncrementalCopyActivity",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LookupLastChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "CosmosDbSqlApiSource",
+								"query": {
+									"value": "SELECT c.RecipientUserID,c.MessageId, c.GroupId, c.JobId, c.TemplateName,c.event,udf.convertTime(c._ts) as EventTime FROM c where c.TemplateName<>null and c._ts>@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.MaxTS}",
+									"type": "Expression"
+								},
+								"preferredRegions": [],
+								"detectDatetime": true
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['RecipientUserID']"
+										},
+										"sink": {
+											"name": "RecipientUserID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"path": "$['MessageId']"
+										},
+										"sink": {
+											"name": "MessageId",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['GroupId']"
+										},
+										"sink": {
+											"name": "GroupId",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['JobId']"
+										},
+										"sink": {
+											"name": "JobId",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TemplateName']"
+										},
+										"sink": {
+											"name": "TemplateName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['EventTime']"
+										},
+										"sink": {
+											"name": "EventDate",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['event']"
+										},
+										"sink": {
+											"name": "Event",
+											"type": "String"
+										}
+									}
+								],
+								"collectionReference": ""
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceCommunicationEventDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkCommunicationEventDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "UpdateMax",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "IncrementalCopyActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "CosmosDbSqlApiSource",
+								"query": {
+									"value": "SELECT top 1 c._ts FROM c where c._ts>@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.MaxTS} order by c._ts desc",
+									"type": "Expression"
+								},
+								"preferredRegions": []
+							},
+							"sink": {
+								"type": "CosmosDbSqlApiSink",
+								"writeBehavior": "insert"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['_ts']"
+										},
+										"sink": {
+											"path": "$['MaxTS']"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceCommunicationEventDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ChangeTrackingCommunicationDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_GroupGroup')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -3955,8 +4171,7 @@
 											"path": "$['userUpdated']"
 										},
 										"sink": {
-											"name": "UserServiceUpdated",
-											"type": "Boolean"
+											"name": "UserServiceUpdated"
 										}
 									}
 								]
@@ -4034,6 +4249,136 @@
 						"outputs": [
 							{
 								"referenceName": "ChangeTrackingVerificationDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_VerificationAttempts2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "IncrementalCopyActivity",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "CosmosDbSqlApiSource",
+								"query": {
+									"value": "SELECT c.datestamp, c.userId, c.rememberMeId, c.verified, c.verificationDetails.dobMatch, c.verificationDetails.ageMatch, c.verificationDetails.notPreviouslyVerified,c.userUpdated \nfrom c \nwhere c._ts>1589372085",
+									"type": "Expression"
+								},
+								"preferredRegions": [],
+								"detectDatetime": true
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['datestamp']"
+										},
+										"sink": {
+											"name": "DateOfAttempt",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['userId']"
+										},
+										"sink": {
+											"name": "UserId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"path": "$['rememberMeId']"
+										},
+										"sink": {
+											"name": "YotiRememberMeId",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['verified']"
+										},
+										"sink": {
+											"name": "Verified",
+											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"path": "$['dobMatch']"
+										},
+										"sink": {
+											"name": "DobMatch",
+											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"path": "$['ageMatch']"
+										},
+										"sink": {
+											"name": "AgeMatch",
+											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"path": "$['notPreviouslyVerified']"
+										},
+										"sink": {
+											"name": "NotPreviouslyVerified",
+											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"path": "$['userUpdated']"
+										},
+										"sink": {
+											"name": "UserServiceUpdated",
+											"type": "Boolean"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceVerificationAttemptsDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkVerificationDataset2",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -4227,7 +4572,8 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestRequest')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_UserUser')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestQuestionSetQuestion')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestQuestionSetActivityQuestions')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestQuestionSetActivityQuestions')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_CommunicationEvent')]"
 			]
 		}
 	]
