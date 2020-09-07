@@ -123,6 +123,12 @@
 					"referenceName": "IncrementalCopyPipeline_CommunicationEvent",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_RequestRequest",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
