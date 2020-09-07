@@ -17,7 +17,8 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Request.Request'"
+						"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Request.Request'",
+						"partitionOption": "None"
 					},
 					"dataset": {
 						"referenceName": "ChangeTrackingRequestDataset",
@@ -40,7 +41,8 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion"
+						"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
+						"partitionOption": "None"
 					},
 					"dataset": {
 						"referenceName": "ChangeTrackingRequestDataset",
@@ -77,9 +79,10 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "\nselect CT.ID, r.PostCode, r.DateRequested, r.IsFulfillable,r.CommunicationSent,r.ForRequestor,r.OtherDetails,r.PersonID_Recipient,r.PersonID_Requester,r.ReadPrivacyNotice,r.AcceptedTerms,r.SpecialCommunicationNeeds,r.CreatedByUserID, r.RequestorType,r.OrganisationName,r.ReferringGroupId,r.Source, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Request].[Request] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Request].[Request], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+							"value": "\nselect CT.ID, r.PostCode, r.DateRequested, r.IsFulfillable,r.CommunicationSent,r.FulfillableStatus, r.ForRequestor,r.OtherDetails,r.PersonID_Recipient,r.PersonID_Requester,r.ReadPrivacyNotice,r.AcceptedTerms,r.SpecialCommunicationNeeds,r.CreatedByUserID, r.RequestorType,r.OrganisationName,r.ReferringGroupId,r.Source, r.Archive, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Request].[Request] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Request].[Request], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
 							"type": "Expression"
-						}
+						},
+						"partitionOption": "None"
 					},
 					"sink": {
 						"type": "AzureSqlSink"
@@ -136,6 +139,16 @@
 								"sink": {
 									"name": "CommunicationSent",
 									"type": "Boolean"
+								}
+							},
+							{
+								"source": {
+									"name": "FulfillableStatus",
+									"type": "Byte"
+								},
+								"sink": {
+									"name": "FulfillableStatus",
+									"type": "Byte"
 								}
 							},
 							{
@@ -276,6 +289,16 @@
 								"sink": {
 									"name": "Source",
 									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Archive",
+									"type": "Boolean"
+								},
+								"sink": {
+									"name": "Archive",
+									"type": "Boolean"
 								}
 							}
 						]
