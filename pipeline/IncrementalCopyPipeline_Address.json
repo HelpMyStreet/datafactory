@@ -27,7 +27,7 @@
 				}
 			},
 			{
-				"name": "LookupCurrentChangeTrackingVersionActivity",
+				"name": "LookupCurrentChangeTrackingVersionActivity1",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -61,7 +61,7 @@
 						]
 					},
 					{
-						"activity": "LookupCurrentChangeTrackingVersionActivity",
+						"activity": "LookupCurrentChangeTrackingVersionActivity1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -79,7 +79,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "select CT.ID, a.[PostcodeId], a.[AddressLine1],a.[AddressLine2], a.[AddressLine3],a.[Locality],a.[LastUpdated] , CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Address].[AddressDetail] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Address].[AddressDetail], @{activity('LookupLastChangeAddressDetail').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
+							"value": "select CT.ID, a.[PostcodeId], a.[AddressLine1],a.[AddressLine2], a.[AddressLine3],a.[Locality],a.[LastUpdated] , CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Address].[AddressDetail] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Address].[AddressDetail], @{activity('LookupLastChangeAddressDetail').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity1').output.firstRow.CurrentChangeTrackingVersion}\n",
 							"type": "Expression"
 						},
 						"partitionOption": "None"
@@ -221,7 +221,7 @@
 					"storedProcedureParameters": {
 						"CurrentTrackingVersion": {
 							"value": {
-								"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+								"value": "@{activity('LookupCurrentChangeTrackingVersionActivity1').output.firstRow.CurrentChangeTrackingVersion}",
 								"type": "Expression"
 							},
 							"type": "INT64"
@@ -275,7 +275,7 @@
 						]
 					},
 					{
-						"activity": "LookupCurrentChangeTrackingVersionActivity",
+						"activity": "LookupCurrentChangeTrackingVersionActivity2",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -293,7 +293,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "select CT.ID, a.[Postcode],a.[LastUpdated],a.[Latitude],a.[Longitude],a.[FriendlyName],a.[IsActive], CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Address].[Postcode] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Address].[PostCode], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
+							"value": "select CT.ID, a.[Postcode],a.[LastUpdated],a.[Latitude],a.[Longitude],a.[FriendlyName],a.[IsActive], CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Address].[Postcode] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Address].[PostCode], @{activity('LookupLastChangeAddressPostCode').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity2').output.firstRow.CurrentChangeTrackingVersion}",
 							"type": "Expression"
 						},
 						"partitionOption": "None"
@@ -435,14 +435,14 @@
 					"storedProcedureParameters": {
 						"CurrentTrackingVersion": {
 							"value": {
-								"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+								"value": "@{activity('LookupCurrentChangeTrackingVersionActivity2').output.firstRow.CurrentChangeTrackingVersion}",
 								"type": "Expression"
 							},
 							"type": "INT64"
 						},
 						"TableName": {
 							"value": {
-								"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
+								"value": "@{activity('LookupLastChangeAddressPostCode').output.firstRow.TableName}",
 								"type": "Expression"
 							},
 							"type": "String"
@@ -452,6 +452,228 @@
 				"linkedServiceName": {
 					"referenceName": "SourceAddressServiceLinkedService",
 					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "LookupLastChangePreComputedNearestPostcodes",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Address.PreComputedNearestPostcodes'",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ChangeTrackingAddressDataset",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "IncrementalCopyPreComputedNearestPostCode",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "LookupLastChangePreComputedNearestPostcodes",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "LookupCurrentChangeTrackingVersionActivity3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "select CT.ID, a.[Postcode],a.CompressedNearestPostcodes, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Address].[PreComputedNearestPostcodes] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Address].[PreComputedNearestPostcodes], @{activity('LookupLastChangePreComputedNearestPostcodes').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity3').output.firstRow.CurrentChangeTrackingVersion}",
+							"type": "Expression"
+						},
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "ID",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "Id",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "Postcode",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Postcode",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "CompressedNearestPostcodes",
+									"type": "Byte[]"
+								},
+								"sink": {
+									"name": "CompressedNearestPostcodes",
+									"type": "Byte[]"
+								}
+							},
+							{
+								"source": {
+									"name": "SYS_CHANGE_VERSION",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "SYS_CHANGE_VERSION",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "SYS_CHANGE_OPERATION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "SYS_CHANGE_OPERATION",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceAddressPreComputedNearestPostcodesDataset",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SinkAddressPreComputedNearestPostcodesDataset",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "SPUpdateChangeTrackingPreComputedNearestPostCode",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "IncrementalCopyPreComputedNearestPostCode",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "Update_ChangeTracking_Version",
+					"storedProcedureParameters": {
+						"CurrentTrackingVersion": {
+							"value": {
+								"value": "@{activity('LookupCurrentChangeTrackingVersionActivity3').output.firstRow.CurrentChangeTrackingVersion}",
+								"type": "Expression"
+							},
+							"type": "INT64"
+						},
+						"TableName": {
+							"value": {
+								"value": "@{activity('LookupLastChangePreComputedNearestPostcodes').output.firstRow.TableName}",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "SourceAddressServiceLinkedService",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "LookupCurrentChangeTrackingVersionActivity2",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ChangeTrackingAddressDataset",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "LookupCurrentChangeTrackingVersionActivity3",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ChangeTrackingAddressDataset",
+						"type": "DatasetReference"
+					}
 				}
 			}
 		],
