@@ -1,0 +1,131 @@
+{
+	"name": "FullCopyPipeline_FeedbackFeedback",
+	"properties": {
+		"activities": [
+			{
+				"name": "FullCopyActivity",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT a.[ID],a.[FeedbackDate],a.[JobId],a.[UserId],a.[RequestRoleTypeID],a.[FeedbackRatingTypeID],CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION FROM [Feedback].[Feedback] a",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "ID",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "ID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "FeedbackDate",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "FeedbackDate",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "JobId",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "JobId",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "UserId",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "UserId",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "RequestRoleTypeID",
+									"type": "Byte"
+								},
+								"sink": {
+									"name": "RequestRoleTypeID",
+									"type": "Byte"
+								}
+							},
+							{
+								"source": {
+									"name": "FeedbackRatingTypeID",
+									"type": "Byte"
+								},
+								"sink": {
+									"name": "FeedbackRatingTypeID",
+									"type": "Byte"
+								}
+							},
+							{
+								"source": {
+									"name": "SYS_CHANGE_VERSION",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "SYS_CHANGE_VERSION",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "SYS_CHANGE_OPERATION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "SYS_CHANGE_OPERATION",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceFeedbackFeedbackDataset",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SinkFeedbackFeedbackDataset",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
