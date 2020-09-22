@@ -129,6 +129,12 @@
 					"referenceName": "IncrementalCopyPipeline_CommunicationEvent",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_FeedbackFeedback",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
