@@ -19,6 +19,9 @@
 		},
 		"SourceUserServiceLinkedService_connectionString": {
 			"value": ""
+		},
+		"SourceFeedbackServiceLinkedService_connectionString": {
+			"value": ""
 		}
 	}
 }
