@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "LookupLastChangeTrackingVersionActivity",
+				"name": "LookupLastChangeAddressDetail",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -51,11 +51,11 @@
 				}
 			},
 			{
-				"name": "IncrementalCopyActivity",
+				"name": "IncrementalCopyAddressDetail",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "LookupLastChangeTrackingVersionActivity",
+						"activity": "LookupLastChangeAddressDetail",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -79,7 +79,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "select CT.ID, a.[PostcodeId], a.[AddressLine1],a.[AddressLine2], a.[AddressLine3],a.[Locality],a.[LastUpdated] , CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Address].[AddressDetail] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Address].[AddressDetail], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
+							"value": "select CT.ID, a.[PostcodeId], a.[AddressLine1],a.[AddressLine2], a.[AddressLine3],a.[Locality],a.[LastUpdated] , CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Address].[AddressDetail] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Address].[AddressDetail], @{activity('LookupLastChangeAddressDetail').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
 							"type": "Expression"
 						},
 						"partitionOption": "None"
@@ -198,11 +198,11 @@
 				]
 			},
 			{
-				"name": "StoredProceduretoUpdateChangeTrackingActivity",
+				"name": "SPUpdateChangeTrackingActivity",
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
-						"activity": "IncrementalCopyActivity",
+						"activity": "IncrementalCopyAddressDetail",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -228,7 +228,7 @@
 						},
 						"TableName": {
 							"value": {
-								"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
+								"value": "@{activity('LookupLastChangeAddressDetail').output.firstRow.TableName}",
 								"type": "Expression"
 							},
 							"type": "String"
