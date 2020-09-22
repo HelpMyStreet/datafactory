@@ -14,13 +14,13 @@
 		"SourceCosmosDbVerificationService_connectionString": {
 			"value": ""
 		},
+		"SourceFeedbackServiceLinkedService_connectionString": {
+			"value": ""
+		},
 		"SourceRequestServiceLinkedService_connectionString": {
 			"value": ""
 		},
 		"SourceUserServiceLinkedService_connectionString": {
-			"value": ""
-		},
-		"SourceFeedbackServiceLinkedService_connectionString": {
 			"value": ""
 		},
 		"containerUri": {
