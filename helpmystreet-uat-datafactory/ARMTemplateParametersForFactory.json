@@ -17,6 +17,9 @@
 		"SourceCosmosDbVerificationService_connectionString": {
 			"value": ""
 		},
+		"SourceFeedbackServiceLinkedService_connectionString": {
+			"value": ""
+		},
 		"SourceGroupServiceLinkedService_connectionString": {
 			"value": ""
 		},

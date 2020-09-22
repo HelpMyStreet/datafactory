@@ -23,6 +23,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SourceCosmosDbVerificationService'"
 		},
+		"SourceFeedbackServiceLinkedService_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SourceFeedbackServiceLinkedService'"
+		},
 		"SourceGroupServiceLinkedService_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SourceGroupServiceLinkedService'"
@@ -73,6 +77,9 @@
 					},
 					"SourceCosmosDbVerificationService_connectionString": {
 						"value": "[parameters('SourceCosmosDbVerificationService_connectionString')]"
+					},
+					"SourceFeedbackServiceLinkedService_connectionString": {
+						"value": "[parameters('SourceFeedbackServiceLinkedService_connectionString')]"
 					},
 					"SourceGroupServiceLinkedService_connectionString": {
 						"value": "[parameters('SourceGroupServiceLinkedService_connectionString')]"
@@ -165,6 +172,26 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'helpmystreet-uat-datafactory_ArmTemplate_3')]"
+			]
+		},
+		{
+			"name": "helpmystreet-uat-datafactory_ArmTemplate_5",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_5.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'helpmystreet-uat-datafactory_ArmTemplate_4')]"
 			]
 		}
 	]
