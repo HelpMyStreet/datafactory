@@ -6,12 +6,6 @@
 		"pipelines": [
 			{
 				"pipelineReference": {
-					"referenceName": "IncrementalCopyPipeline_AddressPreComputedNearestPostcodes",
-					"type": "PipelineReference"
-				}
-			},
-			{
-				"pipelineReference": {
 					"referenceName": "IncrementalCopyPipeline_RequestJob",
 					"type": "PipelineReference"
 				}
