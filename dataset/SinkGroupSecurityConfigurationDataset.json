@@ -1,0 +1,17 @@
+{
+	"name": "SinkGroupSecurityConfigurationDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DestinationLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "Group",
+			"table": "SecurityConfiguration"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
