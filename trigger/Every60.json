@@ -135,6 +135,42 @@
 					"referenceName": "IncrementalCopyPipeline_FeedbackFeedback",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_GroupActivityCredentialSet",
+					"type": "PipelineReference"
+				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_GroupCredential",
+					"type": "PipelineReference"
+				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_GroupCredentialSet",
+					"type": "PipelineReference"
+				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_GroupSecurityConfiguration",
+					"type": "PipelineReference"
+				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_GroupUserCredential",
+					"type": "PipelineReference"
+				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_RequestSupportActivities",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
@@ -142,7 +178,7 @@
 			"recurrence": {
 				"frequency": "Minute",
 				"interval": 60,
-				"startTime": "2020-05-28T18:49:00.000Z",
+				"startTime": "2020-05-28T18:49:00Z",
 				"timeZone": "UTC"
 			}
 		}
