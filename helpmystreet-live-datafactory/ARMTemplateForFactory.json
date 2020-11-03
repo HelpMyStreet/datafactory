@@ -13373,6 +13373,48 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupActivityCredentialSet",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupCredential",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupCredentialSet",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupSecurityConfiguration",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupUserCredential",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestSupportActivities",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -13407,7 +13449,13 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestQuestionSetActivityQuestions')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_CommunicationEvent')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestRequest')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_FeedbackFeedback')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_FeedbackFeedback')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupActivityCredentialSet')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupCredential')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupCredentialSet')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupSecurityConfiguration')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupUserCredential')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestSupportActivities')]"
 			]
 		}
 	]
