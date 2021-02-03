@@ -97,7 +97,7 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "select CT.ID, r.RequestId, r.SupportActivityID, r.Details, r.DueDate, r.IsHealthCritical, r.JobStatusID, r.VolunteerUserID , CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Request].[Job] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Request].[Job], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+									"value": "select CT.ID, r.RequestId, r.SupportActivityID, r.Details, r.DueDate, r.IsHealthCritical, r.JobStatusID, r.VolunteerUserID , r.DueDateTypeId, r.Reference, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Request].[Job] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Request].[Job], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
 									"type": "Expression"
 								},
 								"partitionOption": "None"
@@ -206,6 +206,26 @@
 										},
 										"sink": {
 											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "DueDateTypeId",
+											"type": "Byte"
+										},
+										"sink": {
+											"name": "DueDateTypeId",
+											"type": "Byte"
+										}
+									},
+									{
+										"source": {
+											"name": "Reference",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Reference",
 											"type": "String"
 										}
 									}
