@@ -1736,7 +1736,7 @@
 										},
 										"sink": {
 											"name": "Source",
-											"type": "Int32"
+											"type": "String"
 										}
 									}
 								]
