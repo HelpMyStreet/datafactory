@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SourceAddressServiceLinkedService'"
 		},
+		"SourceCosmosDbCommunicationService_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SourceCosmosDbCommunicationService'"
+		},
 		"SourceCosmosDbVerificationService_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SourceCosmosDbVerificationService'"
@@ -30,10 +34,6 @@
 		"SourceUserServiceLinkedService_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SourceUserServiceLinkedService'"
-		},
-		"SourceCosmosDbCommunicationService_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SourceCosmosDbCommunicationService'"
 		}
 	},
 	"variables": {
@@ -62,6 +62,19 @@
 				"type": "AzureSqlDatabase",
 				"typeProperties": {
 					"connectionString": "[parameters('SourceAddressServiceLinkedService_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceCosmosDbCommunicationService')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "CosmosDb",
+				"typeProperties": {
+					"connectionString": "[parameters('SourceCosmosDbCommunicationService_connectionString')]"
 				}
 			},
 			"dependsOn": []
@@ -119,19 +132,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SourceCosmosDbCommunicationService')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "CosmosDb",
-				"typeProperties": {
-					"connectionString": "[parameters('SourceCosmosDbCommunicationService_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/ChangeTrackingAddressDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -160,6 +160,56 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/SourceAddressServiceLinkedService')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ChangeTrackingCommunicationDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SourceCosmosDbCommunicationService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "CosmosDbSqlApiCollection",
+				"schema": {
+					"type": "object",
+					"properties": {
+						"timestamp": {
+							"type": "string"
+						},
+						"userId": {
+							"type": "integer"
+						},
+						"rememberMeId": {
+							"type": "string"
+						},
+						"verified": {
+							"type": "boolean"
+						},
+						"verification": {
+							"type": "object",
+							"properties": {
+								"dob": {
+									"type": "boolean"
+								},
+								"age": {
+									"type": "boolean"
+								},
+								"previousVerification": {
+									"type": "boolean"
+								}
+							}
+						}
+					}
+				},
+				"typeProperties": {
+					"collectionName": "change-tracking"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SourceCosmosDbCommunicationService')]"
 			]
 		},
 		{
@@ -369,7 +419,28 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SinkGroupGroupDataset')]",
+			"name": "[concat(parameters('factoryName'), '/SinkCommunicationEventDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DestinationLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "Communication",
+					"table": "Event"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DestinationLinkedService')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SinkGroupActivityCredentialSetDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -382,7 +453,7 @@
 				"schema": [],
 				"typeProperties": {
 					"schema": "Group",
-					"table": "Group"
+					"table": "ActivityCredentialSet"
 				}
 			},
 			"dependsOn": [
@@ -390,7 +461,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SinkGroupUserRoleAuditDataset')]",
+			"name": "[concat(parameters('factoryName'), '/SinkGroupCredentialDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -403,7 +474,7 @@
 				"schema": [],
 				"typeProperties": {
 					"schema": "Group",
-					"table": "UserRoleAudit"
+					"table": "Credential"
 				}
 			},
 			"dependsOn": [
@@ -411,7 +482,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SinkGroupUserRoleDataset')]",
+			"name": "[concat(parameters('factoryName'), '/SinkGroupCredentialSetDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -424,49 +495,7 @@
 				"schema": [],
 				"typeProperties": {
 					"schema": "Group",
-					"table": "UserRole"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/DestinationLinkedService')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SinkGroupWebsiteRegistrationJourneyDataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "DestinationLinkedService",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "Website",
-					"table": "RegistrationJourney"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/DestinationLinkedService')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SinkGroupWebsiteRequestHelpJourneyDataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "DestinationLinkedService",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "Website",
-					"table": "RequestHelpJourney"
+					"table": "CredentialSet"
 				}
 			},
 			"dependsOn": [

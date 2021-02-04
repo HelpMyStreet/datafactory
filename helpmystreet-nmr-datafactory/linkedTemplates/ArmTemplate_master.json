@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SourceAddressServiceLinkedService'"
 		},
+		"SourceCosmosDbCommunicationService_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SourceCosmosDbCommunicationService'"
+		},
 		"SourceCosmosDbVerificationService_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SourceCosmosDbVerificationService'"
@@ -30,10 +34,6 @@
 		"SourceUserServiceLinkedService_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SourceUserServiceLinkedService'"
-		},
-		"SourceCosmosDbCommunicationService_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SourceCosmosDbCommunicationService'"
 		},
 		"containerUri": {
 			"type": "string",
@@ -68,6 +68,9 @@
 					"SourceAddressServiceLinkedService_connectionString": {
 						"value": "[parameters('SourceAddressServiceLinkedService_connectionString')]"
 					},
+					"SourceCosmosDbCommunicationService_connectionString": {
+						"value": "[parameters('SourceCosmosDbCommunicationService_connectionString')]"
+					},
 					"SourceCosmosDbVerificationService_connectionString": {
 						"value": "[parameters('SourceCosmosDbVerificationService_connectionString')]"
 					},
@@ -79,9 +82,6 @@
 					},
 					"SourceUserServiceLinkedService_connectionString": {
 						"value": "[parameters('SourceUserServiceLinkedService_connectionString')]"
-					},
-					"SourceCosmosDbCommunicationService_connectionString": {
-						"value": "[parameters('SourceCosmosDbCommunicationService_connectionString')]"
 					}
 				}
 			},
@@ -165,6 +165,26 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'helpmystreet-nmr-datafactory_ArmTemplate_3')]"
+			]
+		},
+		{
+			"name": "helpmystreet-nmr-datafactory_ArmTemplate_5",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_5.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'helpmystreet-nmr-datafactory_ArmTemplate_4')]"
 			]
 		}
 	]
