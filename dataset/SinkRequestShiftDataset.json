@@ -1,0 +1,17 @@
+{
+	"name": "SinkRequestShiftDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DestinationLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "Request",
+			"table": "Shift"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

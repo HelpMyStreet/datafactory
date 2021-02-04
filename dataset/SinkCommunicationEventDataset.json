@@ -1,0 +1,17 @@
+{
+	"name": "SinkCommunicationEventDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DestinationLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "Communication",
+			"table": "Event"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
