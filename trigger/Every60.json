@@ -123,6 +123,12 @@
 					"referenceName": "IncrementalCopyPipeline_GroupUserCredential",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_GroupUserRole",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
