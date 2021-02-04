@@ -105,6 +105,12 @@
 					"referenceName": "IncrementalCopyPipeline_GroupGroup",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_GroupRequestHelpJourney",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
