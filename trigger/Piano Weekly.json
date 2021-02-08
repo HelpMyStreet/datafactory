@@ -27,6 +27,12 @@
 					"referenceName": "IncrementalCopyPipeline_LookupCredentialTypes",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_LookupNewRequestNotificationStrategy",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
