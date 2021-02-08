@@ -87,6 +87,12 @@
 					"referenceName": "IncrementalCopyPipeline_LookupQuestion",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_LookupDueDateType",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
