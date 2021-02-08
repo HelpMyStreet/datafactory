@@ -105,6 +105,12 @@
 					"referenceName": "IncrementalCopyPipeline_LookupJobStatus",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_LookupRequestFormVariant",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
