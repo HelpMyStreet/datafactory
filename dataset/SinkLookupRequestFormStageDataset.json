@@ -1,0 +1,17 @@
+{
+	"name": "SinkLookupRequestFormStageDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DestinationLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "Lookup",
+			"table": "RequestFormStage"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
