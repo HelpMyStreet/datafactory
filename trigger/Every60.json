@@ -135,12 +135,6 @@
 					"referenceName": "IncrementalCopyPipeline_GroupWebsiteRegistrationJourney",
 					"type": "PipelineReference"
 				}
-			},
-			{
-				"pipelineReference": {
-					"referenceName": "IncrementalCopyPipeline_AddressAddressDetail_copy1",
-					"type": "PipelineReference"
-				}
 			}
 		],
 		"type": "ScheduleTrigger",
