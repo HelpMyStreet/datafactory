@@ -21,6 +21,12 @@
 					"referenceName": "IncrementalCopyPipeline_AddressLocation",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_LookupCredentialTypes",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
