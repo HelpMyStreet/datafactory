@@ -13,6 +13,158 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SourceRequestQuestionSetActivityQuestionsDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SourceRequestServiceLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "FirebaseUID",
+						"type": "varchar"
+					},
+					{
+						"name": "PostalCode",
+						"type": "varchar"
+					},
+					{
+						"name": "EmailSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "MobileSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "OtherPhoneSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "HMSContactConsent",
+						"type": "bit"
+					},
+					{
+						"name": "IsVolunteer",
+						"type": "bit"
+					},
+					{
+						"name": "IsVerified",
+						"type": "bit"
+					},
+					{
+						"name": "DateCreated",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "StreetChampionRoleUnderstood",
+						"type": "bit"
+					},
+					{
+						"name": "SupportVolunteersByPhone",
+						"type": "bit"
+					},
+					{
+						"name": "SupportRadiusMiles",
+						"type": "float",
+						"precision": 15
+					}
+				],
+				"typeProperties": {
+					"schema": "QuestionSet",
+					"table": "ActivityQuestions"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceRequestQuestionSetQuestionsDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SourceRequestServiceLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "FirebaseUID",
+						"type": "varchar"
+					},
+					{
+						"name": "PostalCode",
+						"type": "varchar"
+					},
+					{
+						"name": "EmailSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "MobileSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "OtherPhoneSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "HMSContactConsent",
+						"type": "bit"
+					},
+					{
+						"name": "IsVolunteer",
+						"type": "bit"
+					},
+					{
+						"name": "IsVerified",
+						"type": "bit"
+					},
+					{
+						"name": "DateCreated",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "StreetChampionRoleUnderstood",
+						"type": "bit"
+					},
+					{
+						"name": "SupportVolunteersByPhone",
+						"type": "bit"
+					},
+					{
+						"name": "SupportRadiusMiles",
+						"type": "float",
+						"precision": 15
+					}
+				],
+				"typeProperties": {
+					"schema": "QuestionSet",
+					"table": "Question"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SourceRequestRequestDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -517,101 +669,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SinkAddressLocationDataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "DestinationLinkedService",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "Address",
-					"table": "Location"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SourceAddressLocationDataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SourceAddressServiceLinkedService",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "ID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "FirebaseUID",
-						"type": "varchar"
-					},
-					{
-						"name": "PostalCode",
-						"type": "varchar"
-					},
-					{
-						"name": "EmailSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "MobileSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "OtherPhoneSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "HMSContactConsent",
-						"type": "bit"
-					},
-					{
-						"name": "IsVolunteer",
-						"type": "bit"
-					},
-					{
-						"name": "IsVerified",
-						"type": "bit"
-					},
-					{
-						"name": "DateCreated",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "StreetChampionRoleUnderstood",
-						"type": "bit"
-					},
-					{
-						"name": "SupportVolunteersByPhone",
-						"type": "bit"
-					},
-					{
-						"name": "SupportRadiusMiles",
-						"type": "float",
-						"precision": 15
-					}
-				],
-				"typeProperties": {
-					"schema": "Address",
-					"table": "Location"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_AddressAddressDetail')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -746,6 +803,191 @@
 						"outputs": [
 							{
 								"referenceName": "SinkAddressAddressDetailDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_AddressLocation')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "FullCopyActivity",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT a.[Id], a.[Name], a.[ShortName], a.[AddressLine1],a.[AddressLine2], a.[AddressLine3],a.[Locality],a.[PostCode],a.Latitude, a.Longitude, a.Instructions,CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Address].[Location] a",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Id",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "Id",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Name",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ShortName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "ShortName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "AddressLine1",
+											"type": "String"
+										},
+										"sink": {
+											"name": "AddressLine1",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "AddressLine2",
+											"type": "String"
+										},
+										"sink": {
+											"name": "AddressLine2",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "AddressLine3",
+											"type": "String"
+										},
+										"sink": {
+											"name": "AddressLine3",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Locality",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Locality",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PostCode",
+											"type": "String"
+										},
+										"sink": {
+											"name": "PostCode",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Latitude",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "Latitude",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Longitude",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "Longitude",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Instructions",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Instructions",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int64"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceAddressLocationDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkAddressLocationDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -1771,161 +2013,6 @@
 						"outputs": [
 							{
 								"referenceName": "SinkGroupUserRoleDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_GroupUserRoleAudit')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "FullCopyActivity",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select r.Id, r.AuthorisedByUserID, r.UserID, r.GroupId, r.RoleId, r.DateRequested,r.ActionID,r.Success, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Group].[UserRoleAudit] r",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "Id",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "Id",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "AuthorisedByUserID",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "AuthorisedByUserID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "UserID",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "UserID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "GroupId",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "GroupID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "RoleId",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "RoleID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "DateRequested",
-											"type": "DateTime"
-										},
-										"sink": {
-											"name": "DateRequested",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "ActionID",
-											"type": "Byte"
-										},
-										"sink": {
-											"name": "ActionID",
-											"type": "Byte"
-										}
-									},
-									{
-										"source": {
-											"name": "Success",
-											"type": "Boolean"
-										},
-										"sink": {
-											"name": "Success",
-											"type": "Boolean"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int64"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceGroupUserRoleAuditDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SinkGroupUserRoleAuditDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}

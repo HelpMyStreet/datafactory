@@ -377,6 +377,27 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SinkAddressLocationDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DestinationLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "Address",
+					"table": "Location"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DestinationLinkedService')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SinkAddressPostcodeDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -475,27 +496,6 @@
 				"typeProperties": {
 					"schema": "Group",
 					"table": "Credential"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/DestinationLinkedService')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SinkGroupCredentialSetDataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "DestinationLinkedService",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "Group",
-					"table": "CredentialSet"
 				}
 			},
 			"dependsOn": [
