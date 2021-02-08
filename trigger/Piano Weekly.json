@@ -15,6 +15,12 @@
 					"referenceName": "IncrementalCopyPipeline_AddressPostCode",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_AddressLocation",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
