@@ -6,12 +6,6 @@
 		"pipelines": [
 			{
 				"pipelineReference": {
-					"referenceName": "IncrementalCopyPipeline_AddressAddressDetail",
-					"type": "PipelineReference"
-				}
-			},
-			{
-				"pipelineReference": {
 					"referenceName": "IncrementalCopyPipeline_AddressPostCode",
 					"type": "PipelineReference"
 				}
