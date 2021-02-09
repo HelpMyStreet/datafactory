@@ -81,6 +81,12 @@
 					"referenceName": "IncrementalCopyPipeline_LookupRole",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_LookupSupportActivity",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
