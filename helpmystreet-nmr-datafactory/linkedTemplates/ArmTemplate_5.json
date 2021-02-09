@@ -13,6 +13,158 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SourceRequestQuestionSetActivityQuestionsDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SourceRequestServiceLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "FirebaseUID",
+						"type": "varchar"
+					},
+					{
+						"name": "PostalCode",
+						"type": "varchar"
+					},
+					{
+						"name": "EmailSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "MobileSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "OtherPhoneSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "HMSContactConsent",
+						"type": "bit"
+					},
+					{
+						"name": "IsVolunteer",
+						"type": "bit"
+					},
+					{
+						"name": "IsVerified",
+						"type": "bit"
+					},
+					{
+						"name": "DateCreated",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "StreetChampionRoleUnderstood",
+						"type": "bit"
+					},
+					{
+						"name": "SupportVolunteersByPhone",
+						"type": "bit"
+					},
+					{
+						"name": "SupportRadiusMiles",
+						"type": "float",
+						"precision": 15
+					}
+				],
+				"typeProperties": {
+					"schema": "QuestionSet",
+					"table": "ActivityQuestions"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceRequestQuestionSetQuestionsDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SourceRequestServiceLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "FirebaseUID",
+						"type": "varchar"
+					},
+					{
+						"name": "PostalCode",
+						"type": "varchar"
+					},
+					{
+						"name": "EmailSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "MobileSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "OtherPhoneSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "HMSContactConsent",
+						"type": "bit"
+					},
+					{
+						"name": "IsVolunteer",
+						"type": "bit"
+					},
+					{
+						"name": "IsVerified",
+						"type": "bit"
+					},
+					{
+						"name": "DateCreated",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "StreetChampionRoleUnderstood",
+						"type": "bit"
+					},
+					{
+						"name": "SupportVolunteersByPhone",
+						"type": "bit"
+					},
+					{
+						"name": "SupportRadiusMiles",
+						"type": "float",
+						"precision": 15
+					}
+				],
+				"typeProperties": {
+					"schema": "QuestionSet",
+					"table": "Question"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SourceRequestRequestDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -517,7 +669,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SourceGroupSupportActivityInstructionsDataset')]",
+			"name": "[concat(parameters('factoryName'), '/SourceGroupGroupCredentialDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -549,13 +701,13 @@
 				],
 				"typeProperties": {
 					"schema": "Group",
-					"table": "SupportActivityInstructions"
+					"table": "GroupCredential"
 				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SinkGroupSupportActivityInstructionsDataset')]",
+			"name": "[concat(parameters('factoryName'), '/SinkGroupGroupCredentialDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -568,7 +720,7 @@
 				"schema": [],
 				"typeProperties": {
 					"schema": "Group",
-					"table": "SupportActivityInstructions"
+					"table": "GroupCredential"
 				}
 			},
 			"dependsOn": []
@@ -1658,216 +1810,6 @@
 						"outputs": [
 							{
 								"referenceName": "SinkGroupGroupLocationDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_GroupGroupSupportActivityInstructions')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "FullCopyActivity",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select r.GroupID, r.SupportActivityID, r.SupportActivityInstructionsID, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Group].[GroupSupportActivityInstructions] r",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "GroupID",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "GroupID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SupportActivityID",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "SupportActivityID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SupportActivityInstructionsID",
-											"type": "Int16"
-										},
-										"sink": {
-											"name": "SupportActivityInstructionsID",
-											"type": "Int16"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int64"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceGroupGroupSupportActivityInstructionsDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SinkGroupGroupSupportActivityInstructionsDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_GroupNewRequestNotificationStrategy')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "FullCopyActivity",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select r.GroupID, r.NewRequestNotificationStrategyId, \nr.MaxVolunteer, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Group].[NewRequestNotificationStrategy] r",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "GroupID",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "GroupID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "NewRequestNotificationStrategyId",
-											"type": "Byte"
-										},
-										"sink": {
-											"name": "NewRequestNotificationStrategyId",
-											"type": "Byte"
-										}
-									},
-									{
-										"source": {
-											"name": "MaxVolunteer",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "MaxVolunteer",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int64"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceGroupNewRequestNotificationStrategyDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SinkGroupNewRequestNotificationStrategyDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
