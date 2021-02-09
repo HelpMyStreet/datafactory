@@ -1,0 +1,17 @@
+{
+	"name": "SinkLookupLocationDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DestinationLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "Lookup",
+			"table": "Location"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
