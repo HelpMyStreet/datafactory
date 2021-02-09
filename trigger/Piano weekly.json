@@ -63,6 +63,12 @@
 					"referenceName": "IncrementalCopyPipeline_LookupRequestFormVariant",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_LookupRequestHelpFormVariant",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
