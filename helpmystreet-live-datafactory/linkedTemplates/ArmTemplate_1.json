@@ -13,6 +13,25 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SinkFeedbackFeedbackDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DestinationLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "Feedback",
+					"table": "Feedback"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SinkGroupActivityCredentialSetDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -203,7 +222,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SinkRequestJobAvailableToGroupDataset')]",
+			"name": "[concat(parameters('factoryName'), '/SinkLookupCredentialTypesDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -215,14 +234,14 @@
 				"type": "AzureSqlTable",
 				"schema": [],
 				"typeProperties": {
-					"schema": "Request",
-					"table": "JobAvailableToGroup"
+					"schema": "Lookup",
+					"table": "CredentialTypes"
 				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SinkRequestJobDataset')]",
+			"name": "[concat(parameters('factoryName'), '/SinkLookupDueDateTypeDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -234,14 +253,14 @@
 				"type": "AzureSqlTable",
 				"schema": [],
 				"typeProperties": {
-					"schema": "Request",
-					"table": "Job"
+					"schema": "Lookup",
+					"table": "DueDateType"
 				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SinkRequestJobQuestionsDataset')]",
+			"name": "[concat(parameters('factoryName'), '/SinkLookupJobStatusDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -253,14 +272,14 @@
 				"type": "AzureSqlTable",
 				"schema": [],
 				"typeProperties": {
-					"schema": "Request",
-					"table": "JobQuestions"
+					"schema": "Lookup",
+					"table": "JobStatus"
 				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SinkRequestJobStatusDataset')]",
+			"name": "[concat(parameters('factoryName'), '/SinkLookupLocationDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -272,14 +291,14 @@
 				"type": "AzureSqlTable",
 				"schema": [],
 				"typeProperties": {
-					"schema": "Request",
-					"table": "RequestJobStatus"
+					"schema": "Lookup",
+					"table": "Location"
 				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SinkRequestQuestionSetActivityQuestionsDataset')]",
+			"name": "[concat(parameters('factoryName'), '/SinkLookupNewRequestNotificationStrategyDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -291,14 +310,14 @@
 				"type": "AzureSqlTable",
 				"schema": [],
 				"typeProperties": {
-					"schema": "QuestionSet",
-					"table": "ActivityQuestions"
+					"schema": "Lookup",
+					"table": "NewRequestNotificationStrategy"
 				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SinkRequestQuestionSetQuestionDataset')]",
+			"name": "[concat(parameters('factoryName'), '/SinkLookupQuestionDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -310,14 +329,14 @@
 				"type": "AzureSqlTable",
 				"schema": [],
 				"typeProperties": {
-					"schema": "QuestionSet",
+					"schema": "Lookup",
 					"table": "Question"
 				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SinkRequestRequestDataset')]",
+			"name": "[concat(parameters('factoryName'), '/SinkLookupQuestionTypeDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -329,14 +348,14 @@
 				"type": "AzureSqlTable",
 				"schema": [],
 				"typeProperties": {
-					"schema": "Request",
-					"table": "Request"
+					"schema": "Lookup",
+					"table": "QuestionType"
 				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SinkRequestRequestTempDataset')]",
+			"name": "[concat(parameters('factoryName'), '/SinkLookupRegistrationFormVariantDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -348,14 +367,14 @@
 				"type": "AzureSqlTable",
 				"schema": [],
 				"typeProperties": {
-					"schema": "Request",
-					"table": "RequestTemp"
+					"schema": "Lookup",
+					"table": "RegistrationFormVariant"
 				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SinkRequestSupportActivitiesDataset')]",
+			"name": "[concat(parameters('factoryName'), '/SinkLookupRequestFormStageDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -367,27 +386,8 @@
 				"type": "AzureSqlTable",
 				"schema": [],
 				"typeProperties": {
-					"schema": "Request",
-					"table": "SupportActivities"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SinkUserChampionPostCodeDataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "DestinationLinkedService",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "User",
-					"table": "ChampionPostcode"
+					"schema": "Lookup",
+					"table": "RequestFormStage"
 				}
 			},
 			"dependsOn": []
