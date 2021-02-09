@@ -79,7 +79,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "\nselect CT.ID, r.PostCode, r.DateRequested, r.IsFulfillable,r.CommunicationSent,r.FulfillableStatus, r.ForRequestor,r.OtherDetails,r.PersonID_Recipient,r.PersonID_Requester,r.ReadPrivacyNotice,r.AcceptedTerms,r.SpecialCommunicationNeeds,r.CreatedByUserID, r.RequestorType,r.OrganisationName,r.ReferringGroupId,r.Source,  r.Archive, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Request].[Request] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Request].[Request], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+							"value": "\nselect CT.ID, r.PostCode, r.DateRequested, r.IsFulfillable,r.CommunicationSent,r.ForRequestor,r.OtherDetails,r.PersonID_Recipient,r.PersonID_Requester,r.ReadPrivacyNotice,r.AcceptedTerms,r.SpecialCommunicationNeeds,r.CreatedByUserID, r.RequestorType, r.OrganisationName, r.Archive, r.[Guid], r.ReferringGroupId, r.RequestorDefinedByGroup, r.RequestType, r.Source, r.FulfillableStatus, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Request].[Request] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Request].[Request], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
 							"type": "Expression"
 						},
 						"partitionOption": "None"
@@ -273,6 +273,26 @@
 							},
 							{
 								"source": {
+									"name": "Archive",
+									"type": "Boolean"
+								},
+								"sink": {
+									"name": "Archive",
+									"type": "Boolean"
+								}
+							},
+							{
+								"source": {
+									"name": "Guid",
+									"type": "Guid"
+								},
+								"sink": {
+									"name": "Guid",
+									"type": "Guid"
+								}
+							},
+							{
+								"source": {
 									"name": "ReferringGroupId",
 									"type": "Int32"
 								},
@@ -283,22 +303,32 @@
 							},
 							{
 								"source": {
-									"name": "Source",
-									"type": "String"
+									"name": "RequestorDefinedByGroup",
+									"type": "Boolean"
 								},
 								"sink": {
-									"name": "Source",
-									"type": "String"
+									"name": "RequestorDefinedByGroup",
+									"type": "Boolean"
 								}
 							},
 							{
 								"source": {
-									"name": "Archive",
-									"type": "Boolean"
+									"name": "RequestType",
+									"type": "Byte"
 								},
 								"sink": {
-									"name": "Archive",
-									"type": "Boolean"
+									"name": "RequestType",
+									"type": "Byte"
+								}
+							},
+							{
+								"source": {
+									"name": "Source",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Source",
+									"type": "String"
 								}
 							}
 						]
