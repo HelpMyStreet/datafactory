@@ -27,12 +27,6 @@
 					"referenceName": "IncrementalCopyPipeline_LookupLocation",
 					"type": "PipelineReference"
 				}
-			},
-			{
-				"pipelineReference": {
-					"referenceName": "IncrementalCopyPipeline_LookupNewRequestNotificationStrategy",
-					"type": "PipelineReference"
-				}
 			}
 		],
 		"type": "ScheduleTrigger",
