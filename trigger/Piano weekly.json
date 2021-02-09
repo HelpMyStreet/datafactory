@@ -9,6 +9,12 @@
 					"referenceName": "IncrementalCopyPipeline_LookupCredentialTypes",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_LookupDueDateType",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
