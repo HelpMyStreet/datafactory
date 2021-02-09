@@ -8295,7 +8295,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Group.GroupSupportActivityInstructions'",
+								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Group.SupportActivityInstructions'",
 								"partitionOption": "None"
 							},
 							"dataset": {
@@ -8359,7 +8359,7 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "select CT.GroupID, CT.SupportActivityID,r.SupportActivityInstructionsID, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Group].[GroupSupportActivityInstructions] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Group].[GroupSupportActivityInstructions], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.GroupID = CT.GroupID and r.SupportActivityID = CT.SupportActivityID  where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+									"value": "select CT.SupportActivityInstructionsID, r.Instructions, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Group].[SupportActivityInstructions] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Group].[SupportActivityInstructions], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.SupportActivityInstructionsID= CT.SupportActivityInstructionsID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
 									"type": "Expression"
 								},
 								"partitionOption": "None"
@@ -8373,32 +8373,22 @@
 								"mappings": [
 									{
 										"source": {
-											"name": "GroupID",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "GroupID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SupportActivityID",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "SupportActivityID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
 											"name": "SupportActivityInstructionsID",
 											"type": "Int16"
 										},
 										"sink": {
 											"name": "SupportActivityInstructionsID",
 											"type": "Int16"
+										}
+									},
+									{
+										"source": {
+											"name": "Instructions",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Instructions",
+											"type": "String"
 										}
 									},
 									{
@@ -8426,14 +8416,14 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "SourceGroupGroupSupportActivityInstructionsDataset",
+								"referenceName": "SourceGroupSupportActivityInstructionsDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "SinkGroupGroupSupportActivityInstructionsDataset",
+								"referenceName": "SinkGroupSupportActivityInstructionsDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -8487,8 +8477,8 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ChangeTrackingGroupDataset')]",
-				"[concat(variables('factoryId'), '/datasets/SourceGroupGroupSupportActivityInstructionsDataset')]",
-				"[concat(variables('factoryId'), '/datasets/SinkGroupGroupSupportActivityInstructionsDataset')]",
+				"[concat(variables('factoryId'), '/datasets/SourceGroupSupportActivityInstructionsDataset')]",
+				"[concat(variables('factoryId'), '/datasets/SinkGroupSupportActivityInstructionsDataset')]",
 				"[concat(variables('factoryId'), '/linkedServices/SourceGroupServiceLinkedService')]"
 			]
 		},
