@@ -15,6 +15,12 @@
 					"referenceName": "IncrementalCopyPipeline_LookupDueDateType",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_LookupJobStatus",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
