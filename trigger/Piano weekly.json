@@ -33,6 +33,12 @@
 					"referenceName": "IncrementalCopyPipeline_LookupNewRequestNotificationStrategy",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_LookupQuestion",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
