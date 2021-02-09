@@ -40,12 +40,22 @@
 							},
 							{
 								"source": {
-									"name": "LocationID",
+									"name": "SupportActivityID",
 									"type": "Int32"
 								},
 								"sink": {
-									"name": "LocationID",
+									"name": "SupportActivityID",
 									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "SupportActivityInstructionsID",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "SupportActivityInstructionsID",
+									"type": "Int16"
 								}
 							},
 							{
@@ -79,7 +89,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "SinkGroupGroupLocationDataset",
+						"referenceName": "SinkGroupGroupSupportActivityInstructionsDataset",
 						"type": "DatasetReference"
 					}
 				]
