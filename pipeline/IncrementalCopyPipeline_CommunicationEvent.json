@@ -49,7 +49,7 @@
 					"source": {
 						"type": "CosmosDbSqlApiSource",
 						"query": {
-							"value": "SELECT c.RecipientUserID,c.MessageId, c.GroupId, c.JobId, c.TemplateName,c.event,udf.convertTime(c._ts) as EventTime FROM c where c.TemplateName<>null and \nc.event<>null and\nc._ts>@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.MaxTS}",
+							"value": "SELECT c.RecipientUserID,c.MessageId, c.GroupId, c.JobId, c.TemplateName,c.event,udf.convertTime(c._ts) as EventTime, IS_DEFINED(c.RequestId) ? c.RequestId : -1 as RequestId FROM c where c.TemplateName<>null and \nc.event<>null and\nc._ts>@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.MaxTS}",
 							"type": "Expression"
 						},
 						"preferredRegions": [],
@@ -123,6 +123,14 @@
 								"sink": {
 									"name": "Event",
 									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['RequestId']"
+								},
+								"sink": {
+									"name": "RequestId"
 								}
 							}
 						],
