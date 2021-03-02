@@ -2486,15 +2486,6 @@
 									},
 									{
 										"source": {
-											"path": "$['EventTime']"
-										},
-										"sink": {
-											"name": "EventDate",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
 											"path": "$['event']"
 										},
 										"sink": {
@@ -2504,10 +2495,20 @@
 									},
 									{
 										"source": {
+											"path": "$['EventTime']"
+										},
+										"sink": {
+											"name": "EventDate",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
 											"path": "$['RequestId']"
 										},
 										"sink": {
-											"name": "RequestId"
+											"name": "RequestId",
+											"type": "String"
 										}
 									}
 								],
