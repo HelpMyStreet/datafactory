@@ -1,0 +1,127 @@
+{
+	"name": "IncrementalCopyPipeline_CommunicationEventHistory",
+	"properties": {
+		"activities": [
+			{
+				"name": "IncrementalCopyActivity",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "CosmosDbSqlApiSource",
+						"query": {
+							"value": "SELECT IS_DEFINED(c.RecipientUserID) ? c.RecipientUserID : c.RecipientUserId AS RecipientUserID, c.MessageId, c.GroupId, c.JobId, c.TemplateName,c.event,udf.convertTime(c._ts) as EventTime, IS_DEFINED(c.RequestId) ? c.RequestId : -1 as RequestId FROM c where c.TemplateName<>null and \nc.event<>null",
+							"type": "Expression"
+						},
+						"preferredRegions": [],
+						"detectDatetime": true
+					},
+					"sink": {
+						"type": "AzureSqlSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['RecipientUserID']"
+								},
+								"sink": {
+									"name": "RecipientUserID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "$['MessageId']"
+								},
+								"sink": {
+									"name": "MessageId",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['GroupId']"
+								},
+								"sink": {
+									"name": "GroupId",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['JobId']"
+								},
+								"sink": {
+									"name": "JobId",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['TemplateName']"
+								},
+								"sink": {
+									"name": "TemplateName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['event']"
+								},
+								"sink": {
+									"name": "Event",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['EventTime']"
+								},
+								"sink": {
+									"name": "EventDate",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['RequestId']"
+								},
+								"sink": {
+									"name": "RequestId",
+									"type": "String"
+								}
+							}
+						],
+						"collectionReference": ""
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceCommunicationEventDataset",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SinkCommunicationEventHistoryDataset",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
