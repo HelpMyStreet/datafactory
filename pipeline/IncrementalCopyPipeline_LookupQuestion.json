@@ -167,7 +167,6 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "Update_ChangeTracking_Version",
 					"storedProcedureParameters": {
 						"CurrentTrackingVersion": {
 							"value": {
@@ -186,7 +185,7 @@
 					}
 				},
 				"linkedServiceName": {
-					"referenceName": "SourceAddressServiceLinkedService",
+					"referenceName": "SourceRequestServiceLinkedService",
 					"type": "LinkedServiceReference"
 				}
 			}
