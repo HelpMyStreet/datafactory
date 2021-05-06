@@ -12342,7 +12342,7 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"storedProcedureName": "Update_ChangeTracking_Version",
+							"storedProcedureName": "[[dbo].[Update_ChangeTracking_Version]",
 							"storedProcedureParameters": {
 								"CurrentTrackingVersion": {
 									"value": {
@@ -12361,7 +12361,7 @@
 							}
 						},
 						"linkedServiceName": {
-							"referenceName": "SourceAddressServiceLinkedService",
+							"referenceName": "SourceRequestServiceLinkedService",
 							"type": "LinkedServiceReference"
 						}
 					}
@@ -12372,7 +12372,7 @@
 				"[concat(variables('factoryId'), '/datasets/ChangeTrackingRequestDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SourceLookupQuestionDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SinkLookupQuestionDataset')]",
-				"[concat(variables('factoryId'), '/linkedServices/SourceAddressServiceLinkedService')]"
+				"[concat(variables('factoryId'), '/linkedServices/SourceRequestServiceLinkedService')]"
 			]
 		},
 		{
