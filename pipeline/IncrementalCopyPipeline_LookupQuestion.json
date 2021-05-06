@@ -167,6 +167,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"storedProcedureName": "[dbo].[Update_ChangeTracking_Version]",
 					"storedProcedureParameters": {
 						"CurrentTrackingVersion": {
 							"value": {
