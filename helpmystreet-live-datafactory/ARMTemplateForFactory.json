@@ -13402,7 +13402,7 @@
 							}
 						},
 						"linkedServiceName": {
-							"referenceName": "SourceAddressServiceLinkedService",
+							"referenceName": "SourceGroupServiceLinkedService",
 							"type": "LinkedServiceReference"
 						}
 					}
@@ -13413,7 +13413,7 @@
 				"[concat(variables('factoryId'), '/datasets/ChangeTrackingGroupDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SourceLookupRequestHelpFormVariantDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SinkLookupRequestHelpFormVariantDataset')]",
-				"[concat(variables('factoryId'), '/linkedServices/SourceAddressServiceLinkedService')]"
+				"[concat(variables('factoryId'), '/linkedServices/SourceGroupServiceLinkedService')]"
 			]
 		},
 		{
