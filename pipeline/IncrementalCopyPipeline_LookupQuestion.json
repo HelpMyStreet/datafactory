@@ -45,7 +45,7 @@
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "ChangeTrackingGroupDataset",
+						"referenceName": "ChangeTrackingRequestDataset",
 						"type": "DatasetReference"
 					}
 				}
