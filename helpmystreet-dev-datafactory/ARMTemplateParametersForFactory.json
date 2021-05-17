@@ -11,10 +11,16 @@
 		"SourceAddressServiceLinkedService_connectionString": {
 			"value": ""
 		},
+		"SourceCosmosDbCommunicationService_connectionString": {
+			"value": ""
+		},
 		"SourceCosmosDbVerificationService_connectionString": {
 			"value": ""
 		},
 		"SourceFeedbackServiceLinkedService_connectionString": {
+			"value": ""
+		},
+		"SourceGroupServiceLinkedService_connectionString": {
 			"value": ""
 		},
 		"SourceRequestServiceLinkedService_connectionString": {
