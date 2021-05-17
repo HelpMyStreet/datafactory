@@ -1,5 +1,5 @@
 {
-	"name": "IncrementalCopyPipeline_LookupQuestionType",
+	"name": "IncrementalCopyPipeline_FeedbackFeedback",
 	"properties": {
 		"activities": [
 			{
@@ -17,11 +17,11 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Lookup.QuestionType'",
+						"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Feedback.Feedback'",
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "ChangeTrackingRequestDataset",
+						"referenceName": "ChangeTrackingFeedbackDataset",
 						"type": "DatasetReference"
 					}
 				}
@@ -45,7 +45,7 @@
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "ChangeTrackingRequestDataset",
+						"referenceName": "ChangeTrackingFeedbackDataset",
 						"type": "DatasetReference"
 					}
 				}
@@ -79,7 +79,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "select CT.ID, a.[Name], CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Lookup].[QuestionType] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Lookup].[QuestionType], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
+							"value": "select CT.ID, a.[FeedbackDate], a.[JobId],a.[UserId], a.[RequestRoleTypeID],a.[FeedbackRatingTypeID], CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Feedback].[Feedback] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Feedback].[Feedback], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
 							"type": "Expression"
 						},
 						"partitionOption": "None"
@@ -103,12 +103,52 @@
 							},
 							{
 								"source": {
-									"name": "Name",
-									"type": "String"
+									"name": "FeedbackDate",
+									"type": "DateTime"
 								},
 								"sink": {
-									"name": "Name",
-									"type": "String"
+									"name": "FeedbackDate",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "JobId",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "JobId",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "UserId",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "UserId",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "RequestRoleTypeID",
+									"type": "Byte"
+								},
+								"sink": {
+									"name": "RequestRoleTypeID",
+									"type": "Byte"
+								}
+							},
+							{
+								"source": {
+									"name": "FeedbackRatingTypeID",
+									"type": "Byte"
+								},
+								"sink": {
+									"name": "FeedbackRatingTypeID",
+									"type": "Byte"
 								}
 							},
 							{
@@ -136,13 +176,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SourceLookupQuestionTypeDataset",
+						"referenceName": "SourceFeedbackFeedbackDataset",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "SinkLookupQuestionTypeDataset",
+						"referenceName": "SinkFeedbackFeedbackDataset",
 						"type": "DatasetReference"
 					}
 				]
@@ -186,7 +226,7 @@
 					}
 				},
 				"linkedServiceName": {
-					"referenceName": "SourceRequestServiceLinkedService",
+					"referenceName": "SourceFeedbackServiceLinkedService",
 					"type": "LinkedServiceReference"
 				}
 			}

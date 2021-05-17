@@ -1,0 +1,17 @@
+{
+	"name": "SinkFeedbackFeedbackDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DestinationLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "Feedback",
+			"table": "Feedback"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,5 +1,5 @@
 {
-	"name": "SinkCommunicationEventDataset",
+	"name": "SinkCommunicationEventHistoryDataset",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "DestinationLinkedService",
@@ -25,7 +25,7 @@
 		],
 		"typeProperties": {
 			"schema": "Communication",
-			"table": "Event"
+			"table": "EventHistory"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"

@@ -1,5 +1,5 @@
 {
-	"name": "FullCopyPipeline_RequestJobQuestions",
+	"name": "FullCopyPipeline_RequestRequestTemp",
 	"properties": {
 		"activities": [
 			{
@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "select r.JobID, r.QuestionID, r.Answer, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Request].[JobQuestions] r",
+						"sqlReaderQuery": "select r.ID,  r.RequestorType,r.OrganisationName\nfrom [Request].[Request] r \nwhere RequestorType is not null or OrganisationName is not null",
 						"queryTimeout": "02:00:00"
 					},
 					"sink": {
@@ -29,51 +29,31 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "JobID",
+									"name": "ID",
 									"type": "Int32"
 								},
 								"sink": {
-									"name": "JobID",
+									"name": "ID",
 									"type": "Int32"
 								}
 							},
 							{
 								"source": {
-									"name": "QuestionID",
-									"type": "Int32"
+									"name": "RequestorType",
+									"type": "Byte"
 								},
 								"sink": {
-									"name": "QuestionID",
-									"type": "Int32"
+									"name": "RequestorType",
+									"type": "Byte"
 								}
 							},
 							{
 								"source": {
-									"name": "Answer",
+									"name": "OrganisationName",
 									"type": "String"
 								},
 								"sink": {
-									"name": "Answer",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "SYS_CHANGE_VERSION",
-									"type": "Int64"
-								},
-								"sink": {
-									"name": "SYS_CHANGE_VERSION",
-									"type": "Int32"
-								}
-							},
-							{
-								"source": {
-									"name": "SYS_CHANGE_OPERATION",
-									"type": "String"
-								},
-								"sink": {
-									"name": "SYS_CHANGE_OPERATION",
+									"name": "OrganisationName",
 									"type": "String"
 								}
 							}
@@ -82,13 +62,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SourceRequestJobQuestionsDataset",
+						"referenceName": "SourceRequestRequestDataset",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "SinkRequestJobQuestionsDataset",
+						"referenceName": "SinkRequestRequestTempDataset",
 						"type": "DatasetReference"
 					}
 				]

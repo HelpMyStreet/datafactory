@@ -1,5 +1,5 @@
 {
-	"name": "FullCopyPipeline_RequestJobQuestions",
+	"name": "FullCopyPipeline_RequestSupportActivities",
 	"properties": {
 		"activities": [
 			{
@@ -17,8 +17,9 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "select r.JobID, r.QuestionID, r.Answer, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Request].[JobQuestions] r",
-						"queryTimeout": "02:00:00"
+						"sqlReaderQuery": "select r.RequestId, r.ActivityID, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Request].[SupportActivities] r",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
 					},
 					"sink": {
 						"type": "AzureSqlSink"
@@ -29,32 +30,22 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "JobID",
+									"name": "RequestId",
 									"type": "Int32"
 								},
 								"sink": {
-									"name": "JobID",
+									"name": "RequestID",
 									"type": "Int32"
 								}
 							},
 							{
 								"source": {
-									"name": "QuestionID",
+									"name": "ActivityID",
 									"type": "Int32"
 								},
 								"sink": {
-									"name": "QuestionID",
+									"name": "ActivityID",
 									"type": "Int32"
-								}
-							},
-							{
-								"source": {
-									"name": "Answer",
-									"type": "String"
-								},
-								"sink": {
-									"name": "Answer",
-									"type": "String"
 								}
 							},
 							{
@@ -82,13 +73,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SourceRequestJobQuestionsDataset",
+						"referenceName": "SourceRequestSupportActivitiesDataset",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "SinkRequestJobQuestionsDataset",
+						"referenceName": "SinkRequestSupportActivitiesDataset",
 						"type": "DatasetReference"
 					}
 				]

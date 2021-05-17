@@ -1,5 +1,5 @@
 {
-	"name": "SinkCommunicationEventDataset",
+	"name": "SinkVerificationDataset2",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "DestinationLinkedService",
@@ -24,8 +24,8 @@
 			}
 		],
 		"typeProperties": {
-			"schema": "Communication",
-			"table": "Event"
+			"schema": "Verification",
+			"table": "VerificationAttempt2"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"

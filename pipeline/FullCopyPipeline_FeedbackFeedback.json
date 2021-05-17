@@ -1,5 +1,5 @@
 {
-	"name": "FullCopyPipeline_RequestJobQuestions",
+	"name": "FullCopyPipeline_FeedbackFeedback",
 	"properties": {
 		"activities": [
 			{
@@ -17,8 +17,9 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "select r.JobID, r.QuestionID, r.Answer, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Request].[JobQuestions] r",
-						"queryTimeout": "02:00:00"
+						"sqlReaderQuery": "SELECT a.[ID],a.[FeedbackDate],a.[JobId],a.[UserId],a.[RequestRoleTypeID],a.[FeedbackRatingTypeID],CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION FROM [Feedback].[Feedback] a",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
 					},
 					"sink": {
 						"type": "AzureSqlSink"
@@ -29,32 +30,62 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "JobID",
+									"name": "ID",
 									"type": "Int32"
 								},
 								"sink": {
-									"name": "JobID",
+									"name": "ID",
 									"type": "Int32"
 								}
 							},
 							{
 								"source": {
-									"name": "QuestionID",
+									"name": "FeedbackDate",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "FeedbackDate",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "JobId",
 									"type": "Int32"
 								},
 								"sink": {
-									"name": "QuestionID",
+									"name": "JobId",
 									"type": "Int32"
 								}
 							},
 							{
 								"source": {
-									"name": "Answer",
-									"type": "String"
+									"name": "UserId",
+									"type": "Int32"
 								},
 								"sink": {
-									"name": "Answer",
-									"type": "String"
+									"name": "UserId",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "RequestRoleTypeID",
+									"type": "Byte"
+								},
+								"sink": {
+									"name": "RequestRoleTypeID",
+									"type": "Byte"
+								}
+							},
+							{
+								"source": {
+									"name": "FeedbackRatingTypeID",
+									"type": "Byte"
+								},
+								"sink": {
+									"name": "FeedbackRatingTypeID",
+									"type": "Byte"
 								}
 							},
 							{
@@ -82,13 +113,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SourceRequestJobQuestionsDataset",
+						"referenceName": "SourceFeedbackFeedbackDataset",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "SinkRequestJobQuestionsDataset",
+						"referenceName": "SinkFeedbackFeedbackDataset",
 						"type": "DatasetReference"
 					}
 				]
