@@ -11,10 +11,7 @@
 		"SourceAddressServiceLinkedService_connectionString": {
 			"value": ""
 		},
-		"SourceCosmosDbCommunicationService_connectionString": {
-			"value": ""
-		},
-		"SourceCosmosDbVerificationService_connectionString": {
+		"SourceFeedbackServiceLinkedService_connectionString": {
 			"value": ""
 		},
 		"SourceGroupServiceLinkedService_connectionString": {
@@ -24,6 +21,12 @@
 			"value": ""
 		},
 		"SourceUserServiceLinkedService_connectionString": {
+			"value": ""
+		},
+		"SourceCosmosDbCommunicationService_connectionString": {
+			"value": ""
+		},
+		"SourceCosmosDbVerificationService_connectionString": {
 			"value": ""
 		}
 	}
