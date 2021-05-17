@@ -77,7 +77,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "select CT.ID, r.[Name],r.QuestionType,r.[Required],r.AdditionalData , CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [QuestionSet].[Question] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [QuestionSet].[Question], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.ID = CT.ID  where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+							"value": "select CT.ID, r.[Name],r.QuestionType,r.AdditionalData , CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [QuestionSet].[Question] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [QuestionSet].[Question], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.ID = CT.ID  where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
 							"type": "Expression"
 						}
 					},
@@ -116,16 +116,6 @@
 								"sink": {
 									"name": "QuestionType",
 									"type": "Byte"
-								}
-							},
-							{
-								"source": {
-									"name": "Required",
-									"type": "Boolean"
-								},
-								"sink": {
-									"name": "Required",
-									"type": "Boolean"
 								}
 							},
 							{

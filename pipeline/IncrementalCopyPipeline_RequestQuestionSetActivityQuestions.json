@@ -77,7 +77,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "select CT.JobID, CT.QuestionID, r.Answer, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Request].[JobQuestions] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Request].[JobQuestions], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.JobID = CT.JobID and r.QuestionID = CT.QuestionID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+							"value": "select CT.ActivityID, CT.QuestionID, CT.RequestFormVariantID, r.[Order], r.[Required], CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [QuestionSet].[ActivityQuestions] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [QuestionSet].[ActivityQuestions], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.ActivityID = CT.ActivityID and r.QuestionID = CT.QuestionID  and r.RequestFormVariantID = CT.RequestFormVariantID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
 							"type": "Expression"
 						}
 					},
@@ -90,11 +90,11 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "JobID",
+									"name": "ActivityID",
 									"type": "Int32"
 								},
 								"sink": {
-									"name": "JobID",
+									"name": "ActivityID",
 									"type": "Int32"
 								}
 							},
@@ -110,12 +110,12 @@
 							},
 							{
 								"source": {
-									"name": "Answer",
-									"type": "String"
+									"name": "Order",
+									"type": "Int32"
 								},
 								"sink": {
-									"name": "Answer",
-									"type": "String"
+									"name": "Order",
+									"type": "Int32"
 								}
 							},
 							{
@@ -137,19 +137,39 @@
 									"name": "SYS_CHANGE_OPERATION",
 									"type": "String"
 								}
+							},
+							{
+								"source": {
+									"name": "RequestFormVariantID",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "RequestFormVariantID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "Required",
+									"type": "Boolean"
+								},
+								"sink": {
+									"name": "Required",
+									"type": "Int32"
+								}
 							}
 						]
 					}
 				},
 				"inputs": [
 					{
-						"referenceName": "SourceRequestJobQuestionsDataset",
+						"referenceName": "SourceRequestQuestionSetActivityQuestionsDataset",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "SinkRequestJobQuestionsDataset",
+						"referenceName": "SinkRequestQuestionSetActivityQuestionsDataset",
 						"type": "DatasetReference"
 					}
 				]

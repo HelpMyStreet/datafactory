@@ -1,0 +1,17 @@
+{
+	"name": "SinkLookupNewRequestNotificationStrategyDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DestinationLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "Lookup",
+			"table": "NewRequestNotificationStrategy"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

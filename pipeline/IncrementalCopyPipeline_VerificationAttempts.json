@@ -49,10 +49,11 @@
 					"source": {
 						"type": "CosmosDbSqlApiSource",
 						"query": {
-							"value": "SELECT c.datestamp, c.userId, c.rememberMeId, c.verified, c.verification.dob, c.verification.age, c.verification.previousVerification,c.userUpdated from c where c._ts>@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.MaxTS}",
+							"value": "SELECT c.datestamp, c.userId, c.rememberMeId, c.verified, c.verificationDetails.dobMatch, c.verificationDetails.ageMatch, c.verificationDetails.notPreviouslyVerified,c.userUpdated \nfrom c where c._ts>@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.MaxTS}",
 							"type": "Expression"
 						},
-						"preferredRegions": []
+						"preferredRegions": [],
+						"detectDatetime": true
 					},
 					"sink": {
 						"type": "AzureSqlSink"
