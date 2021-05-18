@@ -1,0 +1,17 @@
+{
+	"name": "SinkGroupGroupSupportActivityInstructionsDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DestinationLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "Group",
+			"table": "GroupSupportActivityInstructions"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

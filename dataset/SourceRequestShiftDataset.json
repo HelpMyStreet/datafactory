@@ -1,0 +1,74 @@
+{
+	"name": "SourceRequestShiftDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SourceRequestServiceLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FirebaseUID",
+				"type": "varchar"
+			},
+			{
+				"name": "PostalCode",
+				"type": "varchar"
+			},
+			{
+				"name": "EmailSharingConsent",
+				"type": "bit"
+			},
+			{
+				"name": "MobileSharingConsent",
+				"type": "bit"
+			},
+			{
+				"name": "OtherPhoneSharingConsent",
+				"type": "bit"
+			},
+			{
+				"name": "HMSContactConsent",
+				"type": "bit"
+			},
+			{
+				"name": "IsVolunteer",
+				"type": "bit"
+			},
+			{
+				"name": "IsVerified",
+				"type": "bit"
+			},
+			{
+				"name": "DateCreated",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "StreetChampionRoleUnderstood",
+				"type": "bit"
+			},
+			{
+				"name": "SupportVolunteersByPhone",
+				"type": "bit"
+			},
+			{
+				"name": "SupportRadiusMiles",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "Request",
+			"table": "Shift"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

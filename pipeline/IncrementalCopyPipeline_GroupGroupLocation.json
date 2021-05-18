@@ -1,5 +1,5 @@
 {
-	"name": "IncrementalCopyPipeline_LookupQuestionType",
+	"name": "IncrementalCopyPipeline_GroupGroupLocation",
 	"properties": {
 		"activities": [
 			{
@@ -17,11 +17,11 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Lookup.QuestionType'",
+						"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Group.GroupLocation'",
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "ChangeTrackingRequestDataset",
+						"referenceName": "ChangeTrackingGroupDataset",
 						"type": "DatasetReference"
 					}
 				}
@@ -45,7 +45,7 @@
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "ChangeTrackingRequestDataset",
+						"referenceName": "ChangeTrackingGroupDataset",
 						"type": "DatasetReference"
 					}
 				}
@@ -79,7 +79,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "select CT.ID, a.[Name], CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Lookup].[QuestionType] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Lookup].[QuestionType], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
+							"value": "select CT.GroupID, CT.LocationID, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Group].[GroupLocation] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Group].[GroupLocation], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.GroupID = CT.GroupID and r.LocationID = CT.LocationID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
 							"type": "Expression"
 						},
 						"partitionOption": "None"
@@ -93,22 +93,22 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "ID",
+									"name": "GroupID",
 									"type": "Int32"
 								},
 								"sink": {
-									"name": "ID",
+									"name": "GroupID",
 									"type": "Int32"
 								}
 							},
 							{
 								"source": {
-									"name": "Name",
-									"type": "String"
+									"name": "LocationID",
+									"type": "Int32"
 								},
 								"sink": {
-									"name": "Name",
-									"type": "String"
+									"name": "LocationID",
+									"type": "Int32"
 								}
 							},
 							{
@@ -136,13 +136,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SourceLookupQuestionTypeDataset",
+						"referenceName": "SourceGroupGroupLocationDataset",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "SinkLookupQuestionTypeDataset",
+						"referenceName": "SinkGroupGroupLocationDataset",
 						"type": "DatasetReference"
 					}
 				]
@@ -186,7 +186,7 @@
 					}
 				},
 				"linkedServiceName": {
-					"referenceName": "SourceRequestServiceLinkedService",
+					"referenceName": "SourceGroupServiceLinkedService",
 					"type": "LinkedServiceReference"
 				}
 			}

@@ -1,5 +1,5 @@
 {
-	"name": "IncrementalCopyPipeline_LookupQuestionType",
+	"name": "IncrementalCopyPipeline_RequestShift",
 	"properties": {
 		"activities": [
 			{
@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Lookup.QuestionType'",
+						"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Request.Shift'",
 						"partitionOption": "None"
 					},
 					"dataset": {
@@ -79,7 +79,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "select CT.ID, a.[Name], CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Lookup].[QuestionType] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Lookup].[QuestionType], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
+							"value": "select CT.RequestId, r.StartDate, r.ShiftLength, r.LocationId, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Request].[Shift] r \nRIGHT OUTER JOIN CHANGETABLE(CHANGES [Request].[Shift], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.RequestId = CT.RequestId \nwhere CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
 							"type": "Expression"
 						},
 						"partitionOption": "None"
@@ -93,22 +93,42 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "ID",
+									"name": "RequestId",
 									"type": "Int32"
 								},
 								"sink": {
-									"name": "ID",
+									"name": "RequestId",
 									"type": "Int32"
 								}
 							},
 							{
 								"source": {
-									"name": "Name",
-									"type": "String"
+									"name": "StartDate",
+									"type": "DateTime"
 								},
 								"sink": {
-									"name": "Name",
-									"type": "String"
+									"name": "StartDate",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "ShiftLength",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "ShiftLength",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "LocationId",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "LocationId",
+									"type": "Int32"
 								}
 							},
 							{
@@ -136,13 +156,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SourceLookupQuestionTypeDataset",
+						"referenceName": "SourceRequestShiftDataset",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "SinkLookupQuestionTypeDataset",
+						"referenceName": "SinkRequestShiftDataset",
 						"type": "DatasetReference"
 					}
 				]
