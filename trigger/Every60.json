@@ -177,6 +177,12 @@
 					"referenceName": "IncrementalCopyPipeline_RequestShift",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_GroupWebsiteRequestHelpJourney",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
