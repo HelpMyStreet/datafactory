@@ -72,12 +72,6 @@
 			},
 			{
 				"pipelineReference": {
-					"referenceName": "IncrementalCopyPipeline_GroupRequestHelpJourney",
-					"type": "PipelineReference"
-				}
-			},
-			{
-				"pipelineReference": {
 					"referenceName": "IncrementalCopyPipeline_GroupUserRole",
 					"type": "PipelineReference"
 				}
