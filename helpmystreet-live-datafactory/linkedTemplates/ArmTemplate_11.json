@@ -989,13 +989,6 @@
 					},
 					{
 						"pipelineReference": {
-							"referenceName": "IncrementalCopyPipeline_GroupRequestHelpJourney",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					},
-					{
-						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_GroupUserRole",
 							"type": "PipelineReference"
 						},
@@ -1046,13 +1039,6 @@
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_CommunicationEvent",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					},
-					{
-						"pipelineReference": {
-							"referenceName": "IncrementalCopyPipeline_RequestRequest",
 							"type": "PipelineReference"
 						},
 						"parameters": {}
