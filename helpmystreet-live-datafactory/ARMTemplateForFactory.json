@@ -23225,7 +23225,7 @@
 					},
 					{
 						"pipelineReference": {
-							"referenceName": "FullCopyPipeline_RequestRequest",
+							"referenceName": "IncrementalCopyPipeline_RequestRequest",
 							"type": "PipelineReference"
 						},
 						"parameters": {}
@@ -23270,7 +23270,7 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestSupportActivities')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestShift')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupWebsiteRequestHelpJourney')]",
-				"[concat(variables('factoryId'), '/pipelines/FullCopyPipeline_RequestRequest')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestRequest')]"
 			]
 		},
 		{

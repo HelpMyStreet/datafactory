@@ -1108,7 +1108,7 @@
 					},
 					{
 						"pipelineReference": {
-							"referenceName": "FullCopyPipeline_RequestRequest",
+							"referenceName": "IncrementalCopyPipeline_RequestRequest",
 							"type": "PipelineReference"
 						},
 						"parameters": {}
