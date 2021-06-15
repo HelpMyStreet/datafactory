@@ -263,7 +263,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select r.ID, r.PostCode, r.DateRequested, r.IsFulfillable,r.CommunicationSent,r.ForRequestor,r.OtherDetails,r.PersonID_Recipient,r.PersonID_Requester,r.ReadPrivacyNotice,r.AcceptedTerms,r.SpecialCommunicationNeeds,r.CreatedByUserID, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Request].[Request] r",
+								"sqlReaderQuery": "select r.ID, r.PostCode, r.DateRequested, r.IsFulfillable,r.CommunicationSent,r.ForRequestor,r.OtherDetails,r.PersonID_Recipient,r.PersonID_Requester,r.ReadPrivacyNotice,r.AcceptedTerms,r.SpecialCommunicationNeeds,r.CreatedByUserID,r.RequestorType, r.OrganisationName, r.Archive, r.[Guid], r.ReferringGroupId, r.RequestorDefinedByGroup, r.RequestType, r.Source, r.FulfillableStatus, r.SuppressRecipientPersonalDetail, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Request].[Request] r",
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
@@ -322,6 +322,16 @@
 										"sink": {
 											"name": "CommunicationSent",
 											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"name": "FulfillableStatus",
+											"type": "Byte"
+										},
+										"sink": {
+											"name": "FulfillableStatus",
+											"type": "Byte"
 										}
 									},
 									{
@@ -422,6 +432,96 @@
 										"sink": {
 											"name": "SYS_CHANGE_OPERATION",
 											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "RequestorType",
+											"type": "Byte"
+										},
+										"sink": {
+											"name": "RequestorType",
+											"type": "Byte"
+										}
+									},
+									{
+										"source": {
+											"name": "OrganisationName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "OrganisationName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ReferringGroupId",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "ReferringGroupId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Source",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Source",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Archive",
+											"type": "Boolean"
+										},
+										"sink": {
+											"name": "Archive",
+											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"name": "Guid",
+											"type": "Guid"
+										},
+										"sink": {
+											"name": "Guid",
+											"type": "Guid"
+										}
+									},
+									{
+										"source": {
+											"name": "RequestorDefinedByGroup",
+											"type": "Boolean"
+										},
+										"sink": {
+											"name": "RequestorDefinedByGroup",
+											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"name": "RequestType",
+											"type": "Byte"
+										},
+										"sink": {
+											"name": "RequestType",
+											"type": "Byte"
+										}
+									},
+									{
+										"source": {
+											"name": "SuppressRecipientPersonalDetail",
+											"type": "Boolean"
+										},
+										"sink": {
+											"name": "SuppressRecipientPersonalDetails",
+											"type": "Boolean"
 										}
 									}
 								]
