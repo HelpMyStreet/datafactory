@@ -195,6 +195,12 @@
 					"referenceName": "IncrementalCopyPipeline_GroupSupportActivityInstructions",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_GroupNewRequestNotificationStrategy",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
