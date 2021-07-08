@@ -23264,6 +23264,27 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupSupportActivityInstructions",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupNewRequestNotificationStrategy",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupGroupLocation",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -23308,7 +23329,10 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupWebsiteRequestHelpJourney')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestShift')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_AddressLocation')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupGroupCredential')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupGroupCredential')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupSupportActivityInstructions')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupNewRequestNotificationStrategy')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupGroupLocation')]"
 			]
 		},
 		{
@@ -23528,6 +23552,27 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupSupportActivityInstructions",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupNewRequestNotificationStrategy",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupGroupLocation",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -23575,7 +23620,10 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestSupportActivities')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupWebsiteRequestHelpJourney')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_AddressLocation')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupGroupCredential')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupGroupCredential')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupSupportActivityInstructions')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupNewRequestNotificationStrategy')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupGroupLocation')]"
 			]
 		},
 		{
