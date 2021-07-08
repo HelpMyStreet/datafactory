@@ -183,6 +183,12 @@
 					"referenceName": "IncrementalCopyPipeline_AddressLocation",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_GroupGroupCredential",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
