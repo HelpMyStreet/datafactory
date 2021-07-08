@@ -1473,6 +1473,124 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_GroupGroupSupportActivityConfiguration')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "FullCopyActivity",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select r.GroupID, r.SupportActivityID, r.SupportActivityInstructionsID, r.Radius, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Group].[GroupSupportActivityConfiguration] r",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "GroupID",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "GroupID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SupportActivityID",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "SupportActivityID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SupportActivityInstructionsID",
+											"type": "Int16"
+										},
+										"sink": {
+											"name": "SupportActivityInstructionsID",
+											"type": "Int16"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int64"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Radius",
+											"type": "Double"
+										},
+										"sink": {
+											"name": "Radius",
+											"type": "Double"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceGroupGroupSupportActivityConfigurationDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkGroupGroupSupportActivityConfigurationDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SourceGroupGroupSupportActivityConfigurationDataset')]",
+				"[concat(variables('factoryId'), '/datasets/SinkGroupGroupSupportActivityConfigurationDataset')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_GroupNewRequestNotificationStrategy')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -23132,6 +23250,13 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_AddressLocation",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -23140,7 +23265,8 @@
 						"frequency": "Day",
 						"interval": 1,
 						"startTime": "2020-05-28T18:49:00Z",
-						"timeZone": "UTC"
+						"timeZone": "UTC",
+						"schedule": {}
 					}
 				}
 			},
@@ -23173,7 +23299,8 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupUserCredential')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestSupportActivities')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupWebsiteRequestHelpJourney')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestShift')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestShift')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_AddressLocation')]"
 			]
 		},
 		{
@@ -23586,124 +23713,6 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupSupportActivity')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupSupportActivityInstructions')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupTargetGroup')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_GroupGroupSupportActivityConfiguration')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "FullCopyActivity",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select r.GroupID, r.SupportActivityID, r.SupportActivityInstructionsID, r.Radius, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Group].[GroupSupportActivityConfiguration] r",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "GroupID",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "GroupID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SupportActivityID",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "SupportActivityID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SupportActivityInstructionsID",
-											"type": "Int16"
-										},
-										"sink": {
-											"name": "SupportActivityInstructionsID",
-											"type": "Int16"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int64"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Radius",
-											"type": "Double"
-										},
-										"sink": {
-											"name": "Radius",
-											"type": "Double"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceGroupGroupSupportActivityConfigurationDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SinkGroupGroupSupportActivityConfigurationDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SourceGroupGroupSupportActivityConfigurationDataset')]",
-				"[concat(variables('factoryId'), '/datasets/SinkGroupGroupSupportActivityConfigurationDataset')]"
 			]
 		}
 	]
