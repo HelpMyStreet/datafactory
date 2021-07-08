@@ -23222,6 +23222,13 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestShift",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -23263,7 +23270,8 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupSecurityConfiguration')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupUserCredential')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestSupportActivities')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupWebsiteRequestHelpJourney')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupWebsiteRequestHelpJourney')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestShift')]"
 			]
 		},
 		{
