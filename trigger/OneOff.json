@@ -214,11 +214,11 @@
 			"recurrence": {
 				"frequency": "Month",
 				"interval": 1,
-				"startTime": "2020-05-28T18:49:00Z",
+				"startTime": "2020-07-13T14:41:00Z",
 				"timeZone": "UTC",
 				"schedule": {
 					"monthDays": [
-						1
+						13
 					]
 				}
 			}
