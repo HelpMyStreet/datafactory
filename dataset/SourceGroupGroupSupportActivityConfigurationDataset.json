@@ -1,5 +1,5 @@
 {
-	"name": "SourceGroupGroupSupportActivityInstructionsDataset",
+	"name": "SourceGroupGroupSupportActivityConfigurationDataset",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SourceGroupServiceLinkedService",
@@ -29,7 +29,7 @@
 		],
 		"typeProperties": {
 			"schema": "Group",
-			"table": "GroupSupportActivityInstructions"
+			"table": "GroupSupportActivityConfiguration"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"
