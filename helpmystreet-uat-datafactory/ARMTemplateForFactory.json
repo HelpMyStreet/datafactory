@@ -7552,7 +7552,7 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "select CT.GroupID, CT.ActivityID, CT.CredentialSetID, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION \nfrom [Group].[ActivityCredentialSet] r \nRIGHT OUTER JOIN CHANGETABLE(CHANGES [Group].[ActivityCredentialSet], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.GroupID = CT.GroupID  and r.ActivityID = CT.ActivityID and r.CredentialSetID = CT.CredentialSetID\nwhere CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+									"value": "select CT.GroupID, CT.ActivityID, CT.CredentialSetID, r.DisplayOrder, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION \nfrom [Group].[ActivityCredentialSet] r \nRIGHT OUTER JOIN CHANGETABLE(CHANGES [Group].[ActivityCredentialSet], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.GroupID = CT.GroupID  and r.ActivityID = CT.ActivityID and r.CredentialSetID = CT.CredentialSetID\nwhere CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
 									"type": "Expression"
 								},
 								"partitionOption": "None"
@@ -7612,6 +7612,16 @@
 										"sink": {
 											"name": "SYS_CHANGE_OPERATION",
 											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "DisplayOrder",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "DisplayOrder",
+											"type": "Int32"
 										}
 									}
 								]
