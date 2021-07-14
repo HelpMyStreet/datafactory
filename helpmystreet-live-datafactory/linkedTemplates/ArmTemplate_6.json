@@ -1408,7 +1408,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_GroupGroupSupportActivityInstructions')]",
+			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_GroupGroupSupportActivityConfiguration')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1428,7 +1428,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select r.GroupID, r.SupportActivityID, r.SupportActivityInstructionsID, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Group].[GroupSupportActivityInstructions] r",
+								"sqlReaderQuery": "select r.GroupID, r.SupportActivityID, r.SupportActivityInstructionsID, r.Radius, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Group].[GroupSupportActivityConfiguration] r",
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
@@ -1488,20 +1488,30 @@
 											"name": "SYS_CHANGE_OPERATION",
 											"type": "String"
 										}
+									},
+									{
+										"source": {
+											"name": "Radius",
+											"type": "Double"
+										},
+										"sink": {
+											"name": "Radius",
+											"type": "Double"
+										}
 									}
 								]
 							}
 						},
 						"inputs": [
 							{
-								"referenceName": "SourceGroupGroupSupportActivityInstructionsDataset",
+								"referenceName": "SourceGroupGroupSupportActivityConfigurationDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "SinkGroupGroupSupportActivityInstructionsDataset",
+								"referenceName": "SinkGroupGroupSupportActivityConfigurationDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
