@@ -223,6 +223,12 @@
 				"startTime": "2020-07-13T14:41:00Z",
 				"timeZone": "UTC",
 				"schedule": {
+					"minutes": [
+						12
+					],
+					"hours": [
+						16
+					],
 					"monthDays": [
 						13
 					]
