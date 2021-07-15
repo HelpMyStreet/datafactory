@@ -24278,6 +24278,13 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupGroupCredential",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -24344,7 +24351,8 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupWebsiteRequestHelpJourney')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestRequest')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupGroupEmailConfiguration')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupGroupMapDetails')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupGroupMapDetails')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupGroupCredential')]"
 			]
 		},
 		{
