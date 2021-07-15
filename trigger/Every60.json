@@ -219,6 +219,12 @@
 					"referenceName": "IncrementalCopyPipeline_GroupGroupMapDetails",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_GroupGroupEmailConfiguration",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
