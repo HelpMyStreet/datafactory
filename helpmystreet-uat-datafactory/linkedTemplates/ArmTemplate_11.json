@@ -1670,22 +1670,42 @@
 									},
 									{
 										"source": {
-											"name": "Configuration",
-											"type": "String"
+											"name": "MapLocationID",
+											"type": "Byte"
 										},
 										"sink": {
-											"name": "Configuration",
-											"type": "String"
+											"name": "MapLocationID",
+											"type": "Byte"
 										}
 									},
 									{
 										"source": {
-											"name": "CommunicationJobTypeID",
-											"type": "Byte"
+											"name": "Latitude",
+											"type": "Decimal"
 										},
 										"sink": {
-											"name": "CommunicationJobTypeID",
-											"type": "Byte"
+											"name": "Latitude",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Longitude",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "Longitude",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "ZoomLevel",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "ZoomLevel",
+											"type": "Decimal"
 										}
 									},
 									{
@@ -1720,7 +1740,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "SinkGroupGroupEmailConfigurationDataset",
+								"referenceName": "SinkGroupGroupMapDetailsDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
