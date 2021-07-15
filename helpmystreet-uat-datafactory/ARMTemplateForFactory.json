@@ -8206,7 +8206,7 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "select CT.ID, r.GroupName, r.ParentGroupId, r.GroupKey, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Group].[Group] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Group].[Group], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+									"value": "select CT.ID, r.GroupName, r.ParentGroupId, r.GroupKey, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION, r.[ShiftsEnabled], r.[HomepageEnabled], r.[TasksEnabled], r.[GeographicName], r.[GroupType], r.[FriendlyName], r.[LinkURL], r.[ShortName], r.[JoinGroupPopUpDetail] from [Group].[Group] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Group].[Group], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
 									"type": "Expression"
 								},
 								"partitionOption": "None"
@@ -8275,6 +8275,96 @@
 										},
 										"sink": {
 											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ShiftsEnabled",
+											"type": "Boolean"
+										},
+										"sink": {
+											"name": "ShiftsEnabled",
+											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"name": "HomepageEnabled",
+											"type": "Boolean"
+										},
+										"sink": {
+											"name": "HomepageEnabled",
+											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"name": "TasksEnabled",
+											"type": "Boolean"
+										},
+										"sink": {
+											"name": "TasksEnabled",
+											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"name": "GeographicName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "GeographicName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "GroupType",
+											"type": "Byte"
+										},
+										"sink": {
+											"name": "GroupType",
+											"type": "Byte"
+										}
+									},
+									{
+										"source": {
+											"name": "FriendlyName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "FriendlyName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LinkURL",
+											"type": "String"
+										},
+										"sink": {
+											"name": "LinkURL",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ShortName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "ShortName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "JoinGroupPopUpDetail",
+											"type": "String"
+										},
+										"sink": {
+											"name": "JoinGroupPopUpDetail",
 											"type": "String"
 										}
 									}
