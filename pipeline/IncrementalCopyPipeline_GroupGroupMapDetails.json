@@ -1,0 +1,227 @@
+{
+	"name": "IncrementalCopyPipeline_GroupGroupMapDetails",
+	"properties": {
+		"activities": [
+			{
+				"name": "LookupLastChangeTrackingVersionActivity",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Group.GroupMapDetails'",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ChangeTrackingGroupDataset",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "LookupCurrentChangeTrackingVersionActivity",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ChangeTrackingGroupDataset",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "IncrementalCopyActivity",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "LookupLastChangeTrackingVersionActivity",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "LookupCurrentChangeTrackingVersionActivity",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "select CT.GroupID, CT.MapLocationID, r.Latitude, r.Longitude, r.ZoomLevel, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION\nfrom [Group].[GroupMapDetails] r RIGHT OUTER JOIN \nCHANGETABLE(CHANGES [Group].[GroupMapDetails], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT \non r.GroupID = CT.GroupID and r.MapLocationID = CT.MapLocationID \nwhere CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+							"type": "Expression"
+						},
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "GroupID",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "GroupID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "MapLocationID",
+									"type": "Byte"
+								},
+								"sink": {
+									"name": "MapLocationID",
+									"type": "Byte"
+								}
+							},
+							{
+								"source": {
+									"name": "Latitude",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "Latitude",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "Longitude",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "Longitude",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "ZoomLevel",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "ZoomLevel",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "SYS_CHANGE_VERSION",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "SYS_CHANGE_VERSION",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "SYS_CHANGE_OPERATION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "SYS_CHANGE_OPERATION",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceGroupGroupMapDetailsDataset",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SinkGroupGroupMapDetailsDataset",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "StoredProceduretoUpdateChangeTrackingActivity",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "IncrementalCopyActivity",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "Update_ChangeTracking_Version",
+					"storedProcedureParameters": {
+						"CurrentTrackingVersion": {
+							"value": {
+								"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+								"type": "Expression"
+							},
+							"type": "INT64"
+						},
+						"TableName": {
+							"value": {
+								"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "SourceGroupServiceLinkedService",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
