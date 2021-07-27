@@ -120,19 +120,7 @@
 			},
 			{
 				"pipelineReference": {
-					"referenceName": "IncrementalCopyPipeline_GroupGroupSupportActivityInstructions",
-					"type": "PipelineReference"
-				}
-			},
-			{
-				"pipelineReference": {
 					"referenceName": "IncrementalCopyPipeline_GroupNewRequestNotificationStrategy",
-					"type": "PipelineReference"
-				}
-			},
-			{
-				"pipelineReference": {
-					"referenceName": "IncrementalCopyPipeline_GroupSupportActivityInstructions",
 					"type": "PipelineReference"
 				}
 			},
