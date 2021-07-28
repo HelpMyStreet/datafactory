@@ -225,6 +225,12 @@
 					"referenceName": "IncrementalCopyPipeline_GroupGroupEmailConfiguration",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "FullCopyPipeline_RequestLogRequestEvent",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
