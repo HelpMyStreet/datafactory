@@ -70,7 +70,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -218,7 +219,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -406,7 +408,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -554,7 +557,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -662,7 +666,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -800,7 +805,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -908,7 +914,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -1006,7 +1013,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -1114,7 +1122,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -1232,7 +1241,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -1375,6 +1385,115 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_GroupGroupEmailConfiguration')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "FullCopyActivity",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select r.GroupID, r.[Configuration], r.CommunicationJobTypeID, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Group].[GroupEmailConfiguration] r",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "GroupID",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "GroupID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Configuration",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Configuration",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CommunicationJobTypeID",
+											"type": "Byte"
+										},
+										"sink": {
+											"name": "CommunicationJobTypeID",
+											"type": "Byte"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int64"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceGroupGroupEmailConfigurationDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkGroupGroupEmailConfigurationDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SourceGroupGroupEmailConfigurationDataset')]",
+				"[concat(variables('factoryId'), '/datasets/SinkGroupGroupEmailConfigurationDataset')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_GroupGroupLocation')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1400,7 +1519,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -1473,6 +1593,135 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_GroupGroupMapDetails')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "FullCopyActivity",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select r.GroupID, r.[MapLocationID], r.Latitude, r.Longitude, r.ZoomLevel, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Group].[GroupMapDetails] r",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "GroupID",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "GroupID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "MapLocationID",
+											"type": "Byte"
+										},
+										"sink": {
+											"name": "MapLocationID",
+											"type": "Byte"
+										}
+									},
+									{
+										"source": {
+											"name": "Latitude",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "Latitude",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Longitude",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "Longitude",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "ZoomLevel",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "ZoomLevel",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int64"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceGroupGroupMapDetailsDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkGroupGroupMapDetailsDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SourceGroupGroupMapDetailsDataset')]",
+				"[concat(variables('factoryId'), '/datasets/SinkGroupGroupMapDetailsDataset')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_GroupGroupSupportActivityConfiguration')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1498,7 +1747,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -1616,7 +1866,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -1724,7 +1975,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -1822,7 +2074,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -1920,7 +2173,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -2078,7 +2332,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -2186,7 +2441,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -2344,7 +2600,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -2452,7 +2709,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -2560,7 +2818,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -2658,7 +2917,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -2756,7 +3016,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -2854,7 +3115,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -2952,7 +3214,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -3050,7 +3313,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -3148,7 +3412,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -3246,7 +3511,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -3319,6 +3585,105 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_LookupRequestEvent')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "FullCopyActivity",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT a.[Id], a.[Name],CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Lookup].[RequestEvent] a",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Id",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "ID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Name",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int64"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceLookupRequestEventDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkLookupRequestEventDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SourceLookupRequestEventDataset')]",
+				"[concat(variables('factoryId'), '/datasets/SinkLookupRequestEventDataset')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_LookupRequestFormStage')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -3344,7 +3709,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -3442,7 +3808,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -3540,7 +3907,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -3638,7 +4006,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -3736,7 +4105,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -3834,7 +4204,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -3932,7 +4303,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -4030,7 +4402,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -4128,7 +4501,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -4286,7 +4660,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -4384,7 +4759,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -4492,7 +4868,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -4595,6 +4972,135 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_RequestLogRequestEvent')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "FullCopyActivity",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select r.RequestId, r.DateRequested, r.RequestEventId, r.JobId, r.UserId, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Request].[LogRequestEvent] r",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "RequestId",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "RequestId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "DateRequested",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "DateRequested",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "RequestEventId",
+											"type": "Byte"
+										},
+										"sink": {
+											"name": "RequestEventId",
+											"type": "Byte"
+										}
+									},
+									{
+										"source": {
+											"name": "JobId",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "JobId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "UserId",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "UserId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int64"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceRequestLogRequestEventDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkRequestLogRequestEventDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SourceRequestLogRequestEventDataset')]",
+				"[concat(variables('factoryId'), '/datasets/SinkRequestLogRequestEventDataset')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_RequestQuestionSetActivityQuestions')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -4620,7 +5126,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -4728,7 +5235,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -4856,7 +5364,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -5064,7 +5573,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -5152,7 +5662,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -5270,7 +5781,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -5368,7 +5880,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -5466,7 +5979,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -5574,7 +6088,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -5672,7 +6187,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -5915,7 +6431,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -6173,7 +6690,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -6471,7 +6989,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -6729,7 +7248,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -6917,7 +7437,8 @@
 								"detectDatetime": true
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -7114,7 +7635,8 @@
 								"detectDatetime": true
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -7310,7 +7832,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -7558,7 +8081,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -7786,7 +8310,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -7994,7 +8519,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -8212,7 +8738,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -8530,7 +9057,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -8718,6 +9246,225 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_GroupGroupEmailConfiguration')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LookupLastChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Group.GroupEmailConfiguration'",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingGroupDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "LookupCurrentChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingGroupDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "IncrementalCopyActivity",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LookupLastChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "LookupCurrentChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "select CT.GroupID, r.Configuration, CT.CommunicationJobTypeID, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION\nfrom [Group].[GroupEmailConfiguration] r RIGHT OUTER JOIN \nCHANGETABLE(CHANGES [Group].[GroupEmailConfiguration], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT \non r.GroupID = CT.GroupID and r.CommunicationJobTypeID = CT.CommunicationJobTypeID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+									"type": "Expression"
+								},
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "GroupID",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "GroupID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Configuration",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Configuration",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CommunicationJobTypeID",
+											"type": "Byte"
+										},
+										"sink": {
+											"name": "CommunicationJobTypeID",
+											"type": "Byte"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int64"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceGroupGroupEmailConfigurationDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkGroupGroupEmailConfigurationDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "StoredProceduretoUpdateChangeTrackingActivity",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "IncrementalCopyActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "Update_ChangeTracking_Version",
+							"storedProcedureParameters": {
+								"CurrentTrackingVersion": {
+									"value": {
+										"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+										"type": "Expression"
+									},
+									"type": "INT64"
+								},
+								"TableName": {
+									"value": {
+										"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SourceGroupServiceLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ChangeTrackingGroupDataset')]",
+				"[concat(variables('factoryId'), '/datasets/SourceGroupGroupEmailConfigurationDataset')]",
+				"[concat(variables('factoryId'), '/datasets/SinkGroupGroupEmailConfigurationDataset')]",
+				"[concat(variables('factoryId'), '/linkedServices/SourceGroupServiceLinkedService')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_GroupGroupLocation')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -8808,7 +9555,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -8926,6 +9674,245 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_GroupGroupMapDetails')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LookupLastChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Group.GroupMapDetails'",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingGroupDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "LookupCurrentChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingGroupDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "IncrementalCopyActivity",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LookupLastChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "LookupCurrentChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "select CT.GroupID, CT.MapLocationID, r.Latitude, r.Longitude, r.ZoomLevel, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION\nfrom [Group].[GroupMapDetails] r RIGHT OUTER JOIN \nCHANGETABLE(CHANGES [Group].[GroupMapDetails], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT \non r.GroupID = CT.GroupID and r.MapLocationID = CT.MapLocationID \nwhere CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+									"type": "Expression"
+								},
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "GroupID",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "GroupID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "MapLocationID",
+											"type": "Byte"
+										},
+										"sink": {
+											"name": "MapLocationID",
+											"type": "Byte"
+										}
+									},
+									{
+										"source": {
+											"name": "Latitude",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "Latitude",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "Longitude",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "Longitude",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "ZoomLevel",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "ZoomLevel",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int64"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceGroupGroupMapDetailsDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkGroupGroupMapDetailsDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "StoredProceduretoUpdateChangeTrackingActivity",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "IncrementalCopyActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "Update_ChangeTracking_Version",
+							"storedProcedureParameters": {
+								"CurrentTrackingVersion": {
+									"value": {
+										"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+										"type": "Expression"
+									},
+									"type": "INT64"
+								},
+								"TableName": {
+									"value": {
+										"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SourceGroupServiceLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ChangeTrackingGroupDataset')]",
+				"[concat(variables('factoryId'), '/datasets/SourceGroupGroupMapDetailsDataset')]",
+				"[concat(variables('factoryId'), '/datasets/SinkGroupGroupMapDetailsDataset')]",
+				"[concat(variables('factoryId'), '/linkedServices/SourceGroupServiceLinkedService')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_GroupGroupSupportActivityConfiguration')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -9017,7 +10004,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -9245,7 +10233,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -9463,7 +10452,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -9671,7 +10661,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -9879,7 +10870,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -10147,7 +11139,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -10365,7 +11358,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -10633,7 +11627,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -10851,7 +11846,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -11119,7 +12115,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -11327,7 +12324,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -11536,7 +12534,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -11745,7 +12744,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -11953,7 +12953,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -12161,7 +13162,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -12369,7 +13371,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -12577,7 +13580,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -12695,6 +13699,215 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_LookupRequestEvent')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LookupLastChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Lookup.RequestEvent'",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingRequestDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "LookupCurrentChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingRequestDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "IncrementalCopyActivity",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LookupLastChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "LookupCurrentChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "select CT.ID, a.[Name], CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Lookup].[RequestEvent] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Lookup].[RequestEvent], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
+									"type": "Expression"
+								},
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ID",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "ID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Name",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int64"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceLookupRequestTypeDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkLookupRequestTypeDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "StoredProceduretoUpdateChangeTrackingActivity",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "IncrementalCopyActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "Update_ChangeTracking_Version",
+							"storedProcedureParameters": {
+								"CurrentTrackingVersion": {
+									"value": {
+										"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+										"type": "Expression"
+									},
+									"type": "INT64"
+								},
+								"TableName": {
+									"value": {
+										"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SourceRequestServiceLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ChangeTrackingRequestDataset')]",
+				"[concat(variables('factoryId'), '/datasets/SourceLookupRequestTypeDataset')]",
+				"[concat(variables('factoryId'), '/datasets/SinkLookupRequestTypeDataset')]",
+				"[concat(variables('factoryId'), '/linkedServices/SourceRequestServiceLinkedService')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_LookupRequestFormStage')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -12785,7 +13998,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -12993,7 +14207,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -13202,7 +14417,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -13410,7 +14626,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -13618,7 +14835,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -13826,7 +15044,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -14034,7 +15253,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -14242,7 +15462,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -14450,7 +15671,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -14739,7 +15961,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -14947,7 +16170,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -15165,7 +16389,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -15313,6 +16538,245 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_RequestLogRequestEvent')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LookupLastChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Request.LogRequestEvent'",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingRequestDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "LookupCurrentChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingRequestDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "IncrementalCopyActivity",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LookupLastChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "LookupCurrentChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "select CT.RequestId, CT.DateRequested, CT.RequestEventId, r.JobId, r.UserId, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Request].[LogRequestEvent] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Request].[LogRequestEvent], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT \non r.RequestId = CT.RequestId and r.DateRequested = CT.DateRequested and r.RequestEventId = CT.RequestEventId \nwhere CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+									"type": "Expression"
+								},
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "RequestId",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "RequestId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "DateRequested",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "DateRequested",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "RequestEventId",
+											"type": "Byte"
+										},
+										"sink": {
+											"name": "RequestEventId",
+											"type": "Byte"
+										}
+									},
+									{
+										"source": {
+											"name": "JobId",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "JobId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "UserId",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "UserId",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int64"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceRequestLogRequestEventDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkRequestLogRequestEventDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "StoredProceduretoUpdateChangeTrackingActivity",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "IncrementalCopyActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "Update_ChangeTracking_Version",
+							"storedProcedureParameters": {
+								"CurrentTrackingVersion": {
+									"value": {
+										"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+										"type": "Expression"
+									},
+									"type": "INT64"
+								},
+								"TableName": {
+									"value": {
+										"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SourceRequestServiceLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ChangeTrackingRequestDataset')]",
+				"[concat(variables('factoryId'), '/datasets/SourceRequestLogRequestEventDataset')]",
+				"[concat(variables('factoryId'), '/datasets/SinkRequestLogRequestEventDataset')]",
+				"[concat(variables('factoryId'), '/linkedServices/SourceRequestServiceLinkedService')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_RequestQuestionSetActivityQuestions')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -15403,7 +16867,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -15641,7 +17106,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -15869,7 +17335,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -16287,7 +17754,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -16515,7 +17983,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -16723,7 +18192,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -16932,7 +18402,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -17151,7 +18622,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -17360,7 +18832,8 @@
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -17668,7 +19141,8 @@
 								"detectDatetime": true
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -17864,7 +19338,8 @@
 								"detectDatetime": true
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -18506,6 +19981,27 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SinkGroupGroupEmailConfigurationDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DestinationLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "Group",
+					"table": "GroupEmailConfiguration"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DestinationLinkedService')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SinkGroupGroupLocationDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -18520,6 +20016,27 @@
 				"typeProperties": {
 					"schema": "Group",
 					"table": "GroupLocation"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DestinationLinkedService')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SinkGroupGroupMapDetailsDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DestinationLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "Group",
+					"table": "GroupMapDetails"
 				}
 			},
 			"dependsOn": [
@@ -18884,6 +20401,27 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SinkLookupRequestEventDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DestinationLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "Lookup",
+					"table": "RequestEvent"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DestinationLinkedService')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SinkLookupRequestFormStageDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -19129,6 +20667,27 @@
 				"typeProperties": {
 					"schema": "Request",
 					"table": "RequestJobStatus"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DestinationLinkedService')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SinkRequestLogRequestEventDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DestinationLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "Request",
+					"table": "LogRequestEvent"
 				}
 			},
 			"dependsOn": [
@@ -20058,6 +21617,46 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SourceGroupGroupEmailConfigurationDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SourceGroupServiceLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "GroupName",
+						"type": "varchar"
+					},
+					{
+						"name": "ParentGroupID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "GroupKey",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "Group",
+					"table": "GroupEmailConfiguration"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SourceGroupServiceLinkedService')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SourceGroupGroupLocationDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -20091,6 +21690,46 @@
 				"typeProperties": {
 					"schema": "Group",
 					"table": "GroupLocation"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SourceGroupServiceLinkedService')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceGroupGroupMapDetailsDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SourceGroupServiceLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "GroupName",
+						"type": "varchar"
+					},
+					{
+						"name": "ParentGroupID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "GroupKey",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "Group",
+					"table": "GroupMapDetails"
 				}
 			},
 			"dependsOn": [
@@ -21091,6 +22730,84 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SourceLookupRequestEventDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SourceRequestServiceLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "FirebaseUID",
+						"type": "varchar"
+					},
+					{
+						"name": "PostalCode",
+						"type": "varchar"
+					},
+					{
+						"name": "EmailSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "MobileSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "OtherPhoneSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "HMSContactConsent",
+						"type": "bit"
+					},
+					{
+						"name": "IsVolunteer",
+						"type": "bit"
+					},
+					{
+						"name": "IsVerified",
+						"type": "bit"
+					},
+					{
+						"name": "DateCreated",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "StreetChampionRoleUnderstood",
+						"type": "bit"
+					},
+					{
+						"name": "SupportVolunteersByPhone",
+						"type": "bit"
+					},
+					{
+						"name": "SupportRadiusMiles",
+						"type": "float",
+						"precision": 15
+					}
+				],
+				"typeProperties": {
+					"schema": "Lookup",
+					"table": "RequestEvent"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SourceRequestServiceLinkedService')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SourceLookupRequestFormStageDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -22020,6 +23737,84 @@
 				"typeProperties": {
 					"schema": "Request",
 					"table": "RequestJobStatus"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SourceRequestServiceLinkedService')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceRequestLogRequestEventDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SourceRequestServiceLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "FirebaseUID",
+						"type": "varchar"
+					},
+					{
+						"name": "PostalCode",
+						"type": "varchar"
+					},
+					{
+						"name": "EmailSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "MobileSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "OtherPhoneSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "HMSContactConsent",
+						"type": "bit"
+					},
+					{
+						"name": "IsVolunteer",
+						"type": "bit"
+					},
+					{
+						"name": "IsVerified",
+						"type": "bit"
+					},
+					{
+						"name": "DateCreated",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "StreetChampionRoleUnderstood",
+						"type": "bit"
+					},
+					{
+						"name": "SupportVolunteersByPhone",
+						"type": "bit"
+					},
+					{
+						"name": "SupportRadiusMiles",
+						"type": "float",
+						"precision": 15
+					}
+				],
+				"typeProperties": {
+					"schema": "Request",
+					"table": "LogRequestEvent"
 				}
 			},
 			"dependsOn": [
@@ -23156,8 +24951,7 @@
 						"frequency": "Day",
 						"interval": 1,
 						"startTime": "2020-05-28T18:49:00Z",
-						"timeZone": "UTC",
-						"schedule": {}
+						"timeZone": "UTC"
 					}
 				}
 			},
@@ -23689,820 +25483,6 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupSupportActivity')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupSupportActivityInstructions')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupTargetGroup')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SourceGroupGroupEmailConfigurationDataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SourceGroupServiceLinkedService",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "ID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "GroupName",
-						"type": "varchar"
-					},
-					{
-						"name": "ParentGroupID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "GroupKey",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "Group",
-					"table": "GroupEmailConfiguration"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SourceGroupServiceLinkedService')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SourceGroupGroupMapDetailsDataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SourceGroupServiceLinkedService",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "ID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "GroupName",
-						"type": "varchar"
-					},
-					{
-						"name": "ParentGroupID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "GroupKey",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "Group",
-					"table": "GroupMapDetails"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SourceGroupServiceLinkedService')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SinkGroupGroupEmailConfigurationDataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "DestinationLinkedService",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "Group",
-					"table": "GroupEmailConfiguration"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/DestinationLinkedService')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SinkGroupGroupMapDetailsDataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "DestinationLinkedService",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "Group",
-					"table": "GroupMapDetails"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/DestinationLinkedService')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_GroupGroupEmailConfiguration')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "FullCopyActivity",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select r.GroupID, r.[Configuration], r.CommunicationJobTypeID, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Group].[GroupEmailConfiguration] r",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "GroupID",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "GroupID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "Configuration",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Configuration",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "CommunicationJobTypeID",
-											"type": "Byte"
-										},
-										"sink": {
-											"name": "CommunicationJobTypeID",
-											"type": "Byte"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int64"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceGroupGroupEmailConfigurationDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SinkGroupGroupEmailConfigurationDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SourceGroupGroupEmailConfigurationDataset')]",
-				"[concat(variables('factoryId'), '/datasets/SinkGroupGroupEmailConfigurationDataset')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_GroupGroupMapDetails')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "FullCopyActivity",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select r.GroupID, r.[MapLocationID], r.Latitude, r.Longitude, r.ZoomLevel, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Group].[GroupMapDetails] r",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "GroupID",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "GroupID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "MapLocationID",
-											"type": "Byte"
-										},
-										"sink": {
-											"name": "MapLocationID",
-											"type": "Byte"
-										}
-									},
-									{
-										"source": {
-											"name": "Latitude",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "Latitude",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Longitude",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "Longitude",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "ZoomLevel",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "ZoomLevel",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int64"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceGroupGroupMapDetailsDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SinkGroupGroupMapDetailsDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SourceGroupGroupMapDetailsDataset')]",
-				"[concat(variables('factoryId'), '/datasets/SinkGroupGroupMapDetailsDataset')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_GroupGroupEmailConfiguration')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "LookupLastChangeTrackingVersionActivity",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Group.GroupEmailConfiguration'",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "ChangeTrackingGroupDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						}
-					},
-					{
-						"name": "LookupCurrentChangeTrackingVersionActivity",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "ChangeTrackingGroupDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						}
-					},
-					{
-						"name": "IncrementalCopyActivity",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "LookupLastChangeTrackingVersionActivity",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "LookupCurrentChangeTrackingVersionActivity",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": {
-									"value": "select CT.GroupID, r.Configuration, CT.CommunicationJobTypeID, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION\nfrom [Group].[GroupEmailConfiguration] r RIGHT OUTER JOIN \nCHANGETABLE(CHANGES [Group].[GroupEmailConfiguration], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT \non r.GroupID = CT.GroupID and r.CommunicationJobTypeID = CT.CommunicationJobTypeID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
-									"type": "Expression"
-								},
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "GroupID",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "GroupID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "Configuration",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Configuration",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "CommunicationJobTypeID",
-											"type": "Byte"
-										},
-										"sink": {
-											"name": "CommunicationJobTypeID",
-											"type": "Byte"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int64"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceGroupGroupEmailConfigurationDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SinkGroupGroupEmailConfigurationDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "StoredProceduretoUpdateChangeTrackingActivity",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "IncrementalCopyActivity",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "Update_ChangeTracking_Version",
-							"storedProcedureParameters": {
-								"CurrentTrackingVersion": {
-									"value": {
-										"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
-										"type": "Expression"
-									},
-									"type": "INT64"
-								},
-								"TableName": {
-									"value": {
-										"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
-										"type": "Expression"
-									},
-									"type": "String"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "SourceGroupServiceLinkedService",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ChangeTrackingGroupDataset')]",
-				"[concat(variables('factoryId'), '/datasets/SourceGroupGroupEmailConfigurationDataset')]",
-				"[concat(variables('factoryId'), '/datasets/SinkGroupGroupEmailConfigurationDataset')]",
-				"[concat(variables('factoryId'), '/linkedServices/SourceGroupServiceLinkedService')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_GroupGroupMapDetails')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "LookupLastChangeTrackingVersionActivity",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Group.GroupMapDetails'",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "ChangeTrackingGroupDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						}
-					},
-					{
-						"name": "LookupCurrentChangeTrackingVersionActivity",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "ChangeTrackingGroupDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						}
-					},
-					{
-						"name": "IncrementalCopyActivity",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "LookupLastChangeTrackingVersionActivity",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "LookupCurrentChangeTrackingVersionActivity",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": {
-									"value": "select CT.GroupID, CT.MapLocationID, r.Latitude, r.Longitude, r.ZoomLevel, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION\nfrom [Group].[GroupMapDetails] r RIGHT OUTER JOIN \nCHANGETABLE(CHANGES [Group].[GroupMapDetails], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT \non r.GroupID = CT.GroupID and r.MapLocationID = CT.MapLocationID \nwhere CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
-									"type": "Expression"
-								},
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "GroupID",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "GroupID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "MapLocationID",
-											"type": "Byte"
-										},
-										"sink": {
-											"name": "MapLocationID",
-											"type": "Byte"
-										}
-									},
-									{
-										"source": {
-											"name": "Latitude",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "Latitude",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Longitude",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "Longitude",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "ZoomLevel",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "ZoomLevel",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int64"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceGroupGroupMapDetailsDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SinkGroupGroupMapDetailsDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "StoredProceduretoUpdateChangeTrackingActivity",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "IncrementalCopyActivity",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "Update_ChangeTracking_Version",
-							"storedProcedureParameters": {
-								"CurrentTrackingVersion": {
-									"value": {
-										"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
-										"type": "Expression"
-									},
-									"type": "INT64"
-								},
-								"TableName": {
-									"value": {
-										"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
-										"type": "Expression"
-									},
-									"type": "String"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "SourceGroupServiceLinkedService",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ChangeTrackingGroupDataset')]",
-				"[concat(variables('factoryId'), '/datasets/SourceGroupGroupMapDetailsDataset')]",
-				"[concat(variables('factoryId'), '/datasets/SinkGroupGroupMapDetailsDataset')]",
-				"[concat(variables('factoryId'), '/linkedServices/SourceGroupServiceLinkedService')]"
 			]
 		}
 	]
