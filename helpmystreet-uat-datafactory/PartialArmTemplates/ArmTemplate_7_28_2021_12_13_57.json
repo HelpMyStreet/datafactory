@@ -13,6 +13,255 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/Every60')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_AddressAddressDetail",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_AddressPostCode",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_AddressPreComputedNearestPostcodes",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestJob",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestJobStatus",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_UserChampionPostCode",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_UserSupportActivity",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_UserRegistrationHistory",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_VerificationAttempts",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestJobQuestions",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestQuestionSetActivityQuestions",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestQuestionSetQuestion",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupGroup",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupUserRole",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupUserRoleAudit",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupWebsiteRegistrationJourney",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestJobAvailableToGroup",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestRequest",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_UserUser",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_CommunicationEvent",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_FeedbackFeedback",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupActivityCredentialSet",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupCredential",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupCredentialSet",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupSecurityConfiguration",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupUserCredential",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestSupportActivities",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupWebsiteRequestHelpJourney",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestShift",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_AddressLocation",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupGroupCredential",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupSupportActivityInstructions",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupNewRequestNotificationStrategy",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupGroupLocation",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupGroupSupportActivityConfiguration",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupGroupMapDetails",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupGroupEmailConfiguration",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestLogRequestEvent",
+							"type": "PipelineReference"
+						}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Day",
+						"interval": 1,
+						"startTime": "2020-05-28T18:49:00Z",
+						"timeZone": "UTC"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/OneOff')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
@@ -24,267 +273,229 @@
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_AddressAddressDetail",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_AddressPostCode",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_AddressPreComputedNearestPostcodes",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_RequestJob",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_RequestJobStatus",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_UserChampionPostCode",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_UserSupportActivity",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_UserRegistrationHistory",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_VerificationAttempts",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_RequestJobQuestions",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_RequestQuestionSetActivityQuestions",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_RequestQuestionSetQuestion",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_GroupGroup",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_GroupUserRole",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_GroupUserRoleAudit",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_GroupWebsiteRegistrationJourney",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_RequestJobAvailableToGroup",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_RequestRequest",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_UserUser",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_CommunicationEvent",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_FeedbackFeedback",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_GroupActivityCredentialSet",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_GroupCredential",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_GroupCredentialSet",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_GroupSecurityConfiguration",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_GroupUserCredential",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_RequestSupportActivities",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_GroupWebsiteRequestHelpJourney",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_AddressLocation",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_GroupGroupCredential",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_GroupSupportActivityInstructions",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_GroupNewRequestNotificationStrategy",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_GroupGroupLocation",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_GroupGroupSupportActivityConfiguration",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_RequestShift",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_GroupGroupMapDetails",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_GroupGroupEmailConfiguration",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_RequestLogRequestEvent",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -322,120 +533,103 @@
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_LookupCredentialTypes",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_LookupDueDateType",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_LookupJobStatus",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_LookupLocation",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_LookupNewRequestNotificationStrategy",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_LookupQuestion",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_LookupQuestionType",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_LookupRegistrationFormVariant",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_LookupRequestFormStage",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_LookupRequestFormVariant",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_LookupRequestHelpFormVariant",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_LookupRequestType",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_LookupRole",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_LookupSupportActivity",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_LookupSupportActivityInstructions",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_LookupTargetGroup",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					},
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_LookupRequestEvent",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					}
 				],
 				"type": "ScheduleTrigger",

@@ -4673,6 +4673,13 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestLogRequestEvent",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -4681,7 +4688,8 @@
 						"frequency": "Day",
 						"interval": 1,
 						"startTime": "2020-05-28T18:49:00Z",
-						"timeZone": "UTC"
+						"timeZone": "UTC",
+						"schedule": {}
 					}
 				}
 			},
@@ -4699,7 +4707,8 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestRequest')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_UserUser')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestSupportActivities')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestShift')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestShift')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestLogRequestEvent')]"
 			]
 		}
 	]

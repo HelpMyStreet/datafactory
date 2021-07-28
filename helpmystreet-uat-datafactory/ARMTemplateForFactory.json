@@ -24943,6 +24943,13 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestLogRequestEvent",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -24951,7 +24958,8 @@
 						"frequency": "Day",
 						"interval": 1,
 						"startTime": "2020-05-28T18:49:00Z",
-						"timeZone": "UTC"
+						"timeZone": "UTC",
+						"schedule": {}
 					}
 				}
 			},
@@ -24992,7 +25000,8 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupGroupLocation')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupGroupSupportActivityConfiguration')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupGroupMapDetails')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupGroupEmailConfiguration')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupGroupEmailConfiguration')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestLogRequestEvent')]"
 			]
 		},
 		{
@@ -25261,6 +25270,13 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestLogRequestEvent",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -25321,7 +25337,8 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupGroupSupportActivityConfiguration')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestShift')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupGroupMapDetails')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupGroupEmailConfiguration')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupGroupEmailConfiguration')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestLogRequestEvent')]"
 			]
 		},
 		{
@@ -25443,6 +25460,13 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_LookupRequestEvent",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -25482,7 +25506,8 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupRole')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupSupportActivity')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupSupportActivityInstructions')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupTargetGroup')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupTargetGroup')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupRequestEvent')]"
 			]
 		}
 	]
