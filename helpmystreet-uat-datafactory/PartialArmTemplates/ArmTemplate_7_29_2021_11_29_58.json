@@ -1,0 +1,1357 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "helpmystreet-uat-datafactory"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Every60')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_AddressAddressDetail",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_AddressPostCode",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_AddressPreComputedNearestPostcodes",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestJob",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestJobStatus",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_UserChampionPostCode",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_UserSupportActivity",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_UserRegistrationHistory",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_VerificationAttempts",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestJobQuestions",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestQuestionSetActivityQuestions",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestQuestionSetQuestion",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupGroup",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupUserRole",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupUserRoleAudit",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupWebsiteRegistrationJourney",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestJobAvailableToGroup",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestRequest",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_UserUser",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_CommunicationEvent",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_FeedbackFeedback",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupActivityCredentialSet",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupCredential",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupCredentialSet",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupSecurityConfiguration",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupUserCredential",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestSupportActivities",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupWebsiteRequestHelpJourney",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestShift",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_AddressLocation",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupGroupCredential",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupSupportActivityInstructions",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupNewRequestNotificationStrategy",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupGroupLocation",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupGroupSupportActivityConfiguration",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupGroupMapDetails",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupGroupEmailConfiguration",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestLogRequestEvent",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_LookupGroupType",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_LookupRequestRoles",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_LookupFeedbackRating",
+							"type": "PipelineReference"
+						}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Day",
+						"interval": 1,
+						"startTime": "2020-05-28T18:49:00Z",
+						"timeZone": "UTC"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupRequestRoles')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupFeedbackRating')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/OneOff')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_AddressAddressDetail",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_AddressPostCode",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_AddressPreComputedNearestPostcodes",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestJob",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestJobStatus",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_UserChampionPostCode",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_UserSupportActivity",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_UserRegistrationHistory",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_VerificationAttempts",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestJobQuestions",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestQuestionSetActivityQuestions",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestQuestionSetQuestion",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupGroup",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupUserRole",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupUserRoleAudit",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupWebsiteRegistrationJourney",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestJobAvailableToGroup",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestRequest",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_UserUser",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_CommunicationEvent",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_FeedbackFeedback",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupActivityCredentialSet",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupCredential",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupCredentialSet",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupSecurityConfiguration",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupUserCredential",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestSupportActivities",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupWebsiteRequestHelpJourney",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_AddressLocation",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupGroupCredential",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupSupportActivityInstructions",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupNewRequestNotificationStrategy",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupGroupLocation",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupGroupSupportActivityConfiguration",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestShift",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupGroupMapDetails",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupGroupEmailConfiguration",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestLogRequestEvent",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_LookupGroupType",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_LookupRequestRoles",
+							"type": "PipelineReference"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_LookupFeedbackRating",
+							"type": "PipelineReference"
+						}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Month",
+						"interval": 1,
+						"startTime": "2020-07-14T14:41:00Z",
+						"timeZone": "UTC",
+						"schedule": {
+							"minutes": [
+								18
+							],
+							"hours": [
+								16
+							],
+							"monthDays": [
+								14
+							]
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupRequestRoles')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupFeedbackRating')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceLookupFeedbackRatingDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SourceFeedbackServiceLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "FirebaseUID",
+						"type": "varchar"
+					},
+					{
+						"name": "PostalCode",
+						"type": "varchar"
+					},
+					{
+						"name": "EmailSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "MobileSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "OtherPhoneSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "HMSContactConsent",
+						"type": "bit"
+					},
+					{
+						"name": "IsVolunteer",
+						"type": "bit"
+					},
+					{
+						"name": "IsVerified",
+						"type": "bit"
+					},
+					{
+						"name": "DateCreated",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "StreetChampionRoleUnderstood",
+						"type": "bit"
+					},
+					{
+						"name": "SupportVolunteersByPhone",
+						"type": "bit"
+					},
+					{
+						"name": "SupportRadiusMiles",
+						"type": "float",
+						"precision": 15
+					}
+				],
+				"typeProperties": {
+					"schema": "Lookup",
+					"table": "FeedbackRating"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceLookupRequestRolesDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SourceFeedbackServiceLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "FirebaseUID",
+						"type": "varchar"
+					},
+					{
+						"name": "PostalCode",
+						"type": "varchar"
+					},
+					{
+						"name": "EmailSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "MobileSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "OtherPhoneSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "HMSContactConsent",
+						"type": "bit"
+					},
+					{
+						"name": "IsVolunteer",
+						"type": "bit"
+					},
+					{
+						"name": "IsVerified",
+						"type": "bit"
+					},
+					{
+						"name": "DateCreated",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "StreetChampionRoleUnderstood",
+						"type": "bit"
+					},
+					{
+						"name": "SupportVolunteersByPhone",
+						"type": "bit"
+					},
+					{
+						"name": "SupportRadiusMiles",
+						"type": "float",
+						"precision": 15
+					}
+				],
+				"typeProperties": {
+					"schema": "Lookup",
+					"table": "RequestRoles"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SinkLookupFeedbackRatingDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DestinationLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "Lookup",
+					"table": "FeedbackRating"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SinkLookupRequestRolesDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DestinationLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "Lookup",
+					"table": "RequestRoles"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_LookupFeedbackRating')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "FullCopyActivity",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT a.[Id], a.[Name],CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Lookup].[FeedbackRating] a",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Id",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "ID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Name",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int64"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceLookupFeedbackRatingDataset",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkLookupFeedbackRatingDataset",
+								"type": "DatasetReference"
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SourceLookupFeedbackRatingDataset')]",
+				"[concat(variables('factoryId'), '/datasets/SinkLookupFeedbackRatingDataset')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_LookupRequestRoles')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "FullCopyActivity",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT a.[Id], a.[Name],CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Lookup].[RequestRoles] a",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Id",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "ID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Name",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int64"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceLookupRequestRolesDataset",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkLookupRequestRolesDataset",
+								"type": "DatasetReference"
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SourceLookupRequestRolesDataset')]",
+				"[concat(variables('factoryId'), '/datasets/SinkLookupRequestRolesDataset')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_LookupFeedbackRating')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LookupLastChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Lookup.FeedbackRating'",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingFeedbackDataset",
+								"type": "DatasetReference"
+							}
+						}
+					},
+					{
+						"name": "LookupCurrentChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingGroupDataset",
+								"type": "DatasetReference"
+							}
+						}
+					},
+					{
+						"name": "IncrementalCopyActivity",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LookupLastChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "LookupCurrentChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "select CT.ID, a.[Name], CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Lookup].[FeedbackRating] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Lookup].[FeedbackRating], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
+									"type": "Expression"
+								},
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ID",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "ID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Name",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int64"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceLookupFeedbackRatingDataset",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkLookupFeedbackRatingDataset",
+								"type": "DatasetReference"
+							}
+						]
+					},
+					{
+						"name": "StoredProceduretoUpdateChangeTrackingActivity",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "IncrementalCopyActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "Update_ChangeTracking_Version",
+							"storedProcedureParameters": {
+								"CurrentTrackingVersion": {
+									"value": {
+										"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+										"type": "Expression"
+									},
+									"type": "INT64"
+								},
+								"TableName": {
+									"value": {
+										"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SourceGroupServiceLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SourceLookupFeedbackRatingDataset')]",
+				"[concat(variables('factoryId'), '/datasets/SinkLookupFeedbackRatingDataset')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_LookupRequestRoles')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LookupLastChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Lookup.RequestRoles'",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingFeedbackDataset",
+								"type": "DatasetReference"
+							}
+						}
+					},
+					{
+						"name": "LookupCurrentChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingGroupDataset",
+								"type": "DatasetReference"
+							}
+						}
+					},
+					{
+						"name": "IncrementalCopyActivity",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LookupLastChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "LookupCurrentChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "select CT.ID, a.[Name], CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Lookup].[RequestRoles] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Lookup].[RequestRoles], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
+									"type": "Expression"
+								},
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ID",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "ID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Name",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int64"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceLookupRequestRolesDataset",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkLookupRequestRolesDataset",
+								"type": "DatasetReference"
+							}
+						]
+					},
+					{
+						"name": "StoredProceduretoUpdateChangeTrackingActivity",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "IncrementalCopyActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "Update_ChangeTracking_Version",
+							"storedProcedureParameters": {
+								"CurrentTrackingVersion": {
+									"value": {
+										"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+										"type": "Expression"
+									},
+									"type": "INT64"
+								},
+								"TableName": {
+									"value": {
+										"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SourceGroupServiceLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SourceLookupRequestRolesDataset')]",
+				"[concat(variables('factoryId'), '/datasets/SinkLookupRequestRolesDataset')]"
+			]
+		}
+	]
+}

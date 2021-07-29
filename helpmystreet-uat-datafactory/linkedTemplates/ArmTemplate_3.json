@@ -13,6 +13,25 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SinkRequestJobStatusDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DestinationLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "Request",
+					"table": "RequestJobStatus"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SinkRequestLogRequestEventDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -713,44 +732,6 @@
 				"typeProperties": {
 					"schema": "Feedback",
 					"table": "Feedback"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SourceGroupActivityCredentialSetDataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SourceGroupServiceLinkedService",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "ID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "GroupName",
-						"type": "varchar"
-					},
-					{
-						"name": "ParentGroupID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "GroupKey",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "Group",
-					"table": "ActivityCredentialSet"
 				}
 			},
 			"dependsOn": []

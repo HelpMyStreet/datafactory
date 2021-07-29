@@ -13,6 +13,1230 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_LookupQuestionType')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LookupLastChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Lookup.QuestionType'",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingRequestDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "LookupCurrentChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingRequestDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "IncrementalCopyActivity",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LookupLastChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "LookupCurrentChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "select CT.ID, a.[Name], CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Lookup].[QuestionType] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Lookup].[QuestionType], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
+									"type": "Expression"
+								},
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ID",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "ID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Name",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int64"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceLookupQuestionTypeDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkLookupQuestionTypeDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "StoredProceduretoUpdateChangeTrackingActivity",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "IncrementalCopyActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "Update_ChangeTracking_Version",
+							"storedProcedureParameters": {
+								"CurrentTrackingVersion": {
+									"value": {
+										"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+										"type": "Expression"
+									},
+									"type": "INT64"
+								},
+								"TableName": {
+									"value": {
+										"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SourceRequestServiceLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_LookupRegistrationFormVariant')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LookupLastChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Lookup.RegistrationFormVariant'",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingGroupDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "LookupCurrentChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingGroupDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "IncrementalCopyActivity",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LookupLastChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "LookupCurrentChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "select CT.ID, a.[Name], CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Lookup].[RegistrationFormVariant] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Lookup].[RegistrationFormVariant], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
+									"type": "Expression"
+								},
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ID",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "ID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Name",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int64"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceLookupRegistrationFormVariantDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkLookupRegistrationFormVariantDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "StoredProceduretoUpdateChangeTrackingActivity",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "IncrementalCopyActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "Update_ChangeTracking_Version",
+							"storedProcedureParameters": {
+								"CurrentTrackingVersion": {
+									"value": {
+										"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+										"type": "Expression"
+									},
+									"type": "INT64"
+								},
+								"TableName": {
+									"value": {
+										"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SourceGroupServiceLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_LookupRequestEvent')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LookupLastChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Lookup.RequestEvent'",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingRequestDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "LookupCurrentChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingRequestDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "IncrementalCopyActivity",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LookupLastChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "LookupCurrentChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "select CT.ID, a.[Name], CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Lookup].[RequestEvent] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Lookup].[RequestEvent], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
+									"type": "Expression"
+								},
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ID",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "ID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Name",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int64"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceLookupRequestTypeDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkLookupRequestTypeDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "StoredProceduretoUpdateChangeTrackingActivity",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "IncrementalCopyActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "Update_ChangeTracking_Version",
+							"storedProcedureParameters": {
+								"CurrentTrackingVersion": {
+									"value": {
+										"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+										"type": "Expression"
+									},
+									"type": "INT64"
+								},
+								"TableName": {
+									"value": {
+										"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SourceRequestServiceLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_LookupRequestFormStage')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LookupLastChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Lookup.RequestFormStage'",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingRequestDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "LookupCurrentChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingRequestDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "IncrementalCopyActivity",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LookupLastChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "LookupCurrentChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "select CT.ID, a.[Name], CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Lookup].[RequestFormStage] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Lookup].[RequestFormStage], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
+									"type": "Expression"
+								},
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ID",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "ID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Name",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int64"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceLookupRequestFormStageDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkLookupRequestFormStageDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "StoredProceduretoUpdateChangeTrackingActivity",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "IncrementalCopyActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "Update_ChangeTracking_Version",
+							"storedProcedureParameters": {
+								"CurrentTrackingVersion": {
+									"value": {
+										"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+										"type": "Expression"
+									},
+									"type": "INT64"
+								},
+								"TableName": {
+									"value": {
+										"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SourceRequestServiceLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_LookupRequestFormVariant')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LookupLastChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Lookup.RequestFormVariant'",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingRequestDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "LookupCurrentChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingGroupDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "IncrementalCopyActivity",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LookupLastChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "LookupCurrentChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "select CT.ID, a.[Name], CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Lookup].[RequestFormVariant] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Lookup].[RequestFormVariant], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
+									"type": "Expression"
+								},
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ID",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "ID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Name",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int64"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceLookupRequestFormVariantDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkLookupRequestFormVariantDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "StoredProceduretoUpdateChangeTrackingActivity",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "IncrementalCopyActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "Update_ChangeTracking_Version",
+							"storedProcedureParameters": {
+								"CurrentTrackingVersion": {
+									"value": {
+										"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+										"type": "Expression"
+									},
+									"type": "INT64"
+								},
+								"TableName": {
+									"value": {
+										"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SourceAddressServiceLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_LookupRequestHelpFormVariant')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LookupLastChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Lookup.RequestHelpFormVariant'",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingGroupDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "LookupCurrentChangeTrackingVersionActivity",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ChangeTrackingGroupDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "IncrementalCopyActivity",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LookupLastChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "LookupCurrentChangeTrackingVersionActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "select CT.ID, a.[Name], CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Lookup].[RequestHelpFormVariant] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Lookup].[RequestHelpFormVariant], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
+									"type": "Expression"
+								},
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ID",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "ID",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Name",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int64"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_VERSION",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceLookupRequestHelpFormVariantDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SinkLookupRequestHelpFormVariantDataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "StoredProceduretoUpdateChangeTrackingActivity",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "IncrementalCopyActivity",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "Update_ChangeTracking_Version",
+							"storedProcedureParameters": {
+								"CurrentTrackingVersion": {
+									"value": {
+										"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+										"type": "Expression"
+									},
+									"type": "INT64"
+								},
+								"TableName": {
+									"value": {
+										"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SourceGroupServiceLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_LookupRequestType')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -3303,1391 +4527,6 @@
 							"referenceName": "SourceRequestServiceLinkedService",
 							"type": "LinkedServiceReference"
 						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_RequestSupportActivities')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "LookupLastChangeTrackingVersionActivity",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Request.SupportActivities'",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "ChangeTrackingRequestDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						}
-					},
-					{
-						"name": "LookupCurrentChangeTrackingVersionActivity",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "ChangeTrackingRequestDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						}
-					},
-					{
-						"name": "IncrementalCopyActivity",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "LookupLastChangeTrackingVersionActivity",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "LookupCurrentChangeTrackingVersionActivity",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": {
-									"value": "select CT.requestId, r.ActivityID, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Request].[SupportActivities] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Request].[SupportActivities], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.RequestID = CT.RequestID and r.ActivityID = CT.ActivityID \nwhere CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
-									"type": "Expression"
-								},
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"writeBehavior": "insert"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "requestId",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "RequestID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "ActivityID",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "ActivityID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int64"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceRequestSupportActivitiesDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SinkRequestSupportActivitiesDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "StoredProceduretoUpdateChangeTrackingActivity",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "IncrementalCopyActivity",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "Update_ChangeTracking_Version",
-							"storedProcedureParameters": {
-								"CurrentTrackingVersion": {
-									"value": {
-										"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
-										"type": "Expression"
-									},
-									"type": "INT64"
-								},
-								"TableName": {
-									"value": {
-										"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
-										"type": "Expression"
-									},
-									"type": "String"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "SourceRequestServiceLinkedService",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_UserChampionPostCode')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "LookupLastChangeTrackingVersionActivity",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='User.ChampionPostCode'",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "ChangeTrackingUserDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						}
-					},
-					{
-						"name": "LookupCurrentChangeTrackingVersionActivity",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "SourceUserUserDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						}
-					},
-					{
-						"name": "IncrementalCopyActivity",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "LookupLastChangeTrackingVersionActivity",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "LookupCurrentChangeTrackingVersionActivity",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": {
-									"value": "select CT.UserID, CT.PostalCode, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [User].[ChampionPostcode] u RIGHT OUTER JOIN CHANGETABLE(CHANGES [User].[ChampionPostcode], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on u.UserID = CT.UserID and u.PostalCode=CT.PostalCode where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
-									"type": "Expression"
-								},
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"writeBehavior": "insert"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "UserID",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "UserID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "PostalCode",
-											"type": "String"
-										},
-										"sink": {
-											"name": "PostalCode",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int64"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceUserChampionPostCodeDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SinkUserChampionPostCodeDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "StoredProceduretoUpdateChangeTrackingActivity",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "IncrementalCopyActivity",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "Update_ChangeTracking_Version",
-							"storedProcedureParameters": {
-								"CurrentTrackingVersion": {
-									"value": {
-										"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
-										"type": "Expression"
-									},
-									"type": "INT64"
-								},
-								"TableName": {
-									"value": {
-										"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
-										"type": "Expression"
-									},
-									"type": "String"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "SourceUserServiceLinkedService",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_UserRegistrationHistory')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "LookupLastChangeTrackingVersionActivity",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='User.RegistrationHistory'",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "ChangeTrackingUserDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						}
-					},
-					{
-						"name": "LookupCurrentChangeTrackingVersionActivity",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "SourceUserUserDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						}
-					},
-					{
-						"name": "IncrementalCopyActivity",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "LookupLastChangeTrackingVersionActivity",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "LookupCurrentChangeTrackingVersionActivity",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": {
-									"value": "select CT.UserID, CT.RegistrationStep, u.DateCompleted, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [User].[RegistrationHistory] u RIGHT OUTER JOIN CHANGETABLE(CHANGES [User].[RegistrationHistory], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on u.UserID = CT.UserID and u.RegistrationStep =CT.RegistrationStep where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
-									"type": "Expression"
-								},
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"writeBehavior": "insert"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "UserID",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "UserID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "RegistrationStep",
-											"type": "Byte"
-										},
-										"sink": {
-											"name": "RegistrationStep",
-											"type": "Byte"
-										}
-									},
-									{
-										"source": {
-											"name": "DateCompleted",
-											"type": "DateTime"
-										},
-										"sink": {
-											"name": "DateCompleted",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int64"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceUserRegistrationHistoryDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SinkUserRegistrationHistoryDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "StoredProceduretoUpdateChangeTrackingActivity",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "IncrementalCopyActivity",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "Update_ChangeTracking_Version",
-							"storedProcedureParameters": {
-								"CurrentTrackingVersion": {
-									"value": {
-										"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
-										"type": "Expression"
-									},
-									"type": "INT64"
-								},
-								"TableName": {
-									"value": {
-										"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
-										"type": "Expression"
-									},
-									"type": "String"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "SourceUserServiceLinkedService",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_UserSupportActivity')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "LookupLastChangeTrackingVersionActivity",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='User.SupportActivity'",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "ChangeTrackingUserDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						}
-					},
-					{
-						"name": "LookupCurrentChangeTrackingVersionActivity",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "SourceUserUserDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						}
-					},
-					{
-						"name": "IncrementalCopyActivity",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "LookupLastChangeTrackingVersionActivity",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "LookupCurrentChangeTrackingVersionActivity",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": {
-									"value": "select CT.UserID, CT.ActivityID, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [User].[SupportActivity] u RIGHT OUTER JOIN CHANGETABLE(CHANGES [User].[SupportActivity], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on u.UserID = CT.UserID and u.ActivityID=CT.ActivityID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
-									"type": "Expression"
-								},
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"writeBehavior": "insert"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "UserID",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "UserID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "ActivityID",
-											"type": "Byte"
-										},
-										"sink": {
-											"name": "ActivityID",
-											"type": "Byte"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int64"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceUserSupportActivityDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SinkUserSupportActivityDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "StoredProceduretoUpdateChangeTrackingActivity",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "IncrementalCopyActivity",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "Update_ChangeTracking_Version",
-							"storedProcedureParameters": {
-								"CurrentTrackingVersion": {
-									"value": {
-										"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
-										"type": "Expression"
-									},
-									"type": "INT64"
-								},
-								"TableName": {
-									"value": {
-										"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
-										"type": "Expression"
-									},
-									"type": "String"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "SourceUserServiceLinkedService",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_UserUser')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "LookupLastChangeTrackingVersionActivity",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='User.User'",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "ChangeTrackingUserDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						}
-					},
-					{
-						"name": "LookupCurrentChangeTrackingVersionActivity",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "SourceUserUserDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						}
-					},
-					{
-						"name": "IncrementalCopyActivity",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "LookupLastChangeTrackingVersionActivity",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "LookupCurrentChangeTrackingVersionActivity",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": {
-									"value": "select CT.ID, u.FirebaseUID, u.PostalCode, u.EmailSharingConsent, u.MobileSharingConsent, u.OtherPhoneSharingConsent, u.HMSContactConsent, u.IsVolunteer, u.IsVerified, u.DateCreated, u.StreetChampionRoleUnderstood, u.SupportVolunteersByPhone, u.SupportRadiusMiles, u.ReferringGroupId,u.Source, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [User].[User] u RIGHT OUTER JOIN CHANGETABLE(CHANGES [User].[User], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on u.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
-									"type": "Expression"
-								},
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"writeBehavior": "insert"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "ID",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "ID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "FirebaseUID",
-											"type": "String"
-										},
-										"sink": {
-											"name": "FirebaseUID",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "PostalCode",
-											"type": "String"
-										},
-										"sink": {
-											"name": "PostalCode",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "EmailSharingConsent",
-											"type": "Boolean"
-										},
-										"sink": {
-											"name": "EmailSharingConsent",
-											"type": "Boolean"
-										}
-									},
-									{
-										"source": {
-											"name": "MobileSharingConsent",
-											"type": "Boolean"
-										},
-										"sink": {
-											"name": "MobileSharingConsent",
-											"type": "Boolean"
-										}
-									},
-									{
-										"source": {
-											"name": "OtherPhoneSharingConsent",
-											"type": "Boolean"
-										},
-										"sink": {
-											"name": "OtherPhoneSharingConsent",
-											"type": "Boolean"
-										}
-									},
-									{
-										"source": {
-											"name": "HMSContactConsent",
-											"type": "Boolean"
-										},
-										"sink": {
-											"name": "HMSContactConsent",
-											"type": "Boolean"
-										}
-									},
-									{
-										"source": {
-											"name": "IsVolunteer",
-											"type": "Boolean"
-										},
-										"sink": {
-											"name": "IsVolunteer",
-											"type": "Boolean"
-										}
-									},
-									{
-										"source": {
-											"name": "IsVerified",
-											"type": "Boolean"
-										},
-										"sink": {
-											"name": "IsVerified",
-											"type": "Boolean"
-										}
-									},
-									{
-										"source": {
-											"name": "DateCreated",
-											"type": "DateTime"
-										},
-										"sink": {
-											"name": "DateCreated",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "StreetChampionRoleUnderstood",
-											"type": "Boolean"
-										},
-										"sink": {
-											"name": "StreetChampionRoleUnderstood",
-											"type": "Boolean"
-										}
-									},
-									{
-										"source": {
-											"name": "SupportVolunteersByPhone",
-											"type": "Boolean"
-										},
-										"sink": {
-											"name": "SupportVolunteersByPhone",
-											"type": "Boolean"
-										}
-									},
-									{
-										"source": {
-											"name": "SupportRadiusMiles",
-											"type": "Double"
-										},
-										"sink": {
-											"name": "SupportRadiusMiles",
-											"type": "Double"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int64"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ReferringGroupId",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "ReferringGroupId",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "Source",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Source",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceUserUserDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SinkUserUserDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "StoredProceduretoUpdateChangeTrackingActivity",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "IncrementalCopyActivity",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "Update_ChangeTracking_Version",
-							"storedProcedureParameters": {
-								"CurrentTrackingVersion": {
-									"value": {
-										"value": "@{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
-										"type": "Expression"
-									},
-									"type": "INT64"
-								},
-								"TableName": {
-									"value": {
-										"value": "@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.TableName}",
-										"type": "Expression"
-									},
-									"type": "String"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "SourceUserServiceLinkedService",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_VerificationAttempts')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "LookupLastChangeTrackingVersionActivity",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "CosmosDbSqlApiSource",
-								"query": "SELECT top 1 c.MaxTS FROM c order by c._ts desc",
-								"preferredRegions": []
-							},
-							"dataset": {
-								"referenceName": "ChangeTrackingVerificationDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						}
-					},
-					{
-						"name": "IncrementalCopyActivity",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "LookupLastChangeTrackingVersionActivity",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "CosmosDbSqlApiSource",
-								"query": {
-									"value": "SELECT c.datestamp, c.userId, c.rememberMeId, c.verified, c.verificationDetails.dobMatch, c.verificationDetails.ageMatch, c.verificationDetails.notPreviouslyVerified,c.userUpdated \nfrom c where c._ts>@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.MaxTS}",
-									"type": "Expression"
-								},
-								"preferredRegions": [],
-								"detectDatetime": true
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"writeBehavior": "insert"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"path": "$['datestamp']"
-										},
-										"sink": {
-											"name": "DateOfAttempt",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['userId']"
-										},
-										"sink": {
-											"name": "UserId",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"path": "$['rememberMeId']"
-										},
-										"sink": {
-											"name": "YotiRememberMeId",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['verified']"
-										},
-										"sink": {
-											"name": "Verified",
-											"type": "Boolean"
-										}
-									},
-									{
-										"source": {
-											"path": "$['dob']"
-										},
-										"sink": {
-											"name": "DobMatch",
-											"type": "Boolean"
-										}
-									},
-									{
-										"source": {
-											"path": "$['age']"
-										},
-										"sink": {
-											"name": "AgeMatch",
-											"type": "Boolean"
-										}
-									},
-									{
-										"source": {
-											"path": "$['previousVerification']"
-										},
-										"sink": {
-											"name": "NotPreviouslyVerified",
-											"type": "Boolean"
-										}
-									},
-									{
-										"source": {
-											"path": "$['userUpdated']"
-										},
-										"sink": {
-											"name": "UserServiceUpdated",
-											"type": "Boolean"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceVerificationAttemptsDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SinkVerificationDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "UpdateMax",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "IncrementalCopyActivity",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "CosmosDbSqlApiSource",
-								"query": {
-									"value": "SELECT top 1 c._ts FROM c where c._ts>@{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.MaxTS} order by c._ts desc",
-									"type": "Expression"
-								},
-								"preferredRegions": []
-							},
-							"sink": {
-								"type": "CosmosDbSqlApiSink",
-								"writeBehavior": "insert"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"path": "$['_ts']"
-										},
-										"sink": {
-											"path": "$['MaxTS']"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceVerificationAttemptsDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ChangeTrackingVerificationDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
 					}
 				],
 				"annotations": []
