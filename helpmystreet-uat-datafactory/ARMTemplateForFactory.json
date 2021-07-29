@@ -25871,16 +25871,6 @@
 											"name": "SYS_CHANGE_OPERATION",
 											"type": "String"
 										}
-									},
-									{
-										"source": {
-											"name": "IsAdmin",
-											"type": "Boolean"
-										},
-										"sink": {
-											"name": "IsAdmin",
-											"type": "Boolean"
-										}
 									}
 								]
 							}
@@ -25894,7 +25884,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "SinkLookupRoleDataset",
+								"referenceName": "SinkLookupGroupTypeDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -25949,7 +25939,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ChangeTrackingGroupDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SourceLookupGroupTypeDataset')]",
-				"[concat(variables('factoryId'), '/datasets/SinkLookupRoleDataset')]",
+				"[concat(variables('factoryId'), '/datasets/SinkLookupGroupTypeDataset')]",
 				"[concat(variables('factoryId'), '/linkedServices/SourceGroupServiceLinkedService')]"
 			]
 		}
