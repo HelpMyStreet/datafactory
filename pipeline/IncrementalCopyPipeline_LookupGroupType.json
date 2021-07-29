@@ -131,16 +131,6 @@
 									"name": "SYS_CHANGE_OPERATION",
 									"type": "String"
 								}
-							},
-							{
-								"source": {
-									"name": "IsAdmin",
-									"type": "Boolean"
-								},
-								"sink": {
-									"name": "IsAdmin",
-									"type": "Boolean"
-								}
 							}
 						]
 					}
@@ -153,7 +143,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "SinkLookupRoleDataset",
+						"referenceName": "SinkLookupGroupTypeDataset",
 						"type": "DatasetReference"
 					}
 				]
