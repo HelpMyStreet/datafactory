@@ -237,6 +237,12 @@
 					"referenceName": "IncrementalCopyPipeline_LookupGroupType",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_LookupRequestRoles",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
