@@ -25447,6 +25447,13 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_LookupFeedbackRating",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -25490,7 +25497,8 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupNewRequestNotificationStrategy')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupGroupSupportActivityConfiguration')]",
 				"[concat(variables('factoryId'), '/pipelines/FullCopyPipeline_LookupTargetGroup')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupRequestRoles')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupRequestRoles')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupFeedbackRating')]"
 			]
 		},
 		{
