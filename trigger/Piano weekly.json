@@ -135,6 +135,12 @@
 					"referenceName": "FullCopyPipeline_LookupTargetGroup",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_LookupRequestRoles",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
