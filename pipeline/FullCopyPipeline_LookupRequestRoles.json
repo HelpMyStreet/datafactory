@@ -1,0 +1,92 @@
+{
+	"name": "FullCopyPipeline_LookupRequestRoles",
+	"properties": {
+		"activities": [
+			{
+				"name": "FullCopyActivity",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT a.[Id], a.[Name],CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Lookup].[RequestRoles] a",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Id",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "ID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "Name",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "SYS_CHANGE_VERSION",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "SYS_CHANGE_VERSION",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "SYS_CHANGE_OPERATION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "SYS_CHANGE_OPERATION",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceLookupRequestRolesDataset",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SinkLookupRequestRolesDataset",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
