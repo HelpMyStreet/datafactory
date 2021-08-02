@@ -1,0 +1,122 @@
+{
+	"name": "FullCopyPipeline_RequestLogRequestEvent",
+	"properties": {
+		"activities": [
+			{
+				"name": "FullCopyActivity",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select r.RequestId, r.DateRequested, r.RequestEventId, r.JobId, r.UserId, CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Request].[LogRequestEvent] r",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "RequestId",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "RequestId",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "DateRequested",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DateRequested",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "RequestEventId",
+									"type": "Byte"
+								},
+								"sink": {
+									"name": "RequestEventId",
+									"type": "Byte"
+								}
+							},
+							{
+								"source": {
+									"name": "JobId",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "JobId",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "UserId",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "UserId",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "SYS_CHANGE_VERSION",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "SYS_CHANGE_VERSION",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "SYS_CHANGE_OPERATION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "SYS_CHANGE_OPERATION",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceRequestLogRequestEventDataset",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SinkRequestLogRequestEventDataset",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
