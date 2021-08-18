@@ -261,11 +261,11 @@
 				"schedule": {
 					"minutes": [
 						0,
-						33
+						35
 					],
 					"hours": [
 						8,
-						12
+						11
 					],
 					"weekDays": [
 						"Monday",
