@@ -26537,10 +26537,12 @@
 						"timeZone": "UTC",
 						"schedule": {
 							"minutes": [
-								0
+								0,
+								30
 							],
 							"hours": [
-								8
+								8,
+								12
 							],
 							"weekDays": [
 								"Monday",
