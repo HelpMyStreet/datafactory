@@ -3823,12 +3823,10 @@
 						"timeZone": "UTC",
 						"schedule": {
 							"minutes": [
-								0,
-								35
+								0
 							],
 							"hours": [
-								8,
-								11
+								8
 							],
 							"weekDays": [
 								"Monday",
