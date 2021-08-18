@@ -1315,13 +1315,14 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "select CT.ID, a.[Name], CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Lookup].[Role] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Lookup].[Role], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
+									"value": "select CT.ID, a.[Name], a.IsAdmin, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Lookup].[Role] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Lookup].[Role], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
 									"type": "Expression"
 								},
 								"partitionOption": "None"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -1365,6 +1366,16 @@
 										"sink": {
 											"name": "SYS_CHANGE_OPERATION",
 											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "IsAdmin",
+											"type": "Boolean"
+										},
+										"sink": {
+											"name": "IsAdmin",
+											"type": "Boolean"
 										}
 									}
 								]
