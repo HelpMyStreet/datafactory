@@ -79,7 +79,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "\nselect CT.ID, r.PostCode, r.DateRequested, r.IsFulfillable,r.CommunicationSent,r.ForRequestor,r.OtherDetails,r.PersonID_Recipient,r.PersonID_Requester,r.ReadPrivacyNotice,r.AcceptedTerms,r.SpecialCommunicationNeeds,r.CreatedByUserID, r.RequestorType, r.OrganisationName, r.Archive, r.[Guid], r.ReferringGroupId, r.RequestorDefinedByGroup, r.RequestType, r.Source, r.FulfillableStatus, r.MultiVolunteer, r.Repeat, r.SuppressRecipientPersonalDetail, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Request].[Request] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Request].[Request], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+							"value": "\nselect CT.ID, r.PostCode, r.DateRequested, r.IsFulfillable,r.CommunicationSent,r.ForRequestor,r.OtherDetails,r.PersonID_Recipient,r.PersonID_Requester,r.ReadPrivacyNotice,r.AcceptedTerms,r.SpecialCommunicationNeeds,r.CreatedByUserID, r.RequestorType, r.OrganisationName, r.Archive, r.[Guid], r.ReferringGroupId, r.RequestorDefinedByGroup, r.RequestType, r.Source, r.FulfillableStatus, r.MultiVolunteer, r.Repeat, r.SuppressRecipientPersonalDetail, r.ParentGuid, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Request].[Request] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Request].[Request], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
 							"type": "Expression"
 						},
 						"partitionOption": "None"
@@ -360,6 +360,16 @@
 								"sink": {
 									"name": "SuppressRecipientPersonalDetail",
 									"type": "Boolean"
+								}
+							},
+							{
+								"source": {
+									"name": "ParentGuid",
+									"type": "Guid"
+								},
+								"sink": {
+									"name": "ParentGuid",
+									"type": "Guid"
 								}
 							}
 						]
