@@ -1,0 +1,151 @@
+{
+	"name": "FullCopyPipeline_RequestUpdateHistory",
+	"properties": {
+		"activities": [
+			{
+				"name": "FullCopyActivity",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select r.RequestId, r.JobId, r.DateCreated, r.FieldChanged,r.CreatedByUserID,r.OldValue,r.NewValue,r.QuestionId,CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Request].[UpdateHistory] r",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "RequestId",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "RequestId",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "JobId",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "JobId",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "DateCreated",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DateCreated",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "FieldChanged",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FieldChanged",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "CreatedByUserID",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "CreatedByUserID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "OldValue",
+									"type": "String"
+								},
+								"sink": {
+									"name": "OldValue",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "NewValue",
+									"type": "String"
+								},
+								"sink": {
+									"name": "NewValue",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "QuestionId",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "QuestionId",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "SYS_CHANGE_VERSION",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "SYS_CHANGE_VERSION",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "SYS_CHANGE_OPERATION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "SYS_CHANGE_OPERATION",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceRequestUpdateHistoryDataset",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SinkRequestUpdateHistoryDataset",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
