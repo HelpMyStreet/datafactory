@@ -13,6 +13,82 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SourceLookupSupportActivityDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SourceGroupServiceLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "FirebaseUID",
+						"type": "varchar"
+					},
+					{
+						"name": "PostalCode",
+						"type": "varchar"
+					},
+					{
+						"name": "EmailSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "MobileSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "OtherPhoneSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "HMSContactConsent",
+						"type": "bit"
+					},
+					{
+						"name": "IsVolunteer",
+						"type": "bit"
+					},
+					{
+						"name": "IsVerified",
+						"type": "bit"
+					},
+					{
+						"name": "DateCreated",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "StreetChampionRoleUnderstood",
+						"type": "bit"
+					},
+					{
+						"name": "SupportVolunteersByPhone",
+						"type": "bit"
+					},
+					{
+						"name": "SupportRadiusMiles",
+						"type": "float",
+						"precision": 15
+					}
+				],
+				"typeProperties": {
+					"schema": "Lookup",
+					"table": "SupportActivity"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SourceLookupSupportActivityInstructionsDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1001,6 +1077,82 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SourceRequestUpdateHistoryDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SourceRequestServiceLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "FirebaseUID",
+						"type": "varchar"
+					},
+					{
+						"name": "PostalCode",
+						"type": "varchar"
+					},
+					{
+						"name": "EmailSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "MobileSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "OtherPhoneSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "HMSContactConsent",
+						"type": "bit"
+					},
+					{
+						"name": "IsVolunteer",
+						"type": "bit"
+					},
+					{
+						"name": "IsVerified",
+						"type": "bit"
+					},
+					{
+						"name": "DateCreated",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "StreetChampionRoleUnderstood",
+						"type": "bit"
+					},
+					{
+						"name": "SupportVolunteersByPhone",
+						"type": "bit"
+					},
+					{
+						"name": "SupportRadiusMiles",
+						"type": "float",
+						"precision": 15
+					}
+				],
+				"typeProperties": {
+					"schema": "Request",
+					"table": "UpdateHistory"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SourceUserChampionPostCodeDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1349,336 +1501,6 @@
 				"typeProperties": {
 					"collectionName": "verification-attempts"
 				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_AddressAddressDetail')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "FullCopyActivity",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "SELECT a.[Id], a.[PostcodeId], a.[AddressLine1],a.[AddressLine2], a.[AddressLine3],a.[Locality],a.[LastUpdated],CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Address].[AddressDetail] a",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "Id",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "Id",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "PostcodeId",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "PostcodeId",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "AddressLine1",
-											"type": "String"
-										},
-										"sink": {
-											"name": "AddressLine1",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "AddressLine2",
-											"type": "String"
-										},
-										"sink": {
-											"name": "AddressLine2",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "AddressLine3",
-											"type": "String"
-										},
-										"sink": {
-											"name": "AddressLine3",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Locality",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Locality",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "LastUpdated",
-											"type": "DateTime"
-										},
-										"sink": {
-											"name": "LastUpdated",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int64"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceAddressAddressDetailDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SinkAddressAddressDetailDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_AddressLocation')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "FullCopyActivity",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "SELECT a.[Id], a.[Name], a.[ShortName], a.[AddressLine1],a.[AddressLine2], a.[AddressLine3],a.[Locality],a.[PostCode],a.Latitude, a.Longitude, a.Instructions,CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Address].[Location] a",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "Id",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "Id",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "Name",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ShortName",
-											"type": "String"
-										},
-										"sink": {
-											"name": "ShortName",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "AddressLine1",
-											"type": "String"
-										},
-										"sink": {
-											"name": "AddressLine1",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "AddressLine2",
-											"type": "String"
-										},
-										"sink": {
-											"name": "AddressLine2",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "AddressLine3",
-											"type": "String"
-										},
-										"sink": {
-											"name": "AddressLine3",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Locality",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Locality",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "PostCode",
-											"type": "String"
-										},
-										"sink": {
-											"name": "PostCode",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Latitude",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "Latitude",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Longitude",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "Longitude",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "Instructions",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Instructions",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int64"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceAddressLocationDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SinkAddressLocationDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
 			},
 			"dependsOn": []
 		}
