@@ -207,6 +207,12 @@
 					"referenceName": "IncrementalCopyPipeline_RequestLogRequestEvent",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_RequestUpdateHistory",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
