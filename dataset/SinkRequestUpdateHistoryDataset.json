@@ -1,0 +1,17 @@
+{
+	"name": "SinkRequestUpdateHistoryDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DestinationLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "Request",
+			"table": "UpdateHistory"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
