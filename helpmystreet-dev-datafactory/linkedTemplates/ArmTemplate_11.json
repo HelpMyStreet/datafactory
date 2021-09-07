@@ -3268,6 +3268,13 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestUpdateHistory",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -3304,7 +3311,8 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestRequest')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestSupportActivities')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestShift')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestRequestSubmission')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestRequestSubmission')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestUpdateHistory')]"
 			]
 		},
 		{
