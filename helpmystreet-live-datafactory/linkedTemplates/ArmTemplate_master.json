@@ -333,6 +333,26 @@
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'helpmystreet-live-datafactory_ArmTemplate_11')]"
 			]
+		},
+		{
+			"name": "helpmystreet-live-datafactory_ArmTemplate_13",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_13.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'helpmystreet-live-datafactory_ArmTemplate_12')]"
+			]
 		}
 	]
 }
