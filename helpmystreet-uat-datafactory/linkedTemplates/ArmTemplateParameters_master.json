@@ -29,6 +29,9 @@
 		"SourceUserServiceLinkedService_connectionString": {
 			"value": ""
 		},
+		"AzureMySql1_connectionString": {
+			"value": ""
+		},
 		"containerUri": {
 			"value": ""
 		},
