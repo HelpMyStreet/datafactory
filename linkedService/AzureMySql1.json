@@ -1,0 +1,12 @@
+{
+	"name": "AzureMySql1",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureMySql",
+		"typeProperties": {
+			"connectionString": "server=helpmystreet-mysql-uat.mysql.database.azure.com;port=3306;database=analysis;uid=mysqladmin@helpmystreet-mysql-uat;sslmode=1;usesystemtruststore=1",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkhFTFBNWVNUUkVFVC1VQVQtREFUQUZBQ1RPUllfYTEwMDFlOGItZWI3MS00ODIxLWFlMTAtNDY0Zjk5NzA5NTg3Ig0KfQ=="
+		}
+	}
+}
