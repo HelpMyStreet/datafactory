@@ -1,0 +1,93 @@
+{
+	"name": "FullCopyPipelineMySqlInactiveGroupStats",
+	"properties": {
+		"activities": [
+			{
+				"name": "FullCopyActivity",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select * from Analysis.viewInactiveGroupsThisMonth",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureMySqlSink",
+						"writeBatchSize": 10000,
+						"writeBatchTimeout": "00:00:30"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "GroupName",
+									"type": "String"
+								},
+								"sink": {
+									"name": "GroupName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Subgroup",
+									"type": "String"
+								},
+								"sink": {
+									"name": "SubGroup",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Earliest Request",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "EarliestRequest",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "Latest Request",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "LatestRequest",
+									"type": "DateTime"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceAnalysisMonthlyInactiveGroupsDataset",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SinkMySqlAnalysisInactiveGroupsStats",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
