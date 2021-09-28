@@ -5,6 +5,9 @@
 		"factoryName": {
 			"value": "helpmystreet-uat-datafactory"
 		},
+		"AzureMySql1_connectionString": {
+			"value": ""
+		},
 		"DestinationLinkedService_connectionString": {
 			"value": ""
 		},
@@ -27,9 +30,6 @@
 			"value": ""
 		},
 		"SourceUserServiceLinkedService_connectionString": {
-			"value": ""
-		},
-		"AzureMySql1_connectionString": {
 			"value": ""
 		}
 	}
