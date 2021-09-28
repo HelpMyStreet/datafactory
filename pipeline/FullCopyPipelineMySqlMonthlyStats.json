@@ -1,0 +1,193 @@
+{
+	"name": "FullCopyPipelineMySqlMonthlyStats",
+	"properties": {
+		"activities": [
+			{
+				"name": "FullCopyActivity",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "  SELECT\t[GroupName] AS [Group Name]\n\t\t\t,ISNULL([Subgroup],'-') AS [Subgroup]\n\t\t\t,[Members] AS [New Members]\n\t\t\t,[Admins] AS [New Admins]\n\t\t\t,[ActiveVols] AS [Active Vols]\n\t\t\t,[NonMemberVols] AS [Non-Member Vols]\n\t\t\t,[YotiIDs] AS [New Yotis]\n\t\t\t,ISNULL([OtherCredentials],0) AS [New Non-Yoti Credentials]\n\t\t\t,[Requests] AS [New Requests]\n\t\t\t,[Jobs] AS [New Jobs]\n\t\t\t,[Jobs_Cancelled] AS [% New Jobs Cancelled]\n\t\t\t,[Jobs_Completed] AS [% New Jobs Completed]\n\t\t\t,[Jobs_Overdue] AS [% New Jobs Overdue]\n\t\t\t,[TopActivities] AS [Top Activities]\n\tFROM\t[Analysis].[viewMonthlyStats_MonthToDate]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureMySqlSink",
+						"writeBatchSize": 10000,
+						"writeBatchTimeout": "00:00:30"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Group Name",
+									"type": "String"
+								},
+								"sink": {
+									"name": "GroupName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Subgroup",
+									"type": "String"
+								},
+								"sink": {
+									"name": "SubGroup",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "New Members",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "NewMembers",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "New Admins",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "NewAdmins",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "Active Vols",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "ActiveVols",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "Non-Member Vols",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "NonMemberVols",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "New Yotis",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "NewYotis",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "New Non-Yoti Credentials",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "NewNonYotiCredentials",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "New Requests",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "NewRequests",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "New Jobs",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "NewJobs",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "% New Jobs Cancelled",
+									"type": "String"
+								},
+								"sink": {
+									"name": "PercentNewJobsCancelled",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "% New Jobs Completed",
+									"type": "String"
+								},
+								"sink": {
+									"name": "PercentNewJobsCompleted",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "% New Jobs Overdue",
+									"type": "String"
+								},
+								"sink": {
+									"name": "PercentNewJobsOverdue",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Top Activities",
+									"type": "String"
+								},
+								"sink": {
+									"name": "TopActivities",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceAnalysisMonthlyStatsDataset",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SinkMySqlAnalysisMonthlyStats",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
