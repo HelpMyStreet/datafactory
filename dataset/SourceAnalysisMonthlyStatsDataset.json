@@ -1,0 +1,36 @@
+{
+	"name": "SourceAnalysisMonthlyStatsDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DestinationLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupName",
+				"type": "varchar"
+			},
+			{
+				"name": "ParentGroupID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupKey",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "Analysis",
+			"table": "viewMonthlyStats_MonthToDate"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
