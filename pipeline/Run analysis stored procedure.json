@@ -15,7 +15,13 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[Monitoring].[SP_MonthlyStats]"
+					"storedProcedureName": "[Monitoring].[SP_MonthlyStats]",
+					"storedProcedureParameters": {
+						"@date": {
+							"value": null,
+							"type": "Datetime"
+						}
+					}
 				},
 				"linkedServiceName": {
 					"referenceName": "DestinationLinkedService",
