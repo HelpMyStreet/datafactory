@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"storedProcedureName": "[Monitoring].[SP_MonthlyStats]",
 					"storedProcedureParameters": {
-						"@date": {
+						"date": {
 							"value": null,
 							"type": "Datetime"
 						}
