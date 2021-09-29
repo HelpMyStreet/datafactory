@@ -261,6 +261,12 @@
 					"referenceName": "IncrementalCopyPipeline_RequestUpdateHistory",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "Run analysis stored procedure",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
