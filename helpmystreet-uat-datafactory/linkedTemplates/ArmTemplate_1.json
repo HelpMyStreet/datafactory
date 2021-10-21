@@ -13,6 +13,25 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SinkAddressPreComputedNearestPostcodesDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DestinationLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "Address",
+					"table": "PreComputedNearestPostcodes"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SinkCommunicationEventDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -399,25 +418,6 @@
 				"typeProperties": {
 					"schema": "Website",
 					"table": "RegistrationJourney"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SinkGroupWebsiteRequestHelpJourneyDataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "DestinationLinkedService",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "Website",
-					"table": "RequestHelpJourney"
 				}
 			},
 			"dependsOn": []

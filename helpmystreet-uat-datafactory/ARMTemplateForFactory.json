@@ -17264,7 +17264,7 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "select CT.ID, a.[Name], CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Lookup].[SupportActivity] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Lookup].[SupportActivity], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
+									"value": "select CT.ID, a.[Name], a.[FriendlyName],CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Lookup].[SupportActivity] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Lookup].[SupportActivity], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
 									"type": "Expression"
 								},
 								"partitionOption": "None"
@@ -17313,6 +17313,16 @@
 										},
 										"sink": {
 											"name": "SYS_CHANGE_OPERATION",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FriendlyName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "FriendlyName",
 											"type": "String"
 										}
 									}
@@ -22262,6 +22272,49 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SourceVerificationAttemptsDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SinkVerificationDataset2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Run analysis stored procedure')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Update Monthly Stats",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[Monitoring].[SP_MonthlyStats]",
+							"storedProcedureParameters": {
+								"date": {
+									"value": null,
+									"type": "Datetime"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DestinationLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DestinationLinkedService')]"
 			]
 		},
 		{
@@ -29197,49 +29250,6 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupTargetGroup')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupRequestEvent')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupRequestorType')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Run analysis stored procedure')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Update Monthly Stats",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[Monitoring].[SP_MonthlyStats]",
-							"storedProcedureParameters": {
-								"date": {
-									"value": null,
-									"type": "Datetime"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "DestinationLinkedService",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/DestinationLinkedService')]"
 			]
 		}
 	]

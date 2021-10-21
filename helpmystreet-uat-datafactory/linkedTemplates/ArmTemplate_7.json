@@ -13,6 +13,82 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SourceRequestSupportActivitiesDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SourceRequestServiceLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "FirebaseUID",
+						"type": "varchar"
+					},
+					{
+						"name": "PostalCode",
+						"type": "varchar"
+					},
+					{
+						"name": "EmailSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "MobileSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "OtherPhoneSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "HMSContactConsent",
+						"type": "bit"
+					},
+					{
+						"name": "IsVolunteer",
+						"type": "bit"
+					},
+					{
+						"name": "IsVerified",
+						"type": "bit"
+					},
+					{
+						"name": "DateCreated",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "StreetChampionRoleUnderstood",
+						"type": "bit"
+					},
+					{
+						"name": "SupportVolunteersByPhone",
+						"type": "bit"
+					},
+					{
+						"name": "SupportRadiusMiles",
+						"type": "float",
+						"precision": 15
+					}
+				],
+				"typeProperties": {
+					"schema": "Request",
+					"table": "SupportActivities"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SourceRequestUpdateHistoryDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -437,47 +513,6 @@
 				"typeProperties": {
 					"collectionName": "verification-attempts"
 				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Run analysis stored procedure')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Update Monthly Stats",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[Monitoring].[SP_MonthlyStats]",
-							"storedProcedureParameters": {
-								"date": {
-									"value": null,
-									"type": "Datetime"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "DestinationLinkedService",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
 			},
 			"dependsOn": []
 		},
