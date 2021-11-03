@@ -189,6 +189,12 @@
 					"referenceName": "IncrementalCopyPipeline_GroupGroupMapDetails",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "Run Email Monitoring",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
