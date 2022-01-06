@@ -26348,6 +26348,13 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_LookupFeedbackRating",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -26390,7 +26397,8 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupGroupCredential')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupNewRequestNotificationStrategy')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupRequestEvent')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupRequestorType')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupRequestorType')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupFeedbackRating')]"
 			]
 		}
 	]
