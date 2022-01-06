@@ -13458,7 +13458,7 @@
 								"partitionOption": "None"
 							},
 							"dataset": {
-								"referenceName": "ChangeTrackingGroupDataset",
+								"referenceName": "ChangeTrackingRequestDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -13602,7 +13602,7 @@
 							}
 						},
 						"linkedServiceName": {
-							"referenceName": "SourceAddressServiceLinkedService",
+							"referenceName": "SourceRequestServiceLinkedService",
 							"type": "LinkedServiceReference"
 						}
 					}
@@ -13615,10 +13615,9 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ChangeTrackingRequestDataset')]",
-				"[concat(variables('factoryId'), '/datasets/ChangeTrackingGroupDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SourceLookupDueDateTypeDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SinkLookupDueDateTypeDataset')]",
-				"[concat(variables('factoryId'), '/linkedServices/SourceAddressServiceLinkedService')]"
+				"[concat(variables('factoryId'), '/linkedServices/SourceRequestServiceLinkedService')]"
 			]
 		},
 		{
@@ -14098,7 +14097,7 @@
 								"partitionOption": "None"
 							},
 							"dataset": {
-								"referenceName": "ChangeTrackingGroupDataset",
+								"referenceName": "ChangeTrackingRequestDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -14242,7 +14241,7 @@
 							}
 						},
 						"linkedServiceName": {
-							"referenceName": "SourceAddressServiceLinkedService",
+							"referenceName": "SourceRequestServiceLinkedService",
 							"type": "LinkedServiceReference"
 						}
 					}
@@ -14255,10 +14254,9 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ChangeTrackingRequestDataset')]",
-				"[concat(variables('factoryId'), '/datasets/ChangeTrackingGroupDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SourceLookupJobStatusDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SinkLookupJobStatusDataset')]",
-				"[concat(variables('factoryId'), '/linkedServices/SourceAddressServiceLinkedService')]"
+				"[concat(variables('factoryId'), '/linkedServices/SourceRequestServiceLinkedService')]"
 			]
 		},
 		{
@@ -15796,7 +15794,7 @@
 								"partitionOption": "None"
 							},
 							"dataset": {
-								"referenceName": "ChangeTrackingGroupDataset",
+								"referenceName": "ChangeTrackingRequestDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -15940,7 +15938,7 @@
 							}
 						},
 						"linkedServiceName": {
-							"referenceName": "SourceAddressServiceLinkedService",
+							"referenceName": "SourceRequestServiceLinkedService",
 							"type": "LinkedServiceReference"
 						}
 					}
@@ -15953,10 +15951,9 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ChangeTrackingRequestDataset')]",
-				"[concat(variables('factoryId'), '/datasets/ChangeTrackingGroupDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SourceLookupRequestFormVariantDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SinkLookupRequestFormVariantDataset')]",
-				"[concat(variables('factoryId'), '/linkedServices/SourceAddressServiceLinkedService')]"
+				"[concat(variables('factoryId'), '/linkedServices/SourceRequestServiceLinkedService')]"
 			]
 		},
 		{
@@ -21903,6 +21900,43 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SourceVerificationAttemptsDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SinkVerificationDataset2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Run Email Monitoring')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "SP_EmailMonitoring",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[Monitoring].[SP_EmailMonitoring]"
+						},
+						"linkedServiceName": {
+							"referenceName": "DestinationLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DestinationLinkedService')]"
 			]
 		},
 		{
@@ -28421,6 +28455,13 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "Run Email Monitoring",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -28472,7 +28513,8 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupWebsiteRequestHelpJourney')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestRequest')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupGroupEmailConfiguration')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupGroupMapDetails')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupGroupMapDetails')]",
+				"[concat(variables('factoryId'), '/pipelines/Run Email Monitoring')]"
 			]
 		}
 	]
