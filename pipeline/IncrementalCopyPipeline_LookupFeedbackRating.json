@@ -137,13 +137,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SourceLookupFeedbackRatingDataset",
+						"referenceName": "SourceFeedbackFeedbackDataset",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "SinkLookupFeedbackRatingDataset",
+						"referenceName": "SinkFeedbackFeedbackDataset",
 						"type": "DatasetReference"
 					}
 				]
