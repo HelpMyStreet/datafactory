@@ -370,6 +370,13 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestUpdateHistory",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -549,6 +556,13 @@
 					{
 						"pipelineReference": {
 							"referenceName": "IncrementalCopyPipeline_LookupRequestEvent",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_LookupRequestorType",
 							"type": "PipelineReference"
 						},
 						"parameters": {}
