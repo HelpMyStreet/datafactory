@@ -1,5 +1,5 @@
 {
-	"name": "IncrementalCopyPipeline_LookupNewRequestNotificationStrategy",
+	"name": "IncrementalCopyPipeline_LookupFeedbackRating",
 	"properties": {
 		"activities": [
 			{
@@ -17,11 +17,11 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Lookup.NewRequestNotificationStrategy'",
+						"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Lookup.FeedbackRating'",
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "ChangeTrackingGroupDataset",
+						"referenceName": "ChangeTrackingFeedbackDataset",
 						"type": "DatasetReference"
 					}
 				}
@@ -45,7 +45,7 @@
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "ChangeTrackingGroupDataset",
+						"referenceName": "ChangeTrackingFeedbackDataset",
 						"type": "DatasetReference"
 					}
 				}
@@ -79,13 +79,14 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "select CT.ID, a.[Name], CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Lookup].[NewRequestNotificationStrategy] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Lookup].[NewRequestNotificationStrategy], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
+							"value": "select CT.ID, a.[Name], CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Lookup].[FeedbackRating] a RIGHT OUTER JOIN CHANGETABLE(CHANGES [Lookup].[FeedbackRating], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on a.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
 							"type": "Expression"
 						},
 						"partitionOption": "None"
 					},
 					"sink": {
-						"type": "AzureSqlSink"
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert"
 					},
 					"enableStaging": false,
 					"translator": {
@@ -136,13 +137,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SourceLookupNewRequestNotificationStrategyDataset",
+						"referenceName": "SourceLookupFeedbackRatingDataset",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "SinkLookupNewRequestNotificationStrategyDataset",
+						"referenceName": "SinkLookupFeedbackRatingDataset",
 						"type": "DatasetReference"
 					}
 				]
@@ -186,7 +187,7 @@
 					}
 				},
 				"linkedServiceName": {
-					"referenceName": "SourceGroupServiceLinkedService",
+					"referenceName": "SourceFeedbackServiceLinkedService",
 					"type": "LinkedServiceReference"
 				}
 			}
