@@ -168,6 +168,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"storedProcedureName": "Update_ChangeTracking_Version",
 					"storedProcedureParameters": {
 						"CurrentTrackingVersion": {
 							"value": {
