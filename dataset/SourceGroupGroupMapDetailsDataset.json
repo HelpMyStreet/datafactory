@@ -1,0 +1,36 @@
+{
+	"name": "SourceGroupGroupMapDetailsDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SourceGroupServiceLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupName",
+				"type": "varchar"
+			},
+			{
+				"name": "ParentGroupID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GroupKey",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "Group",
+			"table": "GroupMapDetails"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

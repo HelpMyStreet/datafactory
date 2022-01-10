@@ -1,0 +1,17 @@
+{
+	"name": "SinkGroupGroupEmailConfigurationDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DestinationLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "Group",
+			"table": "GroupEmailConfiguration"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
