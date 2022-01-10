@@ -389,7 +389,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SinkLookupJobStatusDataset')]",
+			"name": "[concat(parameters('factoryName'), '/SinkLookupFrequencyDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -402,7 +402,7 @@
 				"schema": [],
 				"typeProperties": {
 					"schema": "Lookup",
-					"table": "JobStatus"
+					"table": "Frequency"
 				}
 			},
 			"dependsOn": []
