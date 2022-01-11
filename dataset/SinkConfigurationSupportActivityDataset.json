@@ -1,0 +1,17 @@
+{
+	"name": "SinkConfigurationSupportActivityDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DestinationLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "Configuration",
+			"table": "SupportActivity"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
