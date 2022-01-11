@@ -13817,7 +13817,7 @@
 								"partitionOption": "None"
 							},
 							"dataset": {
-								"referenceName": "ChangeTrackingGroupDataset",
+								"referenceName": "ChangeTrackingFeedbackDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -13962,7 +13962,7 @@
 							}
 						},
 						"linkedServiceName": {
-							"referenceName": "SourceGroupServiceLinkedService",
+							"referenceName": "SourceFeedbackServiceLinkedService",
 							"type": "LinkedServiceReference"
 						}
 					}
@@ -13975,10 +13975,9 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ChangeTrackingFeedbackDataset')]",
-				"[concat(variables('factoryId'), '/datasets/ChangeTrackingGroupDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SourceLookupFeedbackRatingDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SinkLookupFeedbackRatingDataset')]",
-				"[concat(variables('factoryId'), '/linkedServices/SourceGroupServiceLinkedService')]"
+				"[concat(variables('factoryId'), '/linkedServices/SourceFeedbackServiceLinkedService')]"
 			]
 		},
 		{
@@ -16367,7 +16366,7 @@
 								"partitionOption": "None"
 							},
 							"dataset": {
-								"referenceName": "ChangeTrackingGroupDataset",
+								"referenceName": "ChangeTrackingFeedbackDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -16512,7 +16511,7 @@
 							}
 						},
 						"linkedServiceName": {
-							"referenceName": "SourceGroupServiceLinkedService",
+							"referenceName": "SourceFeedbackServiceLinkedService",
 							"type": "LinkedServiceReference"
 						}
 					}
@@ -16525,10 +16524,9 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ChangeTrackingFeedbackDataset')]",
-				"[concat(variables('factoryId'), '/datasets/ChangeTrackingGroupDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SourceLookupRequestRolesDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SinkLookupRequestRolesDataset')]",
-				"[concat(variables('factoryId'), '/linkedServices/SourceGroupServiceLinkedService')]"
+				"[concat(variables('factoryId'), '/linkedServices/SourceFeedbackServiceLinkedService')]"
 			]
 		},
 		{

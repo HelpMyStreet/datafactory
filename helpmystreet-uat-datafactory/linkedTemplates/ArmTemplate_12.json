@@ -1719,7 +1719,7 @@
 								"partitionOption": "None"
 							},
 							"dataset": {
-								"referenceName": "ChangeTrackingGroupDataset",
+								"referenceName": "ChangeTrackingFeedbackDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -1864,7 +1864,7 @@
 							}
 						},
 						"linkedServiceName": {
-							"referenceName": "SourceGroupServiceLinkedService",
+							"referenceName": "SourceFeedbackServiceLinkedService",
 							"type": "LinkedServiceReference"
 						}
 					}
