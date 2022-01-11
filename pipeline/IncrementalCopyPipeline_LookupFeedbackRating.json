@@ -45,7 +45,7 @@
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "ChangeTrackingGroupDataset",
+						"referenceName": "ChangeTrackingFeedbackDataset",
 						"type": "DatasetReference"
 					}
 				}
@@ -168,7 +168,6 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "Update_ChangeTracking_Version",
 					"storedProcedureParameters": {
 						"CurrentTrackingVersion": {
 							"value": {
@@ -187,7 +186,7 @@
 					}
 				},
 				"linkedServiceName": {
-					"referenceName": "SourceGroupServiceLinkedService",
+					"referenceName": "SourceFeedbackServiceLinkedService",
 					"type": "LinkedServiceReference"
 				}
 			}
