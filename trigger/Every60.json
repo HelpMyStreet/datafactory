@@ -248,12 +248,10 @@
 				"timeZone": "UTC",
 				"schedule": {
 					"minutes": [
-						0,
-						40
+						0
 					],
 					"hours": [
-						8,
-						11
+						8
 					],
 					"weekDays": [
 						"Monday",
