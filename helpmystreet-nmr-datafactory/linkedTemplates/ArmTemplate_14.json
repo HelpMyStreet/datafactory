@@ -13,13 +13,13 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/FullCopyPipeline_WebsiteRegistrationFormSupportActivity')]",
+			"name": "[concat(parameters('factoryName'), '/IncrementalCopyPipeline_VerificationAttempts2')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "FullCopyActivity",
+						"name": "IncrementalCopyActivity",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -32,14 +32,16 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "SELECT a.[RequestHelpFormVariantID], a.[SupportActivityID],a.[Label], a.[DisplayOrder], a.[IsPreSelected], CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION \nfrom [Website].[RegistrationFormSupportActivity] a",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
+								"type": "CosmosDbSqlApiSource",
+								"query": {
+									"value": "SELECT c.datestamp, c.userId, c.rememberMeId, c.verified, c.verificationDetails.dobMatch, c.verificationDetails.ageMatch, c.verificationDetails.notPreviouslyVerified,c.userUpdated \nfrom c \nwhere c._ts>1589372085",
+									"type": "Expression"
+								},
+								"preferredRegions": [],
+								"detectDatetime": true
 							},
 							"sink": {
-								"type": "AzureSqlSink",
-								"writeBehavior": "insert"
+								"type": "AzureSqlSink"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -47,72 +49,74 @@
 								"mappings": [
 									{
 										"source": {
-											"name": "RequestHelpFormVariantID",
-											"type": "Byte"
+											"path": "$['datestamp']"
 										},
 										"sink": {
-											"name": "RequestHelpFormVariantID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "SupportActivityID",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "SupportActivityID",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "Label",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Label",
+											"name": "DateOfAttempt",
 											"type": "String"
 										}
 									},
 									{
 										"source": {
-											"name": "DisplayOrder",
-											"type": "Byte"
+											"path": "$['userId']"
 										},
 										"sink": {
-											"name": "DisplayOrder",
+											"name": "UserId",
 											"type": "Int32"
 										}
 									},
 									{
 										"source": {
-											"name": "IsPreSelected",
-											"type": "Boolean"
+											"path": "$['rememberMeId']"
 										},
 										"sink": {
-											"name": "IsPreSelected",
+											"name": "YotiRememberMeId",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['verified']"
+										},
+										"sink": {
+											"name": "Verified",
 											"type": "Boolean"
 										}
 									},
 									{
 										"source": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int64"
+											"path": "$['dobMatch']"
 										},
 										"sink": {
-											"name": "SYS_CHANGE_VERSION",
-											"type": "Int32"
+											"name": "DobMatch",
+											"type": "Boolean"
 										}
 									},
 									{
 										"source": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
+											"path": "$['ageMatch']"
 										},
 										"sink": {
-											"name": "SYS_CHANGE_OPERATION",
-											"type": "String"
+											"name": "AgeMatch",
+											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"path": "$['notPreviouslyVerified']"
+										},
+										"sink": {
+											"name": "NotPreviouslyVerified",
+											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"path": "$['userUpdated']"
+										},
+										"sink": {
+											"name": "UserServiceUpdated",
+											"type": "Boolean"
 										}
 									}
 								]
@@ -120,14 +124,14 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "SourceWebsiteRegistrationFormSupportActivityDataset",
+								"referenceName": "SourceVerificationAttemptsDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "SinkWebsiteRegistrationFormSupportActivityDataset",
+								"referenceName": "SinkVerificationDataset2",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -672,10 +676,12 @@
 						"timeZone": "UTC",
 						"schedule": {
 							"minutes": [
-								0
+								0,
+								40
 							],
 							"hours": [
-								8
+								8,
+								11
 							],
 							"weekDays": [
 								"Monday",
