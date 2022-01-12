@@ -1430,7 +1430,7 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "select CT.JobID, CT.JobStatusID, CT.DateCreated, r.VolunteerUserID, r.CreatedByUserID, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Request].[RequestJobStatus] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Request].[RequestJobStatus], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.JobID = CT.JobID and r.JobStatusID = CT.JobStatusID and r.DateCreated = CT.DateCreated where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
+									"value": "select CT.JobID, CT.JobStatusID, CT.DateCreated, r.VolunteerUserID, r.CreatedByUserID, r.JobStatusChangeReasonCodeID, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Request].[RequestJobStatus] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Request].[RequestJobStatus], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.JobID = CT.JobID and r.JobStatusID = CT.JobStatusID and r.DateCreated = CT.DateCreated where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
 									"type": "Expression"
 								},
 								"partitionOption": "None"
@@ -1510,6 +1510,16 @@
 										"sink": {
 											"name": "SYS_CHANGE_OPERATION",
 											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "JobStatusChangeReasonCodeID",
+											"type": "Byte"
+										},
+										"sink": {
+											"name": "JobStatusChangeReasonCodeID",
+											"type": "Byte"
 										}
 									}
 								]
