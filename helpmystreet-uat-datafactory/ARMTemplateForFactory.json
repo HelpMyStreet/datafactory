@@ -31965,6 +31965,13 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_LookupJobStatusChangeReasonCode",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -32008,7 +32015,8 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupRequestEvent')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupRequestorType')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupFrequency')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupCommunicationJobType')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupCommunicationJobType')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupJobStatusChangeReasonCode')]"
 			]
 		}
 	]
