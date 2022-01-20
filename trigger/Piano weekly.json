@@ -123,6 +123,12 @@
 					"referenceName": "IncrementalCopyPipeline_LookupCommunicationJobType",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_LookupJobStatusChangeReasonCode",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
