@@ -261,6 +261,12 @@
 					"referenceName": "IncrementalCopyPipeline_ConfigurationSupportActivity",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_WebsiteRegistrationSupportActivity",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
