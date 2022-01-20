@@ -13,6 +13,234 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SourceGroupCredentialSetDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SourceGroupServiceLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "GroupName",
+						"type": "varchar"
+					},
+					{
+						"name": "ParentGroupID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "GroupKey",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "Group",
+					"table": "CredentialSet"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceGroupGroupCredentialDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SourceGroupServiceLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "GroupName",
+						"type": "varchar"
+					},
+					{
+						"name": "ParentGroupID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "GroupKey",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "Group",
+					"table": "GroupCredential"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceGroupGroupDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SourceGroupServiceLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "GroupName",
+						"type": "varchar"
+					},
+					{
+						"name": "ParentGroupID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "GroupKey",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "Group",
+					"table": "Group"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceGroupGroupEmailConfigurationDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SourceGroupServiceLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "GroupName",
+						"type": "varchar"
+					},
+					{
+						"name": "ParentGroupID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "GroupKey",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "Group",
+					"table": "GroupEmailConfiguration"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceGroupGroupLocationDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SourceGroupServiceLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "GroupName",
+						"type": "varchar"
+					},
+					{
+						"name": "ParentGroupID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "GroupKey",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "Group",
+					"table": "GroupLocation"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceGroupGroupMapDetailsDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SourceGroupServiceLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "GroupName",
+						"type": "varchar"
+					},
+					{
+						"name": "ParentGroupID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "GroupKey",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "Group",
+					"table": "GroupMapDetails"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SourceGroupGroupSupportActivityConfigurationDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -84,6 +312,44 @@
 				"typeProperties": {
 					"schema": "Group",
 					"table": "NewRequestNotificationStrategy"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceGroupRequestorDetailsDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SourceGroupServiceLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "GroupName",
+						"type": "varchar"
+					},
+					{
+						"name": "ParentGroupID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "GroupKey",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "Group",
+					"table": "RequestorDetails"
 				}
 			},
 			"dependsOn": []
@@ -364,6 +630,82 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SourceLookupCommunicationJobDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SourceGroupServiceLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "FirebaseUID",
+						"type": "varchar"
+					},
+					{
+						"name": "PostalCode",
+						"type": "varchar"
+					},
+					{
+						"name": "EmailSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "MobileSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "OtherPhoneSharingConsent",
+						"type": "bit"
+					},
+					{
+						"name": "HMSContactConsent",
+						"type": "bit"
+					},
+					{
+						"name": "IsVolunteer",
+						"type": "bit"
+					},
+					{
+						"name": "IsVerified",
+						"type": "bit"
+					},
+					{
+						"name": "DateCreated",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "StreetChampionRoleUnderstood",
+						"type": "bit"
+					},
+					{
+						"name": "SupportVolunteersByPhone",
+						"type": "bit"
+					},
+					{
+						"name": "SupportRadiusMiles",
+						"type": "float",
+						"precision": 15
+					}
+				],
+				"typeProperties": {
+					"schema": "Lookup",
+					"table": "CommunicationJobType"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SourceLookupCredentialTypesDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -587,614 +929,6 @@
 				"typeProperties": {
 					"schema": "Lookup",
 					"table": "FeedbackRating"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SourceLookupGroupTypeDataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SourceGroupServiceLinkedService",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "ID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "FirebaseUID",
-						"type": "varchar"
-					},
-					{
-						"name": "PostalCode",
-						"type": "varchar"
-					},
-					{
-						"name": "EmailSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "MobileSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "OtherPhoneSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "HMSContactConsent",
-						"type": "bit"
-					},
-					{
-						"name": "IsVolunteer",
-						"type": "bit"
-					},
-					{
-						"name": "IsVerified",
-						"type": "bit"
-					},
-					{
-						"name": "DateCreated",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "StreetChampionRoleUnderstood",
-						"type": "bit"
-					},
-					{
-						"name": "SupportVolunteersByPhone",
-						"type": "bit"
-					},
-					{
-						"name": "SupportRadiusMiles",
-						"type": "float",
-						"precision": 15
-					}
-				],
-				"typeProperties": {
-					"schema": "Lookup",
-					"table": "GroupType"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SourceLookupJobStatusDataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SourceRequestServiceLinkedService",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "ID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "FirebaseUID",
-						"type": "varchar"
-					},
-					{
-						"name": "PostalCode",
-						"type": "varchar"
-					},
-					{
-						"name": "EmailSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "MobileSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "OtherPhoneSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "HMSContactConsent",
-						"type": "bit"
-					},
-					{
-						"name": "IsVolunteer",
-						"type": "bit"
-					},
-					{
-						"name": "IsVerified",
-						"type": "bit"
-					},
-					{
-						"name": "DateCreated",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "StreetChampionRoleUnderstood",
-						"type": "bit"
-					},
-					{
-						"name": "SupportVolunteersByPhone",
-						"type": "bit"
-					},
-					{
-						"name": "SupportRadiusMiles",
-						"type": "float",
-						"precision": 15
-					}
-				],
-				"typeProperties": {
-					"schema": "Lookup",
-					"table": "JobStatus"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SourceLookupLocationDataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SourceGroupServiceLinkedService",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "ID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "FirebaseUID",
-						"type": "varchar"
-					},
-					{
-						"name": "PostalCode",
-						"type": "varchar"
-					},
-					{
-						"name": "EmailSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "MobileSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "OtherPhoneSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "HMSContactConsent",
-						"type": "bit"
-					},
-					{
-						"name": "IsVolunteer",
-						"type": "bit"
-					},
-					{
-						"name": "IsVerified",
-						"type": "bit"
-					},
-					{
-						"name": "DateCreated",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "StreetChampionRoleUnderstood",
-						"type": "bit"
-					},
-					{
-						"name": "SupportVolunteersByPhone",
-						"type": "bit"
-					},
-					{
-						"name": "SupportRadiusMiles",
-						"type": "float",
-						"precision": 15
-					}
-				],
-				"typeProperties": {
-					"schema": "Lookup",
-					"table": "Location"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SourceLookupNewRequestNotificationStrategyDataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SourceGroupServiceLinkedService",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "ID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "FirebaseUID",
-						"type": "varchar"
-					},
-					{
-						"name": "PostalCode",
-						"type": "varchar"
-					},
-					{
-						"name": "EmailSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "MobileSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "OtherPhoneSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "HMSContactConsent",
-						"type": "bit"
-					},
-					{
-						"name": "IsVolunteer",
-						"type": "bit"
-					},
-					{
-						"name": "IsVerified",
-						"type": "bit"
-					},
-					{
-						"name": "DateCreated",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "StreetChampionRoleUnderstood",
-						"type": "bit"
-					},
-					{
-						"name": "SupportVolunteersByPhone",
-						"type": "bit"
-					},
-					{
-						"name": "SupportRadiusMiles",
-						"type": "float",
-						"precision": 15
-					}
-				],
-				"typeProperties": {
-					"schema": "Lookup",
-					"table": "NewRequestNotificationStrategy"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SourceLookupQuestionDataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SourceRequestServiceLinkedService",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "ID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "FirebaseUID",
-						"type": "varchar"
-					},
-					{
-						"name": "PostalCode",
-						"type": "varchar"
-					},
-					{
-						"name": "EmailSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "MobileSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "OtherPhoneSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "HMSContactConsent",
-						"type": "bit"
-					},
-					{
-						"name": "IsVolunteer",
-						"type": "bit"
-					},
-					{
-						"name": "IsVerified",
-						"type": "bit"
-					},
-					{
-						"name": "DateCreated",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "StreetChampionRoleUnderstood",
-						"type": "bit"
-					},
-					{
-						"name": "SupportVolunteersByPhone",
-						"type": "bit"
-					},
-					{
-						"name": "SupportRadiusMiles",
-						"type": "float",
-						"precision": 15
-					}
-				],
-				"typeProperties": {
-					"schema": "Lookup",
-					"table": "Question"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SourceLookupQuestionTypeDataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SourceRequestServiceLinkedService",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "ID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "FirebaseUID",
-						"type": "varchar"
-					},
-					{
-						"name": "PostalCode",
-						"type": "varchar"
-					},
-					{
-						"name": "EmailSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "MobileSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "OtherPhoneSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "HMSContactConsent",
-						"type": "bit"
-					},
-					{
-						"name": "IsVolunteer",
-						"type": "bit"
-					},
-					{
-						"name": "IsVerified",
-						"type": "bit"
-					},
-					{
-						"name": "DateCreated",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "StreetChampionRoleUnderstood",
-						"type": "bit"
-					},
-					{
-						"name": "SupportVolunteersByPhone",
-						"type": "bit"
-					},
-					{
-						"name": "SupportRadiusMiles",
-						"type": "float",
-						"precision": 15
-					}
-				],
-				"typeProperties": {
-					"schema": "Lookup",
-					"table": "QuestionType"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SourceLookupRegistrationFormVariantDataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SourceGroupServiceLinkedService",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "ID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "FirebaseUID",
-						"type": "varchar"
-					},
-					{
-						"name": "PostalCode",
-						"type": "varchar"
-					},
-					{
-						"name": "EmailSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "MobileSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "OtherPhoneSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "HMSContactConsent",
-						"type": "bit"
-					},
-					{
-						"name": "IsVolunteer",
-						"type": "bit"
-					},
-					{
-						"name": "IsVerified",
-						"type": "bit"
-					},
-					{
-						"name": "DateCreated",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "StreetChampionRoleUnderstood",
-						"type": "bit"
-					},
-					{
-						"name": "SupportVolunteersByPhone",
-						"type": "bit"
-					},
-					{
-						"name": "SupportRadiusMiles",
-						"type": "float",
-						"precision": 15
-					}
-				],
-				"typeProperties": {
-					"schema": "Lookup",
-					"table": "RegistrationFormVariant"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SourceLookupRequestEventDataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SourceRequestServiceLinkedService",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "ID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "FirebaseUID",
-						"type": "varchar"
-					},
-					{
-						"name": "PostalCode",
-						"type": "varchar"
-					},
-					{
-						"name": "EmailSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "MobileSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "OtherPhoneSharingConsent",
-						"type": "bit"
-					},
-					{
-						"name": "HMSContactConsent",
-						"type": "bit"
-					},
-					{
-						"name": "IsVolunteer",
-						"type": "bit"
-					},
-					{
-						"name": "IsVerified",
-						"type": "bit"
-					},
-					{
-						"name": "DateCreated",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "StreetChampionRoleUnderstood",
-						"type": "bit"
-					},
-					{
-						"name": "SupportVolunteersByPhone",
-						"type": "bit"
-					},
-					{
-						"name": "SupportRadiusMiles",
-						"type": "float",
-						"precision": 15
-					}
-				],
-				"typeProperties": {
-					"schema": "Lookup",
-					"table": "RequestEvent"
 				}
 			},
 			"dependsOn": []
