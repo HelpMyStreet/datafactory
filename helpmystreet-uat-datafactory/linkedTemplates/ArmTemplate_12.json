@@ -3806,7 +3806,7 @@
 								"partitionOption": "None"
 							},
 							"dataset": {
-								"referenceName": "ChangeTrackingGroupDataset",
+								"referenceName": "ChangeTrackingRequestDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -3950,7 +3950,7 @@
 							}
 						},
 						"linkedServiceName": {
-							"referenceName": "SourceAddressServiceLinkedService",
+							"referenceName": "SourceRequestServiceLinkedService",
 							"type": "LinkedServiceReference"
 						}
 					}
