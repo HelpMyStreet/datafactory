@@ -15917,7 +15917,7 @@
 								"partitionOption": "None"
 							},
 							"dataset": {
-								"referenceName": "ChangeTrackingGroupDataset",
+								"referenceName": "ChangeTrackingRequestDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -16061,7 +16061,7 @@
 							}
 						},
 						"linkedServiceName": {
-							"referenceName": "SourceAddressServiceLinkedService",
+							"referenceName": "SourceRequestServiceLinkedService",
 							"type": "LinkedServiceReference"
 						}
 					}
@@ -16074,10 +16074,9 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ChangeTrackingRequestDataset')]",
-				"[concat(variables('factoryId'), '/datasets/ChangeTrackingGroupDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SourceLookupJobStatusDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SinkLookupJobStatusDataset')]",
-				"[concat(variables('factoryId'), '/linkedServices/SourceAddressServiceLinkedService')]"
+				"[concat(variables('factoryId'), '/linkedServices/SourceRequestServiceLinkedService')]"
 			]
 		},
 		{
