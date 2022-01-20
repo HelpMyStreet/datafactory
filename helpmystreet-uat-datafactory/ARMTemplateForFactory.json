@@ -30938,6 +30938,13 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_WebsiteRegistrationSupportActivity",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -31010,7 +31017,8 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestUpdateHistory')]",
 				"[concat(variables('factoryId'), '/pipelines/Run analysis stored procedure')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupRequestorDetails')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_ConfigurationSupportActivity')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_ConfigurationSupportActivity')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_WebsiteRegistrationSupportActivity')]"
 			]
 		},
 		{
@@ -31321,6 +31329,13 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_WebsiteRegistrationSupportActivity",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -31376,7 +31391,8 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupRequestRoles')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupFeedbackRating')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupRequestorDetails')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_ConfigurationSupportActivity')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_ConfigurationSupportActivity')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_WebsiteRegistrationSupportActivity')]"
 			]
 		},
 		{

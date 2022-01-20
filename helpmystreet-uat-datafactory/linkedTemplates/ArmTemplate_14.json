@@ -3505,6 +3505,13 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_WebsiteRegistrationSupportActivity",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -3542,7 +3549,8 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestSupportActivities')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestShift')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestRequestSubmission')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestUpdateHistory')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestUpdateHistory')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_WebsiteRegistrationSupportActivity')]"
 			]
 		},
 		{
@@ -3853,6 +3861,13 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_WebsiteRegistrationSupportActivity",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -3874,7 +3889,8 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestRequest')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_UserUser')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestSupportActivities')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestShift')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestShift')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_WebsiteRegistrationSupportActivity')]"
 			]
 		},
 		{
