@@ -249,6 +249,12 @@
 					"referenceName": "IncrementalCopyPipeline_LookupFeedbackRating",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_GroupRequestorDetails",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
