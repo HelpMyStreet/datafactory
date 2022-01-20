@@ -1,0 +1,17 @@
+{
+	"name": "SinkGroupRequestorDetailsDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DestinationLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "Group",
+			"table": "RequestorDetails"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
