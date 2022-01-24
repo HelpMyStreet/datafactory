@@ -1,5 +1,5 @@
 {
-	"name": "IncrementalCopyPipeline_RequestJobStatus",
+	"name": "IncrementalCopyPipeline_RequestRequestSubmission",
 	"properties": {
 		"activities": [
 			{
@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Request.RequestJobStatus'",
+						"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='Request.RequestSubmission'",
 						"partitionOption": "None"
 					},
 					"dataset": {
@@ -79,13 +79,14 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "select CT.JobID, CT.JobStatusID, CT.DateCreated, r.VolunteerUserID, r.CreatedByUserID, r.JobStatusChangeReasonCodeID, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Request].[RequestJobStatus] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Request].[RequestJobStatus], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.JobID = CT.JobID and r.JobStatusID = CT.JobStatusID and r.DateCreated = CT.DateCreated where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}\n",
+							"value": "select CT.RequestID, r.[FreqencyID], r.NumberOfRepeats, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [Request].[RequestSubmission] r RIGHT OUTER JOIN CHANGETABLE(CHANGES [Request].[RequestSubmission], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on r.RequestID = CT.RequestID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
 							"type": "Expression"
 						},
 						"partitionOption": "None"
 					},
 					"sink": {
-						"type": "AzureSqlSink"
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert"
 					},
 					"enableStaging": false,
 					"translator": {
@@ -93,51 +94,31 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "JobID",
+									"name": "RequestID",
 									"type": "Int32"
 								},
 								"sink": {
-									"name": "JobID",
+									"name": "RequestID",
 									"type": "Int32"
 								}
 							},
 							{
 								"source": {
-									"name": "JobStatusID",
+									"name": "FreqencyID",
 									"type": "Byte"
 								},
 								"sink": {
-									"name": "JobStatusID",
+									"name": "FreqencyID",
 									"type": "Byte"
 								}
 							},
 							{
 								"source": {
-									"name": "DateCreated",
-									"type": "DateTime"
-								},
-								"sink": {
-									"name": "DateCreated",
-									"type": "DateTime"
-								}
-							},
-							{
-								"source": {
-									"name": "VolunteerUserID",
+									"name": "NumberOfRepeats",
 									"type": "Int32"
 								},
 								"sink": {
-									"name": "VolunteerUserID",
-									"type": "Int32"
-								}
-							},
-							{
-								"source": {
-									"name": "CreatedByUserID",
-									"type": "Int32"
-								},
-								"sink": {
-									"name": "CreatedByUserID",
+									"name": "NumberOfRepeats",
 									"type": "Int32"
 								}
 							},
@@ -160,29 +141,19 @@
 									"name": "SYS_CHANGE_OPERATION",
 									"type": "String"
 								}
-							},
-							{
-								"source": {
-									"name": "JobStatusChangeReasonCodeID",
-									"type": "Byte"
-								},
-								"sink": {
-									"name": "JobStatusChangeReasonCodeID",
-									"type": "Byte"
-								}
 							}
 						]
 					}
 				},
 				"inputs": [
 					{
-						"referenceName": "SourceRequestJobStatusDataset",
+						"referenceName": "SourceRequestRequestSubmissionDataset",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "SinkRequestJobStatusDataset",
+						"referenceName": "SinkRequestRequestSubmissionDataset",
 						"type": "DatasetReference"
 					}
 				]

@@ -1,0 +1,17 @@
+{
+	"name": "SinkRequestRequestSubmissionDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DestinationLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "Request",
+			"table": "RequestSubmission"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
