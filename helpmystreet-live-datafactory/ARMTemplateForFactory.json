@@ -3174,7 +3174,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
-								"sqlReaderQuery": "SELECT a.[Id], a.[Name],CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Lookup].[JobStatusChangeReasonCode] a",
+								"sqlReaderQuery": "SELECT a.[ID], a.[Name], a.[TriggersStatusChangeEmail], CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION from [Lookup].[JobStatusChangeReasonCode] a",
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
@@ -3187,22 +3187,12 @@
 								"mappings": [
 									{
 										"source": {
-											"name": "Id",
+											"name": "ID",
 											"type": "Int32"
 										},
 										"sink": {
-											"name": "Id",
+											"name": "ID",
 											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "Name",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Name",
-											"type": "String"
 										}
 									},
 									{
@@ -3213,6 +3203,26 @@
 										"sink": {
 											"name": "SYS_CHANGE_VERSION",
 											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "Name",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "TriggersStatusChangeEmail",
+											"type": "Boolean"
+										},
+										"sink": {
+											"name": "TriggersStatusChangeEmail",
+											"type": "Boolean"
 										}
 									},
 									{
