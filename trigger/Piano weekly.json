@@ -177,6 +177,12 @@
 					"referenceName": "IncrementalCopyPipeline_WebsiteRegistrationSupportActivity",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "IncrementalCopyPipeline_LookupFrequency",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
