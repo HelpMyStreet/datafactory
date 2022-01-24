@@ -1,0 +1,122 @@
+{
+	"name": "FullCopyPipeline_WebsiteRegistrationFormSupportActivity",
+	"properties": {
+		"activities": [
+			{
+				"name": "FullCopyActivity",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT a.[RequestHelpFormVariantID], a.[SupportActivityID],a.[Label], a.[DisplayOrder], a.[IsPreSelected], CHANGE_TRACKING_CURRENT_VERSION() as SYS_CHANGE_VERSION, 'I' as SYS_CHANGE_OPERATION \nfrom [Website].[RegistrationFormSupportActivity] a",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "RequestHelpFormVariantID",
+									"type": "Byte"
+								},
+								"sink": {
+									"name": "RequestHelpFormVariantID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "SupportActivityID",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "SupportActivityID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "Label",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Label",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DisplayOrder",
+									"type": "Byte"
+								},
+								"sink": {
+									"name": "DisplayOrder",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "IsPreSelected",
+									"type": "Boolean"
+								},
+								"sink": {
+									"name": "IsPreSelected",
+									"type": "Boolean"
+								}
+							},
+							{
+								"source": {
+									"name": "SYS_CHANGE_VERSION",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "SYS_CHANGE_VERSION",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "SYS_CHANGE_OPERATION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "SYS_CHANGE_OPERATION",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceWebsiteRegistrationFormSupportActivityDataset",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SinkWebsiteRegistrationFormSupportActivityDataset",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
