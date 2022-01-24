@@ -31162,6 +31162,13 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_RequestRequestSubmission",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -31234,7 +31241,8 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestLogRequestEvent')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestUpdateHistory')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupSupportActivityInstructions')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupRequestorDetails')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupRequestorDetails')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestRequestSubmission')]"
 			]
 		},
 		{
@@ -31447,6 +31455,20 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_LookupFrequency",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_LookupJobStatusChangeReasonCode",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -31496,7 +31518,9 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupGroupType')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupCommunicationJobType')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_ConfigurationSupportActivity')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_WebsiteRegistrationSupportActivity')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_WebsiteRegistrationSupportActivity')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupFrequency')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupJobStatusChangeReasonCode')]"
 			]
 		},
 		{
