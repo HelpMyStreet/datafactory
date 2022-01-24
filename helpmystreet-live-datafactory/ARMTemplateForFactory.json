@@ -29885,6 +29885,13 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_GroupRequestorDetails",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -29956,7 +29963,8 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupRequestEvent')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestLogRequestEvent')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_RequestUpdateHistory')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupSupportActivityInstructions')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupSupportActivityInstructions')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_GroupRequestorDetails')]"
 			]
 		},
 		{
@@ -30148,6 +30156,27 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_LookupCommunicationJobType",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_ConfigurationSupportActivity",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "IncrementalCopyPipeline_WebsiteRegistrationSupportActivity",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -30194,7 +30223,10 @@
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupRequestRoles')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupFeedbackRating')]",
 				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupRequestorType')]",
-				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupGroupType')]"
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupGroupType')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_LookupCommunicationJobType')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_ConfigurationSupportActivity')]",
+				"[concat(variables('factoryId'), '/pipelines/IncrementalCopyPipeline_WebsiteRegistrationSupportActivity')]"
 			]
 		},
 		{
