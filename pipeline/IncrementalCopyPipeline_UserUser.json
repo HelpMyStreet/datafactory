@@ -17,7 +17,8 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='User.User'"
+						"sqlReaderQuery": "select * from table_store_ChangeTracking_version\nwhere TableName='User.User'",
+						"partitionOption": "None"
 					},
 					"dataset": {
 						"referenceName": "ChangeTrackingUserDataset",
@@ -40,7 +41,8 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion"
+						"sqlReaderQuery": "SELECT CHANGE_TRACKING_CURRENT_VERSION() as CurrentChangeTrackingVersion",
+						"partitionOption": "None"
 					},
 					"dataset": {
 						"referenceName": "SourceUserUserDataset",
@@ -77,9 +79,10 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "select CT.ID, u.FirebaseUID, u.PostalCode, u.EmailSharingConsent, u.MobileSharingConsent, u.OtherPhoneSharingConsent, u.HMSContactConsent, u.IsVolunteer, u.IsVerified, u.DateCreated, u.StreetChampionRoleUnderstood, u.SupportVolunteersByPhone, u.SupportRadiusMiles, u.ReferringGroupId,u.Source, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [User].[User] u RIGHT OUTER JOIN CHANGETABLE(CHANGES [User].[User], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on u.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
+							"value": "select CT.ID, u.FirebaseUID, u.PostalCode, u.EmailSharingConsent, u.MobileSharingConsent, u.OtherPhoneSharingConsent, u.HMSContactConsent, u.IsVolunteer, u.IsVerified, u.DateCreated, u.StreetChampionRoleUnderstood, u.SupportVolunteersByPhone, u.SupportRadiusMiles, u.ReferringGroupId,u.Source, u.DateLastLogin, u.DateLastLoginChecked, CT.SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION from [User].[User] u RIGHT OUTER JOIN CHANGETABLE(CHANGES [User].[User], @{activity('LookupLastChangeTrackingVersionActivity').output.firstRow.SYS_CHANGE_VERSION}) as CT on u.ID = CT.ID where CT.SYS_CHANGE_VERSION <= @{activity('LookupCurrentChangeTrackingVersionActivity').output.firstRow.CurrentChangeTrackingVersion}",
 							"type": "Expression"
-						}
+						},
+						"partitionOption": "None"
 					},
 					"sink": {
 						"type": "AzureSqlSink"
@@ -256,6 +259,26 @@
 								"sink": {
 									"name": "Source",
 									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DateLastLogin",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DateLastLogin",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DateLastLoginChecked",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DateLastLoginChecked",
+									"type": "DateTime"
 								}
 							}
 						]
