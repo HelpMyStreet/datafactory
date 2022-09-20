@@ -1,5 +1,5 @@
 {
-	"name": "Every60",
+	"name": "OncePerWeek",
 	"properties": {
 		"annotations": [],
 		"runtimeState": "Started",
@@ -299,13 +299,10 @@
 						0
 					],
 					"hours": [
-						8
+						6
 					],
 					"weekDays": [
-						"Monday",
-						"Tuesday",
-						"Wednesday",
-						"Thursday"
+						"Monday"
 					]
 				}
 			}
