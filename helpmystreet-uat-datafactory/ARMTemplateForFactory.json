@@ -31050,7 +31050,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Every60')]",
+			"name": "[concat(parameters('factoryName'), '/OncePerWeek')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -31399,13 +31399,10 @@
 								0
 							],
 							"hours": [
-								8
+								6
 							],
 							"weekDays": [
-								"Monday",
-								"Tuesday",
-								"Wednesday",
-								"Thursday"
+								"Monday"
 							]
 						}
 					}
