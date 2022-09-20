@@ -200,7 +200,7 @@
 		"type": "ScheduleTrigger",
 		"typeProperties": {
 			"recurrence": {
-				"frequency": "Day",
+				"frequency": "Week",
 				"interval": 1,
 				"startTime": "2021-07-13T09:27:00Z",
 				"timeZone": "UTC",
