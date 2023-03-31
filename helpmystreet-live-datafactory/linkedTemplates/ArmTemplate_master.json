@@ -9,11 +9,13 @@
 		},
 		"DestinationLinkedService_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'DestinationLinkedService'"
+			"metadata": "Secure string for 'connectionString' of 'DestinationLinkedService'",
+			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=helpmystreet-sql3-live.database.windows.net;Initial Catalog=analysis"
 		},
 		"SourceAddressServiceLinkedService_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SourceAddressServiceLinkedService'"
+			"metadata": "Secure string for 'connectionString' of 'SourceAddressServiceLinkedService'",
+			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=helpmystreet-sql3-live.database.windows.net;Initial Catalog=address-service"
 		},
 		"SourceCosmosDbCommunicationService_connectionString": {
 			"type": "secureString",
@@ -25,19 +27,23 @@
 		},
 		"SourceFeedbackServiceLinkedService_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SourceFeedbackServiceLinkedService'"
+			"metadata": "Secure string for 'connectionString' of 'SourceFeedbackServiceLinkedService'",
+			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=helpmystreet-sql3-live.database.windows.net;Initial Catalog=feedback-service"
 		},
 		"SourceGroupServiceLinkedService_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SourceGroupServiceLinkedService'"
+			"metadata": "Secure string for 'connectionString' of 'SourceGroupServiceLinkedService'",
+			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=helpmystreet-sql3-live.database.windows.net;Initial Catalog=group-service"
 		},
 		"SourceRequestServiceLinkedService_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SourceRequestServiceLinkedService'"
+			"metadata": "Secure string for 'connectionString' of 'SourceRequestServiceLinkedService'",
+			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=helpmystreet-sql3-live.database.windows.net;Initial Catalog=request-service"
 		},
 		"SourceUserServiceLinkedService_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SourceUserServiceLinkedService'"
+			"metadata": "Secure string for 'connectionString' of 'SourceUserServiceLinkedService'",
+			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=helpmystreet-sql3-live.database.windows.net;Initial Catalog=user-service"
 		},
 		"containerUri": {
 			"type": "string",

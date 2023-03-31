@@ -6,10 +6,10 @@
 			"value": "helpmystreet-live-datafactory"
 		},
 		"DestinationLinkedService_connectionString": {
-			"value": ""
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=helpmystreet-sql3-live.database.windows.net;Initial Catalog=analysis"
 		},
 		"SourceAddressServiceLinkedService_connectionString": {
-			"value": ""
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=helpmystreet-sql3-live.database.windows.net;Initial Catalog=address-service"
 		},
 		"SourceCosmosDbCommunicationService_connectionString": {
 			"value": ""
@@ -18,16 +18,16 @@
 			"value": ""
 		},
 		"SourceFeedbackServiceLinkedService_connectionString": {
-			"value": ""
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=helpmystreet-sql3-live.database.windows.net;Initial Catalog=feedback-service"
 		},
 		"SourceGroupServiceLinkedService_connectionString": {
-			"value": ""
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=helpmystreet-sql3-live.database.windows.net;Initial Catalog=group-service"
 		},
 		"SourceRequestServiceLinkedService_connectionString": {
-			"value": ""
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=helpmystreet-sql3-live.database.windows.net;Initial Catalog=request-service"
 		},
 		"SourceUserServiceLinkedService_connectionString": {
-			"value": ""
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=helpmystreet-sql3-live.database.windows.net;Initial Catalog=user-service"
 		},
 		"containerUri": {
 			"value": ""
